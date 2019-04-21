@@ -1,0 +1,216 @@
+!
+set datapath=E:\App\VStudio\GridMonC\PowerGrid\
+Set DefaultBaseFrequency=50
+!
+new Circuit.Grid_test_01 basekV=20 pu=1.0 angle=0 phases=3 Vminpu=0.9 Vmaxpu=1.1
+!
+new linecode.MT120mm nphases=3 R1=0.248 X1=0.107 units=km
+new linecode.JT185mm nphases=3 R1=0.128 X1=0.0716 units=km
+new linecode.JT150mm nphases=3 R1=0.160 X1=0.0710 units=km
+new linecode.JT120mm nphases=3 R1=0.196 X1=0.0707 units=km
+new linecode.JT95mm nphases=3 R1=0.247 X1=0.0710 units=km
+new linecode.JT70mm nphases=3 R1=0.342 X1=0.0729 units=km
+new linecode.JT50mm nphases=3 R1=0.494 X1=0.0735 units=km
+new linecode.JT35mm nphases=3 R1=1.669 X1=0.0745 units=km
+new linecode.JT25mm nphases=3 R1=1.924 X1=0.0767 units=km
+new linecode.JT16mm nphases=3 R1=1.470 X1=0.0767 units=km
+new linecode.JT10mm nphases=3 R1=2.330 X1=0.0804 units=km
+new linecode.JT06mm nphases=3 R1=3.930 X1=0.0839 units=km
+!
+new loadshape.consum_Load_01 npts=24 interval=1 csvfile=consum_Load_01.txt
+new loadshape.consum_Load_02 npts=24 interval=1 csvfile=consum_Load_02.txt
+new loadshape.consum_Load_03 npts=24 interval=1 csvfile=consum_Load_03.txt
+new loadshape.consum_Load_03PQ npts=24 interval=1 PQCSVFile=consum_Load_03PQ.txt
+new loadshape.PVshape npts=24 interval=1 csvfile=curba_PV.txt
+!
+new transformer.T1 windings=2 buses=(N2,N3) conns=(delta,wye) kVs=(20,0.4) kVAs=(630,630) %noloadloss=0.025 %loadloss=0.095 %imag=0 xhl=2.5 wdg=1 tap=1 maxtap=1.05 mintap=0.85 !!x0=242 !!y0=325 !!gph_direction=W
+!
+new line.N1-N2 bus1=Sourcebus bus2=N2 length=1.5 phases=3 units=km linecode=MT120mm !!x0=250 !!y0=60 !!gph_direction=W
+new line.N1-N2A bus1=Sourcebus bus2=N2A length=2.0 phases=3 units=km linecode=MT120mm !!x0=350 !!y0=60 !!gph_direction=N
+new line.N2A-N2 bus1=N2A bus2=N2 length=1.7 phases=3 units=km linecode=MT120mm !!x0=550 !!y0=60 !!gph_direction=N
+new line.N3-N4 bus1=N3 bus2=N4 length=0.400 phases=3 units=km linecode=JT185mm !!x0=380 !!y0=220 !!gph_direction=N
+new line.N4-N5 bus1=N4 bus2=N5 length=0.200 phases=3 units=km linecode=JT120mm !!x0=580 !!y0=220 !!gph_direction=N
+new line.N5-N6 bus1=N5 bus2=N6 length=0.300 phases=3 units=km linecode=JT90mm !!x0=810 !!y0=220 !!gph_direction=N
+new line.N4-N7 bus1=N4 bus2=N7 length=0.100 phases=3 units=km linecode=JT70mm !!x0=665 !!y0=110 !!gph_direction=W
+new line.N5-N8 bus1=N5 bus2=N8 length=0.050 phases=3 units=km linecode=JT90mm !!x0=870 !!y0=115 !!gph_direction=W
+new line.N6-N9 bus1=N6 bus2=N9 length=0.025 phases=3 units=km linecode=JT50mm !!x0=1010 !!y0=220 !!gph_direction=N
+new line.N9-N10 bus1=N9 bus2=N10 length=0.020 phases=3 units=km linecode=JT35mm !!x0=1210 !!y0=220 !!gph_direction=N
+new line.N5-N11 bus1=N5 bus2=N11 length=0.200 phases=3 units=km linecode=JT70mm !!x0=680 !!y0=250 !!gph_direction=W
+new line.N3-N12 bus1=N3 bus2=N12 length=0.200 phases=3 units=km linecode=JT95mm !!x0=380 !!y0=370 !!gph_direction=N
+new line.N3-N13 bus1=N3 bus2=N13 length=0.200 phases=3 units=km linecode=JT70mm !!x0=380 !!y0=520 !!gph_direction=N
+new line.N13-N14 bus1=N13 bus2=N14 length=0.200 phases=3 units=km linecode=JT95mm !!x0=580 !!y0=520 !!gph_direction=N
+new line.N14-N10 bus1=N14 bus2=N10 length=0.500 phases=3 units=km linecode=JT70mm !!x0=880 !!y0=520 !!gph_direction=N
+!
+new load.Ld_M2A bus1=N2A phases=3 kV=20 kW=340 pf=1.00 model=1 conn=wye daily=consum_Load_01 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=450 !!y0=65 !!gph_direction=N
+new load.Ld_M2 bus1=N2 phases=3 kV=20 kW=1 pf=1.00 model=1 conn=wye daily=consum_Load_01 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=262 !!y0=200 !!gph_direction=W
+new load.Ld_03 bus1=N3 phases=3 kV=0.4 kW=12 pf=1.00 model=1 conn=wye daily=consum_Load_01 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=250 !!y0=500 !!gph_direction=N
+new load.Ld_04 bus1=N4 phases=3 kV=0.4 kW=90 pf=1.00 model=1 conn=wye daily=consum_Load_02 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=480 !!y0=250 !!gph_direction=N
+new load.Ld_05 bus1=N5 phases=3 kV=0.4 kW=60 pf=1.00 model=1 conn=wye daily=consum_Load_03 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=830 !!y0=355 !!gph_direction=N
+new load.Ld_06 bus1=N6 phases=3 kV=0.4 kW=45 kvar=9 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=910 !!y0=240 !!gph_direction=N
+new load.Ld_07 bus1=N7 phases=3 kV=0.4 kW=30 kvar=6 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=765 !!y0=60 !!gph_direction=W
+new load.Ld_08 bus1=N8 phases=3 kV=0.4 kW=15 kvar=6 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=970 !!y0=60 !!gph_direction=W
+new load.Ld_09 bus1=N9 phases=3 kV=0.4 kW=12 kvar=6 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=1110 !!y0=240 !!gph_direction=N
+new load.Ld_09A bus1=N9a phases=3 kV=0.4 kW=3 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!gph_direction=N
+new load.Ld_09B bus1=N9b phases=3 kV=0.4 kW=4.5 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!gph_direction=N
+new load.Ld_10 bus1=N10 phases=3 kV=0.4 kW=18 kvar=9 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=1310 !!y0=240 !!gph_direction=N
+new load.Ld_11 bus1=N11 phases=3 kV=0.4 kW=12 kvar=3 pf= model=1 conn=wye daily=consum_Load_03PQ status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=720 !!y0=370 !!gph_direction=N
+new load.Ld_12 bus1=N12 phases=3 kV=0.4 kW=60 pf=1.00 model=1 conn=wye daily=consum_Load_02 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=480 !!y0=400 !!gph_direction=N
+new load.Ld_13 bus1=N13 phases=3 kV=0.4 kW=90 pf=1.00 model=1 conn=wye daily=consum_Load_02 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=480 !!y0=540 !!gph_direction=N
+new load.Ld_14 bus1=N14 phases=3 kV=0.4 kW=90 pf=1.00 model=1 conn=wye daily=consum_Load_02 status=variable Vminpu=0.6 Vmaxpu=1.2 !!brk=on !!x0=680 !!y0=540 !!gph_direction=N
+!
+new generator.PV_09 bus1=N9 phases=3 kV=0.4 kW=45 pf=1 model=1 status=variable daily=PVshape !!x0=1110 !!y0=110 !!gph_direction=S
+new generator.PV_10 bus1=N10 phases=3 kV=0.4 kW=120 pf=1 model=1 status=variable daily=PVshape !!x0=1310 !!y0=110 !!gph_direction=S
+new generator.PV_11 bus1=N11 phases=3 kV=0.4 kW=12 pf=1 model=1 status=variable daily=PVshape !!x0=612 !!y0=370 !!gph_direction=N
+new generator.PV_14 bus1=N14 phases=3 kV=0.4 kW=6 pf=1 model=1 status=variable daily=PVshape !!x0=783 !!y0=542 !!gph_direction=N
+!
+set controlmode=static
+set mode=daily
+!
+new monitor.Trafo-N2-N3-PQ element=transformer.T1 terminal=1 mode=1 ppolar=no
+new monitor.Line-N1-N2-PQ element=line.N1-N2 terminal=1 mode=1 ppolar=no
+new monitor.Line-N1-N2A-PQ element=line.N1-N2A terminal=1 mode=1 ppolar=no
+new monitor.Line-N2A-N2-PQ element=line.N2A-N2 terminal=1 mode=1 ppolar=no
+new monitor.Line-N3-N4-PQ element=line.N3-N4 terminal=1 mode=1 ppolar=no
+new monitor.Line-N4-N5-PQ element=line.N4-N5 terminal=1 mode=1 ppolar=no
+new monitor.Line-N5-N6-PQ element=line.N5-N6 terminal=1 mode=1 ppolar=no
+new monitor.Line-N4-N7-PQ element=line.N4-N7 terminal=1 mode=1 ppolar=no
+new monitor.Line-N5-N8-PQ element=line.N5-N8 terminal=1 mode=1 ppolar=no
+new monitor.Line-N5-N11-PQ element=line.N5-N11 terminal=1 mode=1 ppolar=no
+new monitor.Line-N6-N9-PQ element=line.N6-N9 terminal=1 mode=1 ppolar=no
+new monitor.Line-N9-N10-PQ element=line.N9-N10 terminal=1 mode=1 ppolar=no
+new monitor.Line-N3-N12-PQ element=line.N3-N12 terminal=1 mode=1 ppolar=no
+new monitor.Line-N3-N13-PQ element=line.N3-N13 terminal=1 mode=1 ppolar=no
+new monitor.Line-N13-N14-PQ element=line.N13-N14 terminal=1 mode=1 ppolar=no
+new monitor.Line-N14-N10-PQ element=line.N14-N10 terminal=1 mode=1 ppolar=no
+new monitor.Ld_M2A_UI element=load.Ld_M2A terminal=1 mode=0 ppolar=no
+new monitor.Ld_M2_UI element=load.Ld_M2 terminal=1 mode=0 ppolar=no
+new monitor.Ld_03_UI element=load.Ld_03 terminal=1 mode=0 ppolar=no
+new monitor.Ld_04_UI element=load.Ld_04 terminal=1 mode=0 ppolar=no
+new monitor.Ld_05_UI element=load.Ld_05 terminal=1 mode=0 ppolar=no
+new monitor.Ld_06_UI element=load.Ld_06 terminal=1 mode=0 ppolar=no
+new monitor.Ld_07_UI element=load.Ld_07 terminal=1 mode=0 ppolar=no
+new monitor.Ld_08_UI element=load.Ld_08 terminal=1 mode=0 ppolar=no
+new monitor.Ld_09_UI element=load.Ld_09 terminal=1 mode=0 ppolar=no
+new monitor.Ld_10_UI element=load.Ld_10 terminal=1 mode=0 ppolar=no
+new monitor.Ld_11_UI element=load.Ld_11 terminal=1 mode=0 ppolar=no
+new monitor.Ld_12_UI element=load.Ld_12 terminal=1 mode=0 ppolar=no
+new monitor.Ld_13_UI element=load.Ld_13 terminal=1 mode=0 ppolar=no
+new monitor.Ld_14_UI element=load.Ld_14 terminal=1 mode=0 ppolar=no
+new monitor.Ld_M2A_PQ element=load.Ld_M2A terminal=1 mode=1 ppolar=no
+new monitor.Ld_M2_PQ element=load.Ld_M2 terminal=1 mode=1 ppolar=no
+new monitor.Ld_03_PQ element=load.Ld_03 terminal=1 mode=1 ppolar=no
+new monitor.Ld_04_PQ element=load.Ld_04 terminal=1 mode=1 ppolar=no
+new monitor.Ld_05_PQ element=load.Ld_05 terminal=1 mode=1 ppolar=no
+new monitor.Ld_06_PQ element=load.Ld_06 terminal=1 mode=1 ppolar=no
+new monitor.Ld_07_PQ element=load.Ld_07 terminal=1 mode=1 ppolar=no
+new monitor.Ld_08_PQ element=load.Ld_08 terminal=1 mode=1 ppolar=no
+new monitor.Ld_09_PQ element=load.Ld_09 terminal=1 mode=1 ppolar=no
+new monitor.Ld_10_PQ element=load.Ld_10 terminal=1 mode=1 ppolar=no
+new monitor.Ld_11_PQ element=load.Ld_11 terminal=1 mode=1 ppolar=no
+new monitor.Ld_12_PQ element=load.Ld_12 terminal=1 mode=1 ppolar=no
+new monitor.Ld_13_PQ element=load.Ld_13 terminal=1 mode=1 ppolar=no
+new monitor.Ld_14_PQ element=load.Ld_14 terminal=1 mode=1 ppolar=no
+new monitor.Generator_PV_09_PQ element=generator.PV_09 terminal=1 mode=1 ppolar=no
+new monitor.Generator_PV_10_PQ element=generator.PV_10 terminal=1 mode=1 ppolar=no
+new monitor.Generator_PV_11_PQ element=generator.PV_11 terminal=1 mode=1 ppolar=no
+new monitor.Generator_PV_14_PQ element=generator.PV_14 terminal=1 mode=1 ppolar=no
+!
+// ******* Order to make all calculations:
+solve
+!
+export monitors Trafo-N2-N3-PQ
+export monitors Line-N1-N2-PQ
+export monitors Line-N1-N2A-PQ
+export monitors Line-N2A-N2-PQ
+export monitors Line-N3-N4-PQ
+export monitors Line-N4-N5-PQ
+export monitors Line-N5-N6-PQ
+export monitors Line-N4-N7-PQ
+export monitors Line-N5-N8-PQ
+export monitors Line-N5-N11-PQ
+export monitors Line-N6-N9-PQ
+export monitors Line-N9-N10-PQ
+export monitors Line-N3-N12-PQ
+export monitors Line-N3-N13-PQ
+export monitors Line-N13-N14-PQ
+export monitors Line-N14-N10-PQ
+export monitors Ld_M2A_UI
+export monitors Ld_M2_UI
+export monitors Ld_03_UI
+export monitors Ld_04_UI
+export monitors Ld_05_UI
+export monitors Ld_06_UI
+export monitors Ld_07_UI
+export monitors Ld_08_UI
+export monitors Ld_09_UI
+export monitors Ld_10_UI
+export monitors Ld_11_UI
+export monitors Ld_12_UI
+export monitors Ld_13_UI
+export monitors Ld_14_UI
+export monitors Ld_M2A_PQ
+export monitors Ld_M2_PQ
+export monitors Ld_03_PQ
+export monitors Ld_04_PQ
+export monitors Ld_05_PQ
+export monitors Ld_06_PQ
+export monitors Ld_07_PQ
+export monitors Ld_08_PQ
+export monitors Ld_09_PQ
+export monitors Ld_10_PQ
+export monitors Ld_11_PQ
+export monitors Ld_12_PQ
+export monitors Ld_13_PQ
+export monitors Ld_14_PQ
+export monitors Generator_PV_09_PQ
+export monitors Generator_PV_10_PQ
+export monitors Generator_PV_11_PQ
+export monitors Generator_PV_14_PQ
+!
+!!nodes  number=0 name=N1-N2 nus=Sourcebus list=line.N1-N2.Sourcebus,line.N1-N2A.Sourcebus, polylines=[[x,y],[xy]]
+!!nodes  number=1 name=N1-N2 nus=N2 list=line.N1-N2.N2,line.N2A-N2.N2,load.Ld_M2.N2, polylines=[[x,y],[xy]]
+!!nodes  number=2 name=N1-N2A nus=N2A list=line.N1-N2A.N2A,line.N2A-N2.N2A,load.Ld_M2A.N2A, polylines=[[x,y],[xy]]
+!!nodes  number=3 name=N3-N4 nus=N3 list=line.N3-N4.N3,line.N3-N12.N3,line.N3-N13.N3,load.Ld_03.N3, polylines=[[x,y],[xy]]
+!!nodes  number=4 name=N3-N4 nus=N4 list=line.N3-N4.N4,line.N4-N5.N4,line.N4-N7.N4,load.Ld_04.N4, polylines=[[x,y],[xy]]
+!!nodes  number=5 name=N4-N5 nus=N5 list=line.N4-N5.N5,line.N5-N6.N5,line.N5-N8.N5,line.N5-N11.N5,load.Ld_05.N5, polylines=[[x,y],[xy]]
+!!nodes  number=6 name=N5-N6 nus=N6 list=line.N5-N6.N6,line.N6-N9.N6,load.Ld_06.N6, polylines=[[x,y],[xy]]
+!!nodes  number=7 name=N4-N7 nus=N7 list=line.N4-N7.N7,load.Ld_07.N7, polylines=[[x,y],[xy]]
+!!nodes  number=8 name=N5-N8 nus=N8 list=line.N5-N8.N8,load.Ld_08.N8, polylines=[[x,y],[xy]]
+!!nodes  number=9 name=N6-N9 nus=N9 list=line.N6-N9.N9,line.N9-N10.N9,load.Ld_09.N9, polylines=[[x,y],[xy]]
+!!nodes  number=10 name=N9-N10 nus=N10 list=line.N9-N10.N10,line.N14-N10.N10,load.Ld_10.N10, polylines=[[x,y],[xy]]
+!!nodes  number=11 name=N5-N11 nus=N11 list=line.N5-N11.N11,load.Ld_11.N11, polylines=[[x,y],[xy]]
+!!nodes  number=12 name=N3-N12 nus=N12 list=line.N3-N12.N12,load.Ld_12.N12, polylines=[[x,y],[xy]]
+!!nodes  number=13 name=N3-N13 nus=N13 list=line.N3-N13.N13,line.N13-N14.N13,load.Ld_13.N13, polylines=[[x,y],[xy]]
+!!nodes  number=14 name=N13-N14 nus=N14 list=line.N13-N14.N14,line.N14-N10.N14,load.Ld_14.N14, polylines=[[x,y],[xy]]
+!!nodes  number=15 name=Ld_09A nus=N9a list=load.Ld_09A.N9a, polylines=[[x,y],[xy]]
+!!nodes  number=16 name=Ld_09B nus=N9b list=load.Ld_09B.N9b, polylines=[[x,y],[xy]]
+!
+!!new polyline1.Sourcebus-PYL1 !!poly_xy=[[256.0,61.0],[352.0,61.0],[352.0,65.0]]
+!!new polyline1.N2-PYL1 !!poly_xy=[[256.0,153.0],[256.0,328.0]]
+!!new polyline1.N2-PYL2 !!poly_xy=[[642.0,66.0],[650.0,66.0],[650.0,186.0],[256.0,186.0]]
+!!new polyline1.N2-PYL3 !!poly_xy=[[264.0,247.0],[256.0,247.0]]
+!!new polyline1.N2A-PYL1 !!poly_xy=[[443.0,66.0],[552.0,66.0]]
+!!new polyline1.N4-PYL1 !!poly_xy=[[473.0,226.0],[582.0,226.0]]
+!!new polyline1.N4-PYL2 !!poly_xy=[[527.0,255.0],[527.0,203.0],[672.0,203.0]]
+!!new polyline1.N5-PYL1 !!poly_xy=[[672.0,226.0],[812.0,226.0]]
+!!new polyline1.N5-PYL2 !!poly_xy=[[686.0,251.0],[686.0,226.0]]
+!!new polyline1.N5-PYL3 !!poly_xy=[[800.0,226.0],[800.0,208.0],[878.0,208.0]]
+!!new polyline1.N5-PYL4 !!poly_xy=[[800.0,226.0],[800.0,340.0],[877.0,340.0],[877.0,355.0]]
+!!new polyline1.N6-PYL1 !!poly_xy=[[903.0,226.0],[1012.0,226.0]]
+!!new polyline1.N6-PYL1 !!poly_xy=[[957.0,226.0],[957.0,252.0]]
+!!new polyline1.N7-PYL1 !!poly_xy=[[671.0,123.0],[671.0,107.0],[769.0,107.0]]
+!!new polyline1.N8-PYL1 !!poly_xy=[[876.0,123.0],[876.0,107.0],[973.0,107.0]]
+!!new polyline1.N9-PYL1 !!poly_xy=[[1102.0,226.0],[1210.0,226.0]]
+!!new polyline1.N9-PYL2 !!poly_xy=[[1158.0,202.0],[1158.0,253.0]]
+!!new polyline1.N10-PYL1 !!poly_xy=[[1303.0,226.0],[1435.0,226.0],[1435.0,526.0],[974.0,526.0]]
+!!new polyline1.N9-PYL2 !!poly_xy=[[1358.0,202.0],[1358.0,253.0]]
+!!new polyline1.N11-PYL1 !!poly_xy=[[658.0,371.0],[658.0,355.0],[687.0,355.0],[687.0,343.0]]
+!!new polyline1.N11-PYL2 !!poly_xy=[[767.0,371.0],[767.0,355.0],[687.0,355.0],[687.0,343.0]]
+!!new polyline1.N12-PYL1 !!poly_xy=[[472.0,376.0],[527.0,376.0],[527.0,404.0]]
+!!new polyline1.N13-PYL1 !!poly_xy=[[474.0,526.0],[582.0,526.0]]
+!!new polyline1.N13-PYL2 !!poly_xy=[[474.0,526.0],[527.0,526.0],[527.0,543.0]]
+!!new polyline1.N14-PYL1 !!poly_xy=[[672.0,526.0],[882.0,526.0]]
+!!new polyline1.N14-PYL1 !!poly_xy=[[672.0,526.0],[728.0,526.0],[728.0,543.0]]
+!
+!!new polylines2node. !!npoly_xy=[[[256.0,418.0],[256.0,462.0],[365.0,462.0]],[[298.0,510.0],[298.0,490.0],[365.0,490.0],[365.0,226.0],[381.0,226.0]],[[382.0,376.0],[365.0,376.0],[365.0,270.0],[365.0,226.0],[381.0,226.0]],[[382.0,526.0],[365.0,526.0],[365.0,270.0],[365.0,226.0],[381.0,226.0]]]
+!

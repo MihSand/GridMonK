@@ -1,0 +1,34 @@
+# ********* File for GridMonK configuration **************
+#
+#OpenDSS_Path=E:\App\VStudio\GridMonK\PowerGrid
+OpenDSS_Path=E:\App\VStudio\GridMonK\GM_Projects
+Grid_Projects_Path=E:\App\VStudio\GridMonK\GM_Projects
+#
+#
+##### Selection of one of the following projects:
+GridMonk_Project=UPB_Trainer_01
+###GridMonk_Project=UPB_Primer_01
+###GridMonk_Project=UPB_Primer_02
+###GridMonk_Project=UPB_TASE_01
+#######   SVC_Caracteristici_SEE:
+###GridMonk_Project=UPB_TASE_02
+#######   Caracteristici_SEE si stabilitate de tensiune intr-un nod:
+###GridMonk_Project=UPB_TASE_03
+###GridMonk_Project=SCRED_AscDesc_01
+###GridMonk_Project=UPB_SmartMeters_01
+###GridMonk_Project=NRG5_Simulation_01
+###GridMonk_Project=EDYNA_SmartMeters_15A
+###GridMonk_Project=UPB_DSS_Server_01
+###GridMonk_Project=UPB_Stabilitate_Tensiune_01
+###GridMonk_Project=UPB_Stabilitate_Tensiune_01A
+###GridMonk_Project=UPB_Microgrid_01
+###GridMonk_Project=WSG_MESOGIA_01
+###GridMonk_Project=UPB_Trainer_02_Forecast24
+###GridMonk_Project=SST_Microgrid_01
+###GridMonk_Project=SST_Microgrid_02
+###GridMonk_Project=UPB_Microgrid_02
+#
+#
+#### Languages accepted: Romanian, English
+#GUI_Language=Romanian
+GUI_Language=English

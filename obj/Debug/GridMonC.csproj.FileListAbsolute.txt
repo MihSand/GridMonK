@@ -1,0 +1,13 @@
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\GridMonC.exe.config
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\GridMonC.exe
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\GridMonC.pdb
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.csprojResolveAssemblyReference.cache
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.Properties.Resources.resources
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.csproj.GenerateResource.Cache
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.csproj.CoreCompileInputs.cache
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.exe
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.pdb
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\Newtonsoft.Json.dll
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\Newtonsoft.Json.pdb
+E:\App\VStudio\GridMonC\GridMonC\bin\Debug\Newtonsoft.Json.xml
+E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonC.GridMonC.resources
