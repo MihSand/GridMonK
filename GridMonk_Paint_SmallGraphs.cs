@@ -152,7 +152,7 @@ namespace GridMonC
                         SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + (i1 - 6) * 10 - 5);
                 
                 // draw values on the vertical axis of voltages
-                val1 = 280 - i1 * 10;
+                val1 = 290 - i1 * 10;
                 if((i1 % 2)==1) g.DrawString(val1.ToString(), Font0, b0Black, SimpleGph_dXlegend + SimpleGph2_X0-22, 
                     SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + (i1 - 6) * 10 - 5);
                 
@@ -201,10 +201,14 @@ namespace GridMonC
                     // Graphics set 2
                 y1 = -(int)Math.Round(SimpleGph_channels2[ch, x1]/ voltage_factor - 230);
                 y2 = -(int)Math.Round(SimpleGph_channels2[ch, x1 + 1] / voltage_factor - 230);
-                if(x1!=0) g.DrawLine(Channel_Pen[ch], SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y1,
-                    SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2);
-                g.DrawLine(Channel_Pen[ch], SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2,
-                    SimpleGph_dXlegend+SimpleGph2_X0 + x1 * step_w+ step_w, SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2);
+                if(x1!=0) g.DrawLine(Channel_Pen[ch], SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, 
+                                                      SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y1,
+                                                      SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, 
+                                                      SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2);
+                g.DrawLine(Channel_Pen[ch], SimpleGph_dXlegend+SimpleGph2_X0 + (x1 - 1) * step_w+ step_w, 
+                                            SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2,
+                                            SimpleGph_dXlegend+SimpleGph2_X0 + x1 * step_w+ step_w, 
+                                            SimpleGph_Y0 + SimpleGph_Y_width_MAX / 2 + y2);
             }
         }
 

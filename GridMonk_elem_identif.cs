@@ -27,8 +27,8 @@ namespace GridMonC
                 if ((trafos[i1, trafos_PROP_x0] != "") && (trafos[i1, trafos_PROP_y0] != ""))
                 // daca coordonatele transformatorului au fost initializate
                 {
-                    x1 = int.Parse(trafos[i1, trafos_PROP_x0]);
-                    y1 = int.Parse(trafos[i1, trafos_PROP_y0]);
+                    x1 = int.Parse(trafos[i1, trafos_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(trafos[i1, trafos_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + object_dx, y1 + line_dy, xm, ym);
                     if (inside == 1) // afiseaza in fereastra Console_2
                     {
@@ -77,8 +77,8 @@ namespace GridMonC
                 if ((loads[i1, loads_PROP_x0] != "") && (loads[i1, loads_PROP_y0] != ""))
                 // daca coordonatele au fost initializate
                 {
-                    x1 = int.Parse(loads[i1, loads_PROP_x0]);
-                    y1 = int.Parse(loads[i1, loads_PROP_y0]);
+                    x1 = int.Parse(loads[i1, loads_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(loads[i1, loads_PROP_y0]) - Y0_shift;
                     if(loads[i1, loads_PROP_sim_type] == "EV") {
                         dx = object_dx_EVtot; dy = object_dysmall_EV;
                     }
@@ -128,13 +128,13 @@ namespace GridMonC
                             // salvare in canalul grafic 1
                             if (loads_values_set[i1, loads_PROP_P, h1] != "") {
                                 if (graph_smallgph[0, graph_smallgph_PROP_P_type] == "Q")
-                                    SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(loads_values_set[i1, loads_PROP_Q, h1]);
+                                    SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(loads_values_set[i1, loads_PROP_Q, h1]);
                                 else
-                                    SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(loads_values_set[i1, loads_PROP_P, h1]);
+                                    SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(loads_values_set[i1, loads_PROP_P, h1]);
                             }
                             // salvare in canalul grafic 2
                             if (loads_values_set[i1, loads_PROP_U1, h1] != "")
-                                SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(loads_values_set[i1, loads_PROP_U1, h1]);
+                                SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(loads_values_set[i1, loads_PROP_U1, h1]);
                         }
                         channel_name[channel_free1] = loads[i1, loads_PROP_name];
                         channel_free1++; if (channel_free1 >= SimpleGph_channels_MAX) channel_free1 = 0;
@@ -157,7 +157,8 @@ namespace GridMonC
                 if ((lines[i1, lines_PROP_x0] != "") && (lines[i1, lines_PROP_x0] != ""))
                 // daca coordonatele au fost initializate pentru pozitai obiectelor de tip "lines"
                 {
-                    x1 = int.Parse(lines[i1, lines_PROP_x0]); y1 = int.Parse(lines[i1, lines_PROP_y0]);
+                    x1 = int.Parse(lines[i1, lines_PROP_x0])- X0_shift;
+                    y1 = int.Parse(lines[i1, lines_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + object_dx, y1 + line_dy, xm, ym);
                     if (inside == 1)
                     { // linia curenta este obiectul selectat
@@ -310,10 +311,10 @@ namespace GridMonC
                         {
                             // salvare in canalul grafic 1
                             if(lines_values_set[i1, lines_PROP_P, h1] != "")
-                            SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(lines_values_set[i1, lines_PROP_P, h1]);
+                            SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(lines_values_set[i1, lines_PROP_P, h1]);
                             // salvare in canalul grafic 2
                             if (lines_values_set[i1, lines_PROP_U1, h1] != "")
-                            SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(lines_values_set[i1, lines_PROP_U1, h1]);
+                            SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(lines_values_set[i1, lines_PROP_U1, h1]);
                         }
                         channel_name[channel_free1] = lines[i1, lines_PROP_name];
                         channel_free1++; if (channel_free1 >= SimpleGph_channels_MAX) channel_free1 = 0;
@@ -335,8 +336,8 @@ namespace GridMonC
             {
                 if ((generators[i1, generators_PROP_x0] != "") && (generators[i1, generators_PROP_y0] != ""))
                 {
-                    x1 = int.Parse(generators[i1, generators_PROP_x0]);
-                    y1 = int.Parse(generators[i1, generators_PROP_y0]);
+                    x1 = int.Parse(generators[i1, generators_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(generators[i1, generators_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + object_dx, y1 + line_dy, xm, ym);
                     if (inside == 1)
                     {
@@ -367,10 +368,10 @@ namespace GridMonC
                         {
                             // salvare in canalul grafic 1
                             if (generators_values_set[i1, generators_PROP_P, h1] != "")
-                                SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(generators_values_set[i1, generators_PROP_P, h1]);
+                                SimpleGph_channels1[channel_free1, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(generators_values_set[i1, generators_PROP_P, h1]);
                             // salvare in canalul grafic 2
                             if (generators_values_set[i1, generators_PROP_U1, h1] != "")
-                                SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 1] = double.Parse(generators_values_set[i1, generators_PROP_U1, h1]);
+                                SimpleGph_channels2[channel_free2, h1 - LPs_scenarios_multi_LF_start - 2] = double.Parse(generators_values_set[i1, generators_PROP_U1, h1]);
                         }
                         channel_name[channel_free1] = generators[i1, generators_PROP_name];
                         channel_free1++; if (channel_free1 >= SimpleGph_channels_MAX) channel_free1 = 0;
@@ -409,8 +410,8 @@ namespace GridMonC
                 if ((measurements[i1, interracts_PROP_x0] != "") && (measurements[i1, interracts_PROP_y0] != ""))
                 {
                     string s1 = "";
-                    x1 = int.Parse(measurements[i1, measurements_PROP_x0]);
-                    y1 = int.Parse(measurements[i1, measurements_PROP_y0]);
+                    x1 = int.Parse(measurements[i1, measurements_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(measurements[i1, measurements_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + 20, y1 + 95, xm, ym);
                     if (inside == 1)
                     {
@@ -438,8 +439,8 @@ namespace GridMonC
                 if ((graph_phasors[i1, graph_phasors_PROP_x0] != "") && (graph_phasors[i1, graph_phasors_PROP_y0] != ""))
                 {
                     string s1 = "";
-                    x1 = int.Parse(graph_phasors[i1, graph_phasors_PROP_x0]);
-                    y1 = int.Parse(graph_phasors[i1, graph_phasors_PROP_y0]);
+                    x1 = int.Parse(graph_phasors[i1, graph_phasors_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(graph_phasors[i1, graph_phasors_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + gph_phasors_legend_dx, y1 + gph_phasors_legend_dx, xm, ym);
                     inside_enrage = inside_rect(x1+50, y1, x1 + 110, y1 + 20, xm, ym);
                     if (inside_enrage == 1)
@@ -473,8 +474,8 @@ namespace GridMonC
             {
                 if ((nodes[i1, nodes_PROP_x0] != "") && (nodes[i1, nodes_PROP_y0] != ""))
                 {
-                    x1 = int.Parse(nodes[i1, nodes_PROP_x0]);
-                    y1 = int.Parse(nodes[i1, nodes_PROP_y0]);
+                    x1 = int.Parse(nodes[i1, nodes_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(nodes[i1, nodes_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + object_dx, y1 + 12, xm, ym);
                     if (inside == 1)
                     {
@@ -509,8 +510,8 @@ namespace GridMonC
             {
                 if ((labels[i1, labels_PROP_x0] != "") && (labels[i1, labels_PROP_y0] != ""))
                 {
-                    x1 = int.Parse(labels[i1, labels_PROP_x0]);
-                    y1 = int.Parse(labels[i1, labels_PROP_y0]);
+                    x1 = int.Parse(labels[i1, labels_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(labels[i1, labels_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + object_dx, y1 + 12, xm, ym);
                     if (inside == 1)
                     {
@@ -541,8 +542,8 @@ namespace GridMonC
             {
                 if ((graph_pies[i1, graph_pies_PROP_x0] != "") && (graph_pies[i1, graph_pies_PROP_y0] != ""))
                 {
-                    x1 = int.Parse(graph_pies[i1, graph_pies_PROP_x0]);
-                    y1 = int.Parse(graph_pies[i1, graph_pies_PROP_y0]);
+                    x1 = int.Parse(graph_pies[i1, graph_pies_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(graph_pies[i1, graph_pies_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + graph_pies_dx, y1 + graph_pies_dy, xm, ym);
                     if (inside == 1)
                     {
@@ -571,8 +572,8 @@ namespace GridMonC
             {
                 if ((smart_meters[i1, smart_meters_PROP_x0] != "") && (smart_meters[i1, smart_meters_PROP_y0] != ""))
                 {
-                    x1 = int.Parse(smart_meters[i1, smart_meters_PROP_x0]);
-                    y1 = int.Parse(smart_meters[i1, smart_meters_PROP_y0]);
+                    x1 = int.Parse(smart_meters[i1, smart_meters_PROP_x0]) - X0_shift;
+                    y1 = int.Parse(smart_meters[i1, smart_meters_PROP_y0]) - Y0_shift;
                     inside = inside_rect(x1, y1, x1 + smart_meters_dx, y1 + smart_meters_dy, xm, ym);
                     if (inside == 1)
                     {
@@ -723,5 +724,279 @@ namespace GridMonC
             lossess_proc_before = losses_proc;
         }
 
+        private void calculate_grid_data_scenarios_array()
+        {
+            //int nr_entries = 24;
+            int nr_voltage_levels = _GridMonK_max_nr_grid_clusters;
+            string[] Voltages = new string[_GridMonK_max_nr_grid_clusters];
+            string[] Microgrids = new string[_GridMonK_max_nr_grid_clusters];
+
+            // Predefined microgrids clusters
+            Voltages[0] = "0.4"; Microgrids[0] = "A";
+            Voltages[1] = "0.4"; Microgrids[1] = "B";
+            Voltages[2] = "0.4"; Microgrids[2] = "C";
+            //Voltages[3] = "0.4"; Microgrids[3] = "D";
+            Voltages[3] = "20"; Microgrids[3] = "A";
+            Voltages[4] = "20"; Microgrids[4] = "B";
+            Voltages[5] = "110"; Microgrids[5] = "A";
+            //Voltages[7] = "110"; Microgrids[7] = "B";
+            Voltages[6] = "220"; Microgrids[6] = "A";
+            //Voltages[9] = "400"; Microgrids[9] = "A";
+            //if (LPs_scenarios_LF_forecasts_length_MAX > 1440) nr_entries = 1440;
+
+            double dval1 = 0, dval2 = 0;
+
+            // consumption
+            double[,] P_cons = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] P_EV = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] P_storage = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            // generation
+            double[,] P_gen = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] P_PV = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] P_RES = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            // transformers
+            double[,] P_trafo = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            // tie-lines between two clusters at the same voltage level
+            double[,] P_tielines = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            // general data
+            double[,] P_bilant = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] losses_proc = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+            double[,] RES_share = new double[LPs_scenarios_LF_forecasts_length_MAX, _GridMonK_max_nr_grid_clusters];
+
+            string file_data = "";
+            string file_data2 = "";
+            file_data2 = "Description,P_cons_tot,P_storage_tot,P_EV_tot,P_PV_tot,P_trafo_tot,P_RES_tot,P_bilant_tot,losses_proc_tot,RES_share_tot\n";
+
+            // Full report of summed data
+            double[] P_cons_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_storage_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_EV_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_PV_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_trafo_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_tielines_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_RES_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] P_bilant_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] losses_proc_tot = new double[_GridMonK_max_nr_grid_clusters];
+            double[] RES_share_tot = new double[_GridMonK_max_nr_grid_clusters];
+            string[] GM_objects = new string[_GridMonK_max_nr_grid_clusters];
+
+            //OpenDSS_solve_number, LPs_scenarios_LF_forecasts_length_MAX
+            int scenarios_number = int.Parse(OpenDSS_solve_number);
+            if (scenarios_number > LPs_scenarios_LF_forecasts_length_MAX) scenarios_number = LPs_scenarios_LF_forecasts_length_MAX;
+
+            for (int MG_cluster=0; MG_cluster< _GridMonK_max_nr_grid_clusters; MG_cluster++)
+            {
+                GM_objects[MG_cluster] = "";
+                for (int timeframe = 1; timeframe < scenarios_number+1; timeframe++) 
+                {
+                    // scanare obiecte de tip "loads"
+                    P_cons[timeframe, MG_cluster] = 0;
+                    for (int l1 = 0; l1 < loads_no; l1++)
+                    {
+                        // classical loads, they do not have any string description in the attribute "loads_PROP_sim_type", 
+                        // meaning that there is no !!sim_type=??? declaration in the load object line
+                        if ((loads[l1, loads_PROP_voltage] == Voltages[MG_cluster]) && (loads[l1, loads_PROP_MicroGrid1] == Microgrids[MG_cluster]) 
+                                && (loads[l1, loads_PROP_sim_type] == ""))
+                        {
+                            if(timeframe == 1) GM_objects[MG_cluster] += "Ld="+ loads[l1, loads_PROP_name] + ",";
+                            if (loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_cons[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // scanare obiecte de tip "loads" with !!sim_type=storage
+                    P_storage[timeframe, MG_cluster] = 0;
+                    for (int l1 = 0; l1 < loads_no; l1++)
+                    {
+                        if ((loads[l1, loads_PROP_voltage] == Voltages[MG_cluster]) && (loads[l1, loads_PROP_MicroGrid1] == Microgrids[MG_cluster]) 
+                                && (loads[l1, loads_PROP_sim_type] == "storage"))
+                        {
+                            if (loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_storage[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // scanare obiecte de tip "loads" with !!sim_type=EV
+                    P_EV[timeframe, MG_cluster] = 0;
+                    for (int l1 = 0; l1 < loads_no; l1++)
+                    {
+                        if ((loads[l1, loads_PROP_voltage] == Voltages[MG_cluster]) && (loads[l1, loads_PROP_MicroGrid1] == Microgrids[MG_cluster]) 
+                                && (loads[l1, loads_PROP_sim_type] == "EV"))
+                        {
+                            if (loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(loads_values_set[l1, loads_PROP_P, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_EV[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // scanare obiecte de tip "generators"
+                    P_PV[timeframe, MG_cluster] = 0;
+                    for (int g1 = 0; g1 < generators_no; g1++)
+                    {
+                        if ((generators[g1, generators_PROP_voltage] == Voltages[MG_cluster]) 
+                                && (generators[g1, generators_PROP_MicroGrid1] == Microgrids[MG_cluster]))
+                        {
+                            if (timeframe == 1) GM_objects[MG_cluster] += "G=" + generators[g1, generators_PROP_name] + ",";
+                            if (generators_values_set[g1, generators_PROP_P, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(generators_values_set[g1, generators_PROP_P, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_PV[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // scanare obiecte de tip "trafos"
+                    double P3 = 0;
+                    for (int t1 = 0; t1 < trafos_no; t1++)
+                    {
+                        // Calculate 3-phase power 
+                        if ((trafos_values_set[t1, trafos_PROP_P1, timeframe + LPs_scenarios_multi_LF_start] != "") &&
+                            (trafos_values_set[t1, trafos_PROP_P2, timeframe + LPs_scenarios_multi_LF_start] != "") &&
+                            (trafos_values_set[t1, trafos_PROP_P3, timeframe + LPs_scenarios_multi_LF_start] != "")) // if we have active power on each phase
+                            P3 = double.Parse(trafos_values_set[t1, trafos_PROP_P1, timeframe + LPs_scenarios_multi_LF_start]) +
+                                 double.Parse(trafos_values_set[t1, trafos_PROP_P2, timeframe + LPs_scenarios_multi_LF_start]) +
+                                 double.Parse(trafos_values_set[t1, trafos_PROP_P3, timeframe + LPs_scenarios_multi_LF_start]);
+                        trafos_values_set[t1, trafos_PROP_P, timeframe + LPs_scenarios_multi_LF_start] = P3.ToString();
+
+                        if ((trafos_values_set[t1, trafos_PROP_P1_t2, timeframe + LPs_scenarios_multi_LF_start] != "") && 
+                            (trafos_values_set[t1, trafos_PROP_P2_t2, timeframe + LPs_scenarios_multi_LF_start] != "") &&
+                            (trafos_values_set[t1, trafos_PROP_P3_t2, timeframe + LPs_scenarios_multi_LF_start] != "")) // if we have active power on each phase
+                            P3 = double.Parse(trafos_values_set[t1, trafos_PROP_P1_t2, timeframe + LPs_scenarios_multi_LF_start]) +
+                                 double.Parse(trafos_values_set[t1, trafos_PROP_P2_t2, timeframe + LPs_scenarios_multi_LF_start]) +
+                                 double.Parse(trafos_values_set[t1, trafos_PROP_P3_t2, timeframe + LPs_scenarios_multi_LF_start]);
+                        trafos_values_set[t1, trafos_PROP_P_t2, timeframe + LPs_scenarios_multi_LF_start] = P3.ToString();
+                    }
+
+                    // make sumations of trafo powers on the same microgrid
+                    P_trafo[timeframe, MG_cluster] = 0;
+                    for (int t1 = 0; t1 < trafos_no; t1++)
+                    {
+                        if ((trafos[t1, trafos_PROP_U_Sec1_nom] == Voltages[MG_cluster]) 
+                                && (trafos[t1, trafos_PROP_MicroGridSec1] == Microgrids[MG_cluster])) // if we have the voltage on firts secondary
+                        {
+                            if (timeframe == 1) GM_objects[MG_cluster] += "T=" + trafos[t1, generators_PROP_name] + ",";
+                            if (trafos_values_set[t1, trafos_PROP_P_t2, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(trafos_values_set[t1, trafos_PROP_P_t2, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_trafo[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // scanare obiecte de tip "tielines"
+                    P_tielines[timeframe, MG_cluster] = 0;
+                    for (int ln1 = 0; ln1 < lines_no; ln1++)
+                    {
+                        if ((lines[ln1, lines_PROP_voltage] == Voltages[MG_cluster])
+                                && (lines[ln1, lines_PROP_MicroGrid1] == Microgrids[MG_cluster])) // if we have the right voltage and microgrid
+                        {
+                            if (timeframe == 1) GM_objects[MG_cluster] += "Ln=" + lines[ln1, lines_PROP_name] + ".1,";
+                            if (lines_values_set[ln1, lines_PROP_P, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(lines_values_set[ln1, lines_PROP_P, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_tielines[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                        if ((lines[ln1, lines_PROP_voltage] == Voltages[MG_cluster])
+                                && (lines[ln1, lines_PROP_MicroGrid2] == Microgrids[MG_cluster])) // if we have the right voltage and microgrid
+                        {
+                            if (timeframe == 1) GM_objects[MG_cluster] += "Ln=" + lines[ln1, lines_PROP_name] + ".2,";
+                            if (lines_values_set[ln1, lines_PROP_P_t2, timeframe + LPs_scenarios_multi_LF_start] != "") { 
+                                dval1 = double.Parse(lines_values_set[ln1, lines_PROP_P_t2, timeframe + LPs_scenarios_multi_LF_start]);
+                                P_tielines[timeframe, MG_cluster] += dval1;
+                            }
+                        }
+                    }
+
+                    // Make boundaries calculations
+                    P_bilant[timeframe, MG_cluster] = P_cons[timeframe, MG_cluster] + P_storage[timeframe, MG_cluster] + P_EV[timeframe, MG_cluster] +
+                        P_PV[timeframe, MG_cluster] + P_trafo[timeframe, 0] + P_tielines[timeframe, MG_cluster];
+                    P_bilant[timeframe, MG_cluster] = -P_bilant[timeframe, MG_cluster];
+                    losses_proc[timeframe, MG_cluster] = P_bilant[timeframe, MG_cluster] / P_cons[timeframe, MG_cluster] * 100.0;
+                    RES_share[timeframe, MG_cluster] = -P_PV[timeframe, MG_cluster] / P_cons[timeframe, MG_cluster] * 100.0;
+                }
+
+            // Write file to disk
+                file_data = "Timeframe,P_cons,P_storage,P_EV,P_PV,P_trafo,P_RES,P_bilant,losses_proc,RES_share,Tielines\n";
+                for (int timeframe = 1; timeframe < scenarios_number + 1; timeframe++)
+                {
+                    file_data += timeframe.ToString() + ","
+                        + P_cons[timeframe, MG_cluster].ToString() + ","
+                    //file_data +=
+                        + P_storage[timeframe, MG_cluster].ToString() + ","
+                        + P_EV[timeframe, MG_cluster].ToString() + ","
+                        + P_PV[timeframe, MG_cluster].ToString() + ","
+                        + P_trafo[timeframe, MG_cluster].ToString() + ","
+                        + P_RES[timeframe, MG_cluster].ToString() + ","
+                        + P_bilant[timeframe, MG_cluster].ToString() + ","
+                        + losses_proc[timeframe, MG_cluster].ToString() + ","
+                        + RES_share[timeframe, MG_cluster].ToString() + ","
+                        + P_tielines[timeframe, MG_cluster].ToString()
+                        + "\n";
+                }
+                string GridMonk2OpenDSS_MG_file = Grid_Projects_Path + @"/" + GridMonk_Project + @"/" +
+                    "Report_Microgrid_" + Voltages[MG_cluster] + "_" + Microgrids[MG_cluster] + ".csv";
+                File.WriteAllText(GridMonk2OpenDSS_MG_file, file_data);
+
+                P_cons_tot[MG_cluster] = 0; P_storage_tot[MG_cluster] = 0; P_EV_tot[MG_cluster] = 0;
+                P_PV_tot[MG_cluster] = 0; P_trafo_tot[MG_cluster] = 0;
+                P_RES_tot[MG_cluster] = 0; P_bilant_tot[MG_cluster] = 0;
+                losses_proc_tot[MG_cluster] = 0; RES_share_tot[MG_cluster] = 0;
+
+                for (int timeframe = 1; timeframe < scenarios_number + 1; timeframe++)
+                {
+                    P_cons_tot[MG_cluster] += P_cons[timeframe, 0];
+                    P_storage_tot[MG_cluster] += P_storage[timeframe, 0];
+                    P_EV_tot[MG_cluster] += P_EV[timeframe, 0];
+                    P_PV_tot[MG_cluster] += P_PV[timeframe, 0];
+                    P_trafo_tot[MG_cluster] += P_trafo[timeframe, 0];
+                    P_RES_tot[MG_cluster] += P_RES[timeframe, 0];
+                    P_bilant_tot[MG_cluster] += P_bilant[timeframe, 0];
+                    losses_proc_tot[MG_cluster] += losses_proc[timeframe, 0];
+                    RES_share_tot[MG_cluster] += RES_share[timeframe, 0];
+                }
+                if (Scenario_timeframe_length == "1s")
+                {
+                    P_cons_tot[MG_cluster] = P_cons_tot[MG_cluster] * 1 / 3600;
+                    P_storage_tot[MG_cluster] = P_storage_tot[MG_cluster] * 1 / 3600;
+                    P_EV_tot[MG_cluster] = P_EV_tot[MG_cluster] * 1 / 3600;
+                    P_PV_tot[MG_cluster] = P_PV_tot[MG_cluster] * 1 / 3600;
+                    P_trafo_tot[MG_cluster] = P_trafo_tot[MG_cluster] * 1 / 3600;
+                    P_RES_tot[MG_cluster] = P_RES_tot[MG_cluster] * 1 / 3600;
+                    P_bilant_tot[MG_cluster] = P_bilant_tot[MG_cluster] * 1 / 3600;
+                }
+                if (Scenario_timeframe_length == "1m")
+                {
+                    P_cons_tot[MG_cluster] = P_cons_tot[MG_cluster] * 1 / 60;
+                    P_storage_tot[MG_cluster] = P_storage_tot[MG_cluster] * 1 / 60;
+                    P_EV_tot[MG_cluster] = P_EV_tot[MG_cluster] * 1 / 60;
+                    P_PV_tot[MG_cluster] = P_PV_tot[MG_cluster] * 1 / 60;
+                    P_trafo_tot[MG_cluster] = P_trafo_tot[MG_cluster] * 1 / 60;
+                    P_RES_tot[MG_cluster] = P_RES_tot[MG_cluster] * 1 / 60;
+                    P_bilant_tot[MG_cluster] = P_bilant_tot[MG_cluster] * 1 / 60;
+                }
+                losses_proc_tot[MG_cluster] = losses_proc_tot[MG_cluster] / scenarios_number;
+                RES_share_tot[MG_cluster] = RES_share_tot[MG_cluster] / scenarios_number;
+
+                file_data2 += "MG_" + Voltages[MG_cluster] + "_" + Microgrids[MG_cluster] + "," 
+                    + P_cons_tot[MG_cluster].ToString() + ","
+                    + P_storage_tot[MG_cluster].ToString() + ","
+                    + P_EV_tot[MG_cluster].ToString("#0.000") + ","
+                    + P_PV_tot[MG_cluster].ToString("#0.000") + ","
+                    + P_trafo_tot[MG_cluster].ToString("#0.000") + ","
+                    + P_RES_tot[MG_cluster].ToString("#0.000") + ","
+                    + P_bilant_tot[MG_cluster].ToString("#0.000") + ","
+                    + losses_proc_tot[MG_cluster].ToString("#0.00") + ","
+                    + RES_share_tot[MG_cluster].ToString("#0.00") + ","
+                    + GM_objects[MG_cluster] + "\n";
+
+            }
+
+            string GridMonk2OpenDSS_MG_report_file = Grid_Projects_Path + @"/" + GridMonk_Project + @"/" + "Report_Microgrid_totals_clusters.csv";
+            File.WriteAllText(GridMonk2OpenDSS_MG_report_file, file_data2);
+
+        }
     }
 }

@@ -96,8 +96,11 @@ namespace GridMonC
         // Next value points where "forecast" scenarios start, 24/96 intervals of 1h / 15m are memorized, calculated by OpenDSS
         const int LPs_scenarios_LF_forecasts_start = 11;
         //const int LPs_scenarios_LF_forecasts_length_MAX = 99; // total number of possible LF scenarios of "forecast" scenarios
-        // total number of possible LF scenarios of "forecast" scenarios, allowing an LP scenario for at least each minute of a day (1440 minutes)
-        const int LPs_scenarios_LF_forecasts_length_MAX = 1450; 
+        
+            // total number of possible LF scenarios of "forecast" scenarios, allowing an LP scenario for at least each minute of a day (1440 minutes)
+        const int LPs_scenarios_LF_forecasts_length_MAX = 1450;
+        //const int LPs_scenarios_LF_forecasts_length_MAX = 5000;
+        //const int LPs_scenarios_LF_forecasts_length_MAX = 9000; 
 
         // zone for grid power flows analysis of "forecast corrected" LFs (24 up to 96)
         // Next value points to the place where "forecast corrected" scenarios start, 24/96 intervals of 1h / 15m are memorized, calculated by OpenDSS
@@ -191,7 +194,13 @@ namespace GridMonC
         const int loads_PROP_pin1_y = 48;
         const int loads_PROP_Font1 = 49;
         const int loads_PROP_Font1_Mask = 50;
-        const int loads_PROP_gph_DrawType = 51;
+        // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
+        // The pool for balance calculations is based on voltage level + Microgrid name
+        const int loads_PROP_MicroGrid1 = 51;
+        const int loads_PROP_MicroGrid2 = 52;
+        const int loads_PROP_MicroGrid3 = 53;
+        //
+        const int loads_PROP_gph_DrawType = 57;
         const int loads_PROP_gph_selected = 58;
         const int loads_PROP_gph_direction = 59; // N,W,S,E (modul de desenare; N=cu borna sus, W=cu borna in satnga
         int loads_no = 0;
@@ -204,6 +213,8 @@ namespace GridMonC
         const int loadshapes_PROP_csvfile = 3;
         const int loadshapes_PROP_mult = 4;
         const int loadshapes_PROP_PQCSVFile = 5;
+        const int loadshapes_PROP_calculate_Hour2Min = 6;
+        const int loadshapes_PROP_replace_PQCSVFile = 7;
         int loadshapes_no = 0;
 
         const int linecodes_MAX = 100; const int linecodes_prop_MAX = 20;
@@ -315,6 +326,13 @@ namespace GridMonC
         const int lines_PROP_Font2_Mask = 86;
         const int lines_PROP_HidePinsNo = 87;
 
+        const int lines_PROP_voltage = 88;  // Nominal voltage level, useful for making balancing calculations
+        // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
+        // The pool for balance calculations is based on voltage level + Microgrid name
+        const int lines_PROP_MicroGrid1 = 89;
+        const int lines_PROP_MicroGrid2 = 90;
+        const int lines_PROP_MicroGrid3 = 91;
+        //
         const int lines_PROP_gph_DrawType = 97;
         const int lines_PROP_gph_selected = 98;
         const int lines_PROP_gph_direction = 99; // N,W,S,E
@@ -327,7 +345,7 @@ namespace GridMonC
         const int trafos_values_start = 9;
         //int trafos_values_set_no = 0;
 
-        const int trafos_MAX = 50; const int trafos_prop_MAX = 50;
+        const int trafos_MAX = 50; const int trafos_prop_MAX = 70;
         const int trafos__scenarios_series_start = 9; // where a series of scenario start, e.g. 24 intervals fo one hour calculated by OpenDSS
         //const int trafos_scenarios_MAX = 200; // numarul de situatii diferite (scenarii) de retea
         //string[,,] trafos_values_set = new string[trafos_MAX, trafos_prop_MAX, trafos_scenarios_MAX]; //seturi de scenarii de stari linie
@@ -367,10 +385,38 @@ namespace GridMonC
         const int trafos_PROP_I2 = 33;
         const int trafos_PROP_I3 = 34;
         const int trafos_PROP_I4 = 35;
-        const int trafos_PROP_brk1 = 36;
-        const int trafos_PROP_brk2 = 37;
-        const int trafos_PROP_gph_selected = 48;
-        const int trafos_PROP_gph_direction = 49; // N,W,S,E
+        const int trafos_PROP_P1_t2 = 36;
+        const int trafos_PROP_P2_t2 = 37;
+        const int trafos_PROP_P3_t2 = 38;
+        const int trafos_PROP_P4_t2 = 39;
+        const int trafos_PROP_P_t2 = 40;
+
+        const int trafos_PROP_Q1_t2 = 41;
+        const int trafos_PROP_Q2_t2 = 42;
+        const int trafos_PROP_Q3_t2 = 43;
+        const int trafos_PROP_Q4_t2 = 44;
+        const int trafos_PROP_Q_t2 = 45;
+
+        const int trafos_PROP_S_t2 = 46;
+
+        const int trafos_PROP_brk1 = 47;
+        const int trafos_PROP_brk2 = 48;
+        const int trafos_PROP_pin1_x = 49;
+        const int trafos_PROP_pin1_y = 50;
+        const int trafos_PROP_pin2_x = 51;
+        const int trafos_PROP_pin2_y = 52;
+        const int trafos_PROP_U_Prm_nom = 53;   // primary voltage, information can be extracted from "trafos_PROP_kVs"
+        const int trafos_PROP_U_Sec1_nom = 54;   // secondary voltage winding 1, information can be extracted from "trafos_PROP_kVs"
+        const int trafos_PROP_U_Sec2_nom = 55;   // secondary voltage winding 2 (if exist), information can be extracted from "trafos_PROP_kVs"
+        // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
+        // The pool for balance calculations is based on voltage level + Microgrid name
+        const int trafos_PROP_MicroGridPrm = 56;  
+        const int trafos_PROP_MicroGridSec1 = 57;
+        const int trafos_PROP_MicroGridSec2 = 58;
+        //
+        const int trafos_PROP_gph_DrawType = 67;
+        const int trafos_PROP_gph_selected = 68;
+        const int trafos_PROP_gph_direction = 69; // N,W,S,E
         int trafos_no = 0;
 
         const int generators_MAX = 100; const int generators_prop_MAX = 60;
@@ -426,6 +472,12 @@ namespace GridMonC
         const int generators_PROP_pin1_y = 45;
         const int generators_PROP_gph_DrawType = 46;
         const int generators_PROP_brk = 47;
+        // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
+        // The pool for balance calculations is based on voltage level + Microgrid name
+        const int generators_PROP_MicroGrid1 = 48;
+        const int generators_PROP_MicroGrid2 = 49;
+        const int generators_PROP_MicroGrid3 = 50;
+        //
         const int generators_PROP_gph_selected = 58;
         const int generators_PROP_gph_direction = 59;
         int generators_no = 0;
@@ -755,17 +807,27 @@ namespace GridMonC
         double Global_PVs_factor = 1.0;
         double Global_loads_factor = 1.0;
 
+        // variables related to "solve"
+        string OpenDSS_solve_mode = "";
+        string OpenDSS_solve_number = "";
+        string OpenDSS_solve_stepsize = "";
+
         // Grid-Monk file to be used by openDSS when invoked by Grid-Monk
         string GridMonk2OpenDSS_grid_file = "";
 
         // variabile globale GridMonK
         string _GridMonK_nodes_wires_connection = ""; // if the wires are  based on manual polylines (default), automatic, or mixed
+        string _GridMonK_GUI_refresh = "Refresh";
+
+        // number of grid clusters (voltage levets + microgrids) to annalyze boundaries data
+        const int _GridMonK_max_nr_grid_clusters = 9;
 
         // frecventa retelei
         double grid_frequency = 50.00;
 
         // Timeframe for snapshoots
         string Timeframe_crt_str = "Base";
+        string Scenario_timeframe_length = "1h";
         int Timeframe_crt = -1;
 
         // MQTT connections

@@ -67,14 +67,22 @@
             this.sTACOMsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invokeOpenDSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkGridConsistencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNodeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputFilesConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.communicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridSummaryReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eMSDMSFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.voltageStabilityDiagramInANodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pMUOrchestratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +107,11 @@
             this.richTextBox_events = new System.Windows.Forms.RichTextBox();
             this.textBox_U_stability_Load_no = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.checkBox_loadfile_remote = new System.Windows.Forms.CheckBox();
+            this.checkBox_loadfile_auto = new System.Windows.Forms.CheckBox();
+            this.projectDatabseReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extendedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,16 +125,16 @@
             // 
             this.textBox_DateTime.Location = new System.Drawing.Point(5, 34);
             this.textBox_DateTime.Name = "textBox_DateTime";
-            this.textBox_DateTime.Size = new System.Drawing.Size(230, 22);
+            this.textBox_DateTime.Size = new System.Drawing.Size(191, 22);
             this.textBox_DateTime.TabIndex = 0;
             // 
             // Button_Load_file
             // 
-            this.Button_Load_file.Location = new System.Drawing.Point(258, 34);
+            this.Button_Load_file.Location = new System.Drawing.Point(202, 32);
             this.Button_Load_file.Name = "Button_Load_file";
-            this.Button_Load_file.Size = new System.Drawing.Size(88, 24);
+            this.Button_Load_file.Size = new System.Drawing.Size(127, 24);
             this.Button_Load_file.TabIndex = 1;
-            this.Button_Load_file.Text = "Load file";
+            this.Button_Load_file.Text = "Load Project";
             this.Button_Load_file.UseVisualStyleBackColor = true;
             this.Button_Load_file.Click += new System.EventHandler(this.Button_Load_file_Click);
             // 
@@ -189,7 +202,7 @@
             // 
             // button_Compute
             // 
-            this.button_Compute.Location = new System.Drawing.Point(364, 34);
+            this.button_Compute.Location = new System.Drawing.Point(460, 33);
             this.button_Compute.Name = "button_Compute";
             this.button_Compute.Size = new System.Drawing.Size(115, 24);
             this.button_Compute.TabIndex = 9;
@@ -245,7 +258,7 @@
             // checkBox_file_dss
             // 
             this.checkBox_file_dss.AutoSize = true;
-            this.checkBox_file_dss.Location = new System.Drawing.Point(485, 35);
+            this.checkBox_file_dss.Location = new System.Drawing.Point(581, 37);
             this.checkBox_file_dss.Name = "checkBox_file_dss";
             this.checkBox_file_dss.Size = new System.Drawing.Size(66, 21);
             this.checkBox_file_dss.TabIndex = 15;
@@ -303,6 +316,7 @@
             this.aboutToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.windowToolStripMenuItem,
+            this.eMSDMSFunctionsToolStripMenuItem,
             this.otherToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.helpToolStripMenuItem1});
@@ -420,22 +434,46 @@
             // actionsToolStripMenuItem
             // 
             this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configurationFileToolStripMenuItem,
             this.invokeOpenDSSToolStripMenuItem,
             this.checkGridConsistencyToolStripMenuItem});
             this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
             this.actionsToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.actionsToolStripMenuItem.Text = "Actions";
             // 
+            // configurationFileToolStripMenuItem
+            // 
+            this.configurationFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configInformationToolStripMenuItem,
+            this.reloadConfigurationToolStripMenuItem});
+            this.configurationFileToolStripMenuItem.Name = "configurationFileToolStripMenuItem";
+            this.configurationFileToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.configurationFileToolStripMenuItem.Text = "Project Configuration file";
+            // 
+            // configInformationToolStripMenuItem
+            // 
+            this.configInformationToolStripMenuItem.Name = "configInformationToolStripMenuItem";
+            this.configInformationToolStripMenuItem.Size = new System.Drawing.Size(260, 26);
+            this.configInformationToolStripMenuItem.Text = "Project Config information";
+            this.configInformationToolStripMenuItem.Click += new System.EventHandler(this.configInformationToolStripMenuItem_Click);
+            // 
+            // reloadConfigurationToolStripMenuItem
+            // 
+            this.reloadConfigurationToolStripMenuItem.Name = "reloadConfigurationToolStripMenuItem";
+            this.reloadConfigurationToolStripMenuItem.Size = new System.Drawing.Size(260, 26);
+            this.reloadConfigurationToolStripMenuItem.Text = "Reload configuration";
+            this.reloadConfigurationToolStripMenuItem.Click += new System.EventHandler(this.reloadConfigurationToolStripMenuItem_Click);
+            // 
             // invokeOpenDSSToolStripMenuItem
             // 
             this.invokeOpenDSSToolStripMenuItem.Name = "invokeOpenDSSToolStripMenuItem";
-            this.invokeOpenDSSToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.invokeOpenDSSToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.invokeOpenDSSToolStripMenuItem.Text = "Invoke OpenDSS";
             // 
             // checkGridConsistencyToolStripMenuItem
             // 
             this.checkGridConsistencyToolStripMenuItem.Name = "checkGridConsistencyToolStripMenuItem";
-            this.checkGridConsistencyToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.checkGridConsistencyToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.checkGridConsistencyToolStripMenuItem.Text = "Check grid consistency";
             // 
             // aboutToolStripMenuItem
@@ -461,14 +499,30 @@
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inputFilesConfigToolStripMenuItem,
+            this.communicationSettingsToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
+            // inputFilesConfigToolStripMenuItem
+            // 
+            this.inputFilesConfigToolStripMenuItem.Name = "inputFilesConfigToolStripMenuItem";
+            this.inputFilesConfigToolStripMenuItem.Size = new System.Drawing.Size(244, 26);
+            this.inputFilesConfigToolStripMenuItem.Text = "Input files config";
+            // 
+            // communicationSettingsToolStripMenuItem
+            // 
+            this.communicationSettingsToolStripMenuItem.Name = "communicationSettingsToolStripMenuItem";
+            this.communicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(244, 26);
+            this.communicationSettingsToolStripMenuItem.Text = "Communication settings";
+            // 
             // windowToolStripMenuItem
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridSummaryReportToolStripMenuItem});
+            this.gridSummaryReportToolStripMenuItem,
+            this.projectDatabseReportToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
             this.windowToolStripMenuItem.Text = "Reports";
@@ -476,9 +530,30 @@
             // gridSummaryReportToolStripMenuItem
             // 
             this.gridSummaryReportToolStripMenuItem.Name = "gridSummaryReportToolStripMenuItem";
-            this.gridSummaryReportToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.gridSummaryReportToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
             this.gridSummaryReportToolStripMenuItem.Text = "Grid summary report";
             this.gridSummaryReportToolStripMenuItem.Click += new System.EventHandler(this.gridSummaryReportToolStripMenuItem_Click);
+            // 
+            // eMSDMSFunctionsToolStripMenuItem
+            // 
+            this.eMSDMSFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.voltageStabilityDiagramInANodeToolStripMenuItem,
+            this.pMUOrchestratorToolStripMenuItem});
+            this.eMSDMSFunctionsToolStripMenuItem.Name = "eMSDMSFunctionsToolStripMenuItem";
+            this.eMSDMSFunctionsToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.eMSDMSFunctionsToolStripMenuItem.Text = "EMS/DMS functions";
+            // 
+            // voltageStabilityDiagramInANodeToolStripMenuItem
+            // 
+            this.voltageStabilityDiagramInANodeToolStripMenuItem.Name = "voltageStabilityDiagramInANodeToolStripMenuItem";
+            this.voltageStabilityDiagramInANodeToolStripMenuItem.Size = new System.Drawing.Size(304, 26);
+            this.voltageStabilityDiagramInANodeToolStripMenuItem.Text = "Node Voltage stability assesment";
+            // 
+            // pMUOrchestratorToolStripMenuItem
+            // 
+            this.pMUOrchestratorToolStripMenuItem.Name = "pMUOrchestratorToolStripMenuItem";
+            this.pMUOrchestratorToolStripMenuItem.Size = new System.Drawing.Size(304, 26);
+            this.pMUOrchestratorToolStripMenuItem.Text = "PMU orchestrator";
             // 
             // otherToolStripMenuItem
             // 
@@ -515,17 +590,17 @@
             // 
             // button_U_stability
             // 
-            this.button_U_stability.Location = new System.Drawing.Point(570, 34);
+            this.button_U_stability.Location = new System.Drawing.Point(643, 34);
             this.button_U_stability.Name = "button_U_stability";
             this.button_U_stability.Size = new System.Drawing.Size(75, 24);
             this.button_U_stability.TabIndex = 21;
             this.button_U_stability.Text = "U_Stab";
             this.button_U_stability.UseVisualStyleBackColor = true;
-            this.button_U_stability.Click += new System.EventHandler(this.button_U_sability_Click);
+            this.button_U_stability.Click += new System.EventHandler(this.button_U_stability_Click);
             // 
             // textBox_S_max_U_stability
             // 
-            this.textBox_S_max_U_stability.Location = new System.Drawing.Point(689, 34);
+            this.textBox_S_max_U_stability.Location = new System.Drawing.Point(762, 34);
             this.textBox_S_max_U_stability.Name = "textBox_S_max_U_stability";
             this.textBox_S_max_U_stability.Size = new System.Drawing.Size(77, 22);
             this.textBox_S_max_U_stability.TabIndex = 23;
@@ -534,7 +609,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(646, 36);
+            this.label5.Location = new System.Drawing.Point(719, 36);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 17);
             this.label5.TabIndex = 24;
@@ -700,7 +775,7 @@
             // 
             // textBox_U_stability_Load_no
             // 
-            this.textBox_U_stability_Load_no.Location = new System.Drawing.Point(797, 33);
+            this.textBox_U_stability_Load_no.Location = new System.Drawing.Point(870, 33);
             this.textBox_U_stability_Load_no.Name = "textBox_U_stability_Load_no";
             this.textBox_U_stability_Load_no.Size = new System.Drawing.Size(38, 22);
             this.textBox_U_stability_Load_no.TabIndex = 33;
@@ -709,17 +784,61 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(772, 35);
+            this.label6.Location = new System.Drawing.Point(845, 35);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(24, 17);
             this.label6.TabIndex = 34;
             this.label6.Text = "Ld";
+            // 
+            // checkBox_loadfile_remote
+            // 
+            this.checkBox_loadfile_remote.AutoSize = true;
+            this.checkBox_loadfile_remote.Location = new System.Drawing.Point(335, 35);
+            this.checkBox_loadfile_remote.Name = "checkBox_loadfile_remote";
+            this.checkBox_loadfile_remote.Size = new System.Drawing.Size(79, 21);
+            this.checkBox_loadfile_remote.TabIndex = 35;
+            this.checkBox_loadfile_remote.Text = "Remote";
+            this.checkBox_loadfile_remote.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_loadfile_auto
+            // 
+            this.checkBox_loadfile_auto.AutoSize = true;
+            this.checkBox_loadfile_auto.Location = new System.Drawing.Point(411, 35);
+            this.checkBox_loadfile_auto.Name = "checkBox_loadfile_auto";
+            this.checkBox_loadfile_auto.Size = new System.Drawing.Size(51, 21);
+            this.checkBox_loadfile_auto.TabIndex = 36;
+            this.checkBox_loadfile_auto.Text = "Aut";
+            this.checkBox_loadfile_auto.UseVisualStyleBackColor = true;
+            // 
+            // projectDatabseReportToolStripMenuItem
+            // 
+            this.projectDatabseReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.basicToolStripMenuItem,
+            this.extendedToolStripMenuItem});
+            this.projectDatabseReportToolStripMenuItem.Name = "projectDatabseReportToolStripMenuItem";
+            this.projectDatabseReportToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.projectDatabseReportToolStripMenuItem.Text = "Project databse report";
+            // 
+            // basicToolStripMenuItem
+            // 
+            this.basicToolStripMenuItem.Name = "basicToolStripMenuItem";
+            this.basicToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.basicToolStripMenuItem.Text = "Basic";
+            this.basicToolStripMenuItem.Click += new System.EventHandler(this.basicToolStripMenuItem_Click);
+            // 
+            // extendedToolStripMenuItem
+            // 
+            this.extendedToolStripMenuItem.Name = "extendedToolStripMenuItem";
+            this.extendedToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.extendedToolStripMenuItem.Text = "Extended";
             // 
             // GridMonk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1882, 1053);
+            this.Controls.Add(this.checkBox_loadfile_auto);
+            this.Controls.Add(this.checkBox_loadfile_remote);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox_U_stability_Load_no);
             this.Controls.Add(this.richTextBox_events);
@@ -842,6 +961,19 @@
         private System.Windows.Forms.RichTextBox richTextBox_events;
         private System.Windows.Forms.TextBox textBox_U_stability_Load_no;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ToolStripMenuItem inputFilesConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem communicationSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eMSDMSFunctionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem voltageStabilityDiagramInANodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pMUOrchestratorToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox_loadfile_remote;
+        private System.Windows.Forms.CheckBox checkBox_loadfile_auto;
+        private System.Windows.Forms.ToolStripMenuItem configurationFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configInformationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadConfigurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projectDatabseReportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem basicToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extendedToolStripMenuItem;
     }
 }
 

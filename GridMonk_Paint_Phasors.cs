@@ -134,10 +134,10 @@ namespace GridMonC
                     g.FillRectangle(b1White, -X0_shift + object_x0, -Y0_shift + object_y0, 110, 20);
                 //g.DrawString(graph_phasors[gph_object_no, graph_phasors_PROP_name], Font1, b2Blue, object_x0 + 1, object_y0 + 10 * 0);
                 g.DrawString("EnlargeE", Font3, b0Black, -X0_shift + object_x0 + 55, -Y0_shift + object_y0 + 10 * 0);
-                g.DrawString(graph_phasors[gph_object_no, graph_phasors_PROP_gph_text], Font3, b2Blue, object_x0 + 1, object_y0 + 10 * 0);
+                g.DrawString(graph_phasors[gph_object_no, graph_phasors_PROP_gph_text], Font3, b2Blue, -X0_shift + object_x0 + 1, -Y0_shift + object_y0 + 10 * 0);
                 return;
             }
-            g.DrawString(graph_phasors[gph_object_no, graph_phasors_PROP_gph_text], Font3, b2Blue, object_x0 + 1, object_y0 + 10 * 0);
+            g.DrawString(graph_phasors[gph_object_no, graph_phasors_PROP_gph_text], Font3, b2Blue, -X0_shift + object_x0 + 1, -Y0_shift + object_y0 + 10 * 0);
 
             g.DrawEllipse(p2LightGray, gph_phasors_legend_dx + x0 - radius_magnified, y0 - radius_magnified, radius_magnified * 2, radius_magnified * 2); // Max circle
             g.DrawEllipse(p3DarkGray, gph_phasors_legend_dx + x0 - radius_n_magnified, y0 - radius_n_magnified, radius_n_magnified * 2, radius_n_magnified * 2); // Max circle
@@ -334,7 +334,7 @@ namespace GridMonC
                 if (magnif_real >= 3) legend_dispay_number = gph_phasors_number_MAX;
                 // Display legend with phashors sources
                 //g.DrawString("Phasors:", Font1, b2Blue, object_x0 + 1, object_y0 + 10 * 0);
-                g.DrawString("  SET 1 ", Font1, b2Blue, object_x0 + 1, object_y0 + 10 * 1 +5);
+                g.DrawString("  SET 1 ", Font1, b2Blue, -X0_shift + object_x0 + 1, -Y0_shift + object_y0 + 10 * 1 +5);
                 for (int j = 0; j < legend_dispay_number; j++)
                 {
                     module = j / 3;

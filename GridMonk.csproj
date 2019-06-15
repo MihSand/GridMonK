@@ -108,6 +108,9 @@
     <Compile Include="GridMonk_Paint_SmartMeters.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GridMonk_Read_OpenDSS_Results.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GridMonk_U_stability.cs">
       <SubType>Form</SubType>
     </Compile>

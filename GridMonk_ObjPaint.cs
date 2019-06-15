@@ -59,6 +59,15 @@ namespace GridMonC
                     lines[nr_line, lines_PROP_pin2_x] = pin2_x.ToString();
                     lines[nr_line, lines_PROP_pin2_y] = pin2_y.ToString();
                 }
+                if ((lines[nr_line, lines_PROP_gph_direction] == "W") && (lines[nr_line, lines_PROP_gph_DrawType] == ""))
+                {
+                    pin1_x = x0 + 6; pin1_y = y0 + 2;
+                    lines[nr_line, lines_PROP_pin1_x] = pin1_x.ToString();
+                    lines[nr_line, lines_PROP_pin1_y] = pin1_y.ToString();
+                    pin2_x = x0 + 6; pin2_y = y0 + 2 + line_dy - 2;
+                    lines[nr_line, lines_PROP_pin2_x] = pin2_x.ToString();
+                    lines[nr_line, lines_PROP_pin2_y] = pin2_y.ToString();
+                }
                 if ((lines[nr_line, lines_PROP_gph_direction] == "N") && (lines[nr_line, lines_PROP_gph_DrawType] == "L2S0"))
                 {
                     pin1_x = x0 + 2; pin1_y = y0 + 6;
@@ -523,6 +532,27 @@ namespace GridMonC
 
         }
 
+        /****************** Desenare obiecte de tip trafo si alte functii ale acestui obiect ******************/
+        private void trafos_properties_calculation(int nr_trafo)
+        {
+            if ((trafos[nr_trafo, trafos_PROP_x0] != "") && (trafos[nr_trafo, trafos_PROP_y0] != ""))
+            {
+                // calculate pins position inside the line representation on the grid picture
+                int x0 = int.Parse(trafos[nr_trafo, trafos_PROP_x0]);
+                int y0 = int.Parse(trafos[nr_trafo, trafos_PROP_y0]);
+                int pin1_x = 0, pin1_y = 0, pin2_x = 0, pin2_y = 0;
+                if ((trafos[nr_trafo, trafos_PROP_gph_direction] == "W") && (trafos[nr_trafo, trafos_PROP_gph_DrawType] == ""))
+                {
+                    pin1_x = x0 + 14; pin1_y = y0 + 2;
+                    trafos[nr_trafo, trafos_PROP_pin1_x] = pin1_x.ToString();
+                    trafos[nr_trafo, trafos_PROP_pin1_y] = pin1_y.ToString();
+                    pin2_x = x0 + 16; pin2_y = y0 + 2 + line_dy - 2;
+                    trafos[nr_trafo, trafos_PROP_pin2_x] = pin2_x.ToString();
+                    trafos[nr_trafo, trafos_PROP_pin2_y] = pin2_y.ToString();
+                }
+            }
+        }
+
         /****************** Desenare obiecte de tip trafo ******************/
         private void Paint_trafos(object sender, PaintEventArgs e)
         {
@@ -557,8 +587,8 @@ namespace GridMonC
 
                 g.FillRectangle(b4LightBlue, object_x0, object_y0, object_dx + 20, line_dy);
 
-                s1 = "P: "; g.DrawString(s1, Font1, b2Blue, object_x0 + 31, object_y0 + 2);
-                s1 = "Q: "; g.DrawString(s1, Font1, b2Blue, object_x0 + 31, object_y0 + 12);
+                //s1 = "P: "; g.DrawString(s1, Font1, b2Blue, object_x0 + 31, object_y0 + 2);
+                //s1 = "Q: "; g.DrawString(s1, Font1, b2Blue, object_x0 + 31, object_y0 + 12);
                 s1 = "T: " + trafos[i1, trafos_PROP_name];
                 if (trafos[i1, trafos_PROP_gph_selected] == "1") g.DrawString(s1, Font1bold, b6Red, object_x0 + 31, object_y0 + 22);
                 else g.DrawString(s1, Font1, b0Black, object_x0 + 31, object_y0 + 22);
@@ -570,23 +600,55 @@ namespace GridMonC
                 //s1 = "conns=" + "(dw)"; g.DrawString(s1, Font1, b0Black, object_x0 + 20, object_y0 + 42);
                 s1 = "tap=" + trafos[i1, trafos_PROP_tap]; g.DrawString(s1, Font1, b0Black, object_x0 + 31, object_y0 + 62);
 
+                // display P,Q,S for the terminal 1 of the transformer (upper part for direction=N)
                 double P3ph = 0;
-                if ((trafos[i1, trafos_PROP_P1] != "") && (trafos[i1, trafos_PROP_P2] != "") && (trafos[i1, trafos_PROP_P3] != ""))
+                bool P3ph_is_calculated = false;
+                if ((trafos[i1, trafos_PROP_P1] != "") && (trafos[i1, trafos_PROP_P2] != "") && (trafos[i1, trafos_PROP_P3] != "")) { 
                     P3ph = double.Parse(trafos[i1, trafos_PROP_P1]) + double.Parse(trafos[i1, trafos_PROP_P2]) + double.Parse(trafos[i1, trafos_PROP_P3]);
-                s1 = "P: " + P3ph.ToString("####0.0");
-                trafos[i1, trafos_PROP_P] = P3ph.ToString("####0");
-                g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 72);
+                    s1 = "P: " + P3ph.ToString("####0.0");
+                    trafos[i1, trafos_PROP_P] = P3ph.ToString("####0");
+                    g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 2);
+                    P3ph_is_calculated = false;
+                }
 
                 double Q3ph = 0;
-                if ((trafos[i1, trafos_PROP_Q1] != "") && (trafos[i1, trafos_PROP_Q2] != "") && (trafos[i1, trafos_PROP_Q3] != ""))
+                bool Q3ph_is_calculated = false;
+                if ((trafos[i1, trafos_PROP_Q1] != "") && (trafos[i1, trafos_PROP_Q2] != "") && (trafos[i1, trafos_PROP_Q3] != "")) { 
                     Q3ph = double.Parse(trafos[i1, trafos_PROP_Q1]) + double.Parse(trafos[i1, trafos_PROP_Q2]) + double.Parse(trafos[i1, trafos_PROP_Q3]);
-                s1 = "Q: " + Q3ph.ToString("####0.0");
-                trafos[i1, trafos_PROP_Q] = Q3ph.ToString("####0");
-                g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 82);
+                    s1 = "Q: " + Q3ph.ToString("####0.0");
+                    trafos[i1, trafos_PROP_Q] = Q3ph.ToString("####0");
+                    g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 12);
+                    Q3ph_is_calculated = true;
+                }
 
-                double S3ph = Math.Sqrt(P3ph * P3ph + Q3ph * Q3ph);
+                double S3ph;
+                if((P3ph_is_calculated==true) && (Q3ph_is_calculated==true)) { 
+                    S3ph = Math.Sqrt(P3ph * P3ph + Q3ph * Q3ph);
+                    s1 = "S: " + S3ph.ToString("####0");
+                    trafos[i1, trafos_PROP_S] = S3ph.ToString("####0");
+                    g.DrawString(s1, Font1, b2Blue, object_x0 + 76, object_y0 + 12);
+                }
+
+                // display P,Q,S for the terminal 2 of the transformer (lower part for direction=N)
+                P3ph = 0;
+                if ((trafos[i1, trafos_PROP_P1_t2] != "") && (trafos[i1, trafos_PROP_P2_t2] != "") && (trafos[i1, trafos_PROP_P3_t2] != "")) { 
+                    P3ph = double.Parse(trafos[i1, trafos_PROP_P1_t2]) + double.Parse(trafos[i1, trafos_PROP_P2_t2]) + double.Parse(trafos[i1, trafos_PROP_P3_t2]);
+                    s1 = "P: " + P3ph.ToString("####0.0");
+                    trafos[i1, trafos_PROP_P_t2] = P3ph.ToString("####0");
+                    g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 72);
+                }
+
+                Q3ph = 0;
+                if ((trafos[i1, trafos_PROP_Q1_t2] != "") && (trafos[i1, trafos_PROP_Q2_t2] != "") && (trafos[i1, trafos_PROP_Q3_t2] != "")) { 
+                    Q3ph = double.Parse(trafos[i1, trafos_PROP_Q1_t2]) + double.Parse(trafos[i1, trafos_PROP_Q2_t2]) + double.Parse(trafos[i1, trafos_PROP_Q3_t2]);
+                    s1 = "Q: " + Q3ph.ToString("####0.0");
+                    trafos[i1, trafos_PROP_Q_t2] = Q3ph.ToString("####0");
+                    g.DrawString(s1, Font1, b2Blue, object_x0 + 20, object_y0 + 82);
+                }
+
+                S3ph = Math.Sqrt(P3ph * P3ph + Q3ph * Q3ph);
                 s1 = "S: " + S3ph.ToString("####0");
-                trafos[i1, trafos_PROP_S] = S3ph.ToString("####0");
+                trafos[i1, trafos_PROP_S_t2] = S3ph.ToString("####0");
                 g.DrawString(s1, Font1, b2Blue, object_x0 + 76, object_y0 + 82);
 
                 g.DrawEllipse(p5DarkBlue, object_x0 + 11, object_y0, 6, 6); // Pin_Bus1
@@ -596,8 +658,8 @@ namespace GridMonC
                 g.FillRectangle(b2Blue, object_x0 + 11, object_y0 + 10, 8, 8); // Brk1
                 g.FillRectangle(b2Blue, object_x0 + 11, object_y0 + line_dy - 18, 8, 8); // Brk2
 
-                g.DrawEllipse(p5DarkBlue2, object_x0, object_y0 + line_dy / 2 - 20, 28, 28); // Pin_Bus1
-                g.DrawEllipse(p5DarkBlue2, object_x0, object_y0 + line_dy / 2 - 10, 28, 28); // Pin_Bus1
+                g.DrawEllipse(p5DarkBlue2, object_x0, object_y0 + line_dy / 2 - 20, 28, 28); // Cicle 1
+                g.DrawEllipse(p5DarkBlue2, object_x0, object_y0 + line_dy / 2 - 10, 28, 28); // Circle 2
 
                 if (default_xy == 1) obj_number++;
             }
@@ -615,6 +677,12 @@ namespace GridMonC
                 if (loads[nr_load, loads_PROP_gph_direction] == "N")
                 {
                     pin1_x = x0 + object_dx / 2; pin1_y = y0 + 2;
+                    loads[nr_load, loads_PROP_pin1_x] = pin1_x.ToString();
+                    loads[nr_load, loads_PROP_pin1_y] = pin1_y.ToString();
+                }
+                if (loads[nr_load, loads_PROP_gph_direction] == "W")
+                {
+                    pin1_x = x0; pin1_y = y0 + +line_dy / 2 - 4;
                     loads[nr_load, loads_PROP_pin1_x] = pin1_x.ToString();
                     loads[nr_load, loads_PROP_pin1_y] = pin1_y.ToString();
                 }
@@ -1382,13 +1450,13 @@ namespace GridMonC
                     g.DrawString("+20%", Font1, b0Black, object_x0 - 6, object_y0 - 20);
                     //g.DrawString("0", Font1, b0Black, object_x0 + 6, object_y0 + +dy);
                     g.DrawString("-20%", Font1, b0Black, object_x0-6, object_y0 + +dy +8);
-
+                    
                     int dymas = 95;
-                    if(trafos[0, trafos_PROP_S] != "") dymas = int.Parse(trafos[0, trafos_PROP_S])* 95 / 630;
+                    /*if(trafos[0, trafos_PROP_S] != "") dymas = int.Parse(trafos[0, trafos_PROP_S]) * 95 / 630;
                     if((dymas>=0) && (dymas <= 95)) g.FillRectangle(b13Yellow, object_x0+2, object_y0 +dy - dymas, dx/4, dymas);
                     else if (dymas > 95) g.FillRectangle(b6Red, object_x0 + 2, object_y0 + dy - dymas, dx / 4, dymas);
                     else g.FillRectangle(b6Red, object_x0+2, object_y0 + dy + dymas, dx/4, -dymas);
-
+                    */
                     dymas = 95;
                     if (trafos[0, trafos_PROP_P] != "") dymas = int.Parse(trafos[0, trafos_PROP_P]) * 95 / 630;
                     if (dymas >= 0) g.FillRectangle(b0Black, object_x0 + 2 + dx / 4, object_y0 + dy - dymas, dx / 4, dymas);
@@ -1740,22 +1808,44 @@ namespace GridMonC
                     if (lines[l1, lines_PROP_bus1] == nodes[n1, nodes_PROP_bus])
                         if ((lines[l1, lines_PROP_pin1_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
                         {
-                            x1 = int.Parse(lines[l1, lines_PROP_pin1_x]);
-                            y1 = int.Parse(lines[l1, lines_PROP_pin1_y]);
-                            x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]);
-                            y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]);
+                            x1 = int.Parse(lines[l1, lines_PROP_pin1_x]) - X0_shift;
+                            y1 = int.Parse(lines[l1, lines_PROP_pin1_y]) - Y0_shift;
+                            x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                            y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
                             g.DrawLine(p1Black, x1, y1, x2, y2);
                         }
                         if (lines[l1, lines_PROP_bus2] == nodes[n1, nodes_PROP_bus])
                         if ((lines[l1, lines_PROP_pin2_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
                         {
-                            x1 = int.Parse(lines[l1, lines_PROP_pin2_x]);
-                            y1 = int.Parse(lines[l1, lines_PROP_pin2_y]);
-                            x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]);
-                            y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]);
+                            x1 = int.Parse(lines[l1, lines_PROP_pin2_x]) - X0_shift;
+                            y1 = int.Parse(lines[l1, lines_PROP_pin2_y]) - Y0_shift;
+                            x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                            y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
                             g.DrawLine(p1Black, x1, y1, x2, y2);
                         }
             
+                    }
+                    // Trafos to nodes 
+                    for (int l1 = 0; l1 < trafos_no; l1++)
+                    {
+                        if (trafos[l1, trafos_PROP_bus1] == nodes[n1, nodes_PROP_bus])
+                            if ((trafos[l1, trafos_PROP_pin1_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
+                            {
+                                x1 = int.Parse(trafos[l1, trafos_PROP_pin1_x]) - X0_shift;
+                                y1 = int.Parse(trafos[l1, trafos_PROP_pin1_y]) - Y0_shift;
+                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
+                                g.DrawLine(p1Black, x1, y1, x2, y2);
+                            }
+                        if (trafos[l1, trafos_PROP_bus2] == nodes[n1, nodes_PROP_bus])
+                            if ((trafos[l1, trafos_PROP_pin2_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
+                            {
+                                x1 = int.Parse(trafos[l1, trafos_PROP_pin2_x]) - X0_shift;
+                                y1 = int.Parse(trafos[l1, trafos_PROP_pin2_y]) - Y0_shift;
+                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
+                                g.DrawLine(p1Black, x1, y1, x2, y2);
+                            }
                     }
                     // Loads to nodes 
                     for (int l1 = 0; l1 < loads_no; l1++)
@@ -1763,10 +1853,10 @@ namespace GridMonC
                         if (loads[l1, loads_PROP_bus] == nodes[n1, nodes_PROP_bus])
                             if ((loads[l1, loads_PROP_pin1_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
                             {
-                                x1 = int.Parse(loads[l1, loads_PROP_pin1_x]);
-                                y1 = int.Parse(loads[l1, loads_PROP_pin1_y]);
-                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]);
-                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]);
+                                x1 = int.Parse(loads[l1, loads_PROP_pin1_x]) - X0_shift;
+                                y1 = int.Parse(loads[l1, loads_PROP_pin1_y]) - Y0_shift;
+                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
                                 g.DrawLine(p1Black, x1, y1, x2, y2);
                             }
                     }
@@ -1776,10 +1866,10 @@ namespace GridMonC
                         if (generators[l1, generators_PROP_bus] == nodes[n1, nodes_PROP_bus])
                             if ((generators[l1, generators_PROP_pin1_x] != "") && (nodes[n1, nodes_PROP_x0] != ""))
                             {
-                                x1 = int.Parse(generators[l1, generators_PROP_pin1_x]);
-                                y1 = int.Parse(generators[l1, generators_PROP_pin1_y]);
-                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]);
-                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]);
+                                x1 = int.Parse(generators[l1, generators_PROP_pin1_x]) - X0_shift;
+                                y1 = int.Parse(generators[l1, generators_PROP_pin1_y]) - Y0_shift;
+                                x2 = int.Parse(nodes[n1, nodes_PROP_pin1_x]) - X0_shift;
+                                y2 = int.Parse(nodes[n1, nodes_PROP_pin1_y]) - Y0_shift;
                                 g.DrawLine(p1Black, x1, y1, x2, y2);
                             }
                     }
@@ -2077,24 +2167,26 @@ namespace GridMonC
             }
             catch { }
 
-            Paint_lines(sender, e);
-            Paint_trafos(sender, e);
-            Paint_loads(sender, e); // loads contain also storage and EV
-            Paint_generators(sender, e);
-            nodes_properties_calculation(); Paint_nodes(sender, e);
-            Paint_labels(sender, e);
-            Paint_interracts(sender, e);
-            Paint_SimpleGph(sender, e);
-            //Paint_polylines(sender, e);
-            Paint_polylines_from_nodes(sender, e);
-            Paint_measurements(sender, e);
-            Paint_graph_phasors(sender, e);
-            Paint_Pie(sender, e);
-            Paint_Smart_Meter(sender, e);
-            Paint_PMU(sender, e);
-            //Paint_EVs(sender, e);
-            Paint_console_Training(sender, e);
-            Paint_graph_sankeys(sender, e);
+            if(_GridMonK_GUI_refresh == "Refresh") { 
+                Paint_lines(sender, e);
+                Paint_trafos(sender, e);
+                Paint_loads(sender, e); // loads contain also storage and EV
+                Paint_generators(sender, e);
+                nodes_properties_calculation(); Paint_nodes(sender, e);
+                Paint_labels(sender, e);
+                Paint_interracts(sender, e);
+                Paint_SimpleGph(sender, e);
+                //Paint_polylines(sender, e);
+                Paint_polylines_from_nodes(sender, e);
+                Paint_measurements(sender, e);
+                Paint_graph_phasors(sender, e);
+                Paint_Pie(sender, e);
+                Paint_Smart_Meter(sender, e);
+                Paint_PMU(sender, e);
+                //Paint_EVs(sender, e);
+                Paint_console_Training(sender, e);
+                Paint_graph_sankeys(sender, e);
+            }
 
             t1 = DateTime.Now;
             int t2s = t1.Second, t2ms = t1.Millisecond; // dupa generate_output_dss()

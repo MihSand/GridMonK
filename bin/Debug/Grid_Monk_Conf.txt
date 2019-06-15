@@ -6,8 +6,10 @@ Grid_Projects_Path=E:\App\VStudio\GridMonK\GM_Projects
 #
 #
 ##### Selection of one of the following projects:
-GridMonk_Project=UPB_Trainer_01
+###GridMonk_Project=UPB_Trainer_01
+###GridMonk_Project=PAPER_UPB_Trainer_03_UniRCon
 ###GridMonk_Project=UPB_Primer_01
+###GridMonk_Project=PHD_GHINEA_01
 ###GridMonk_Project=UPB_Primer_02
 ###GridMonk_Project=UPB_TASE_01
 #######   SVC_Caracteristici_SEE:
@@ -22,7 +24,7 @@ GridMonk_Project=UPB_Trainer_01
 ###GridMonk_Project=UPB_Stabilitate_Tensiune_01
 ###GridMonk_Project=UPB_Stabilitate_Tensiune_01A
 ###GridMonk_Project=UPB_Microgrid_01
-###GridMonk_Project=WSG_MESOGIA_01
+GridMonk_Project=WSG_MESOGIA_01
 ###GridMonk_Project=UPB_Trainer_02_Forecast24
 ###GridMonk_Project=SST_Microgrid_01
 ###GridMonk_Project=SST_Microgrid_02

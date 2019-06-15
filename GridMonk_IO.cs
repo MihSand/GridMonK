@@ -39,6 +39,11 @@ namespace GridMonC
 
         private void Button_Load_file_Click(object sender, EventArgs e)
         {
+            Load_project();
+        }
+
+        private void Load_project()
+        {
             richTextBox_events.Text = ""; // la o lansare noua se reseteaza acest text
             Timeframe_crt = -1; // The timeframe is set to -1, which correspond to RMB
 
@@ -198,6 +203,7 @@ namespace GridMonC
                         if (column_in[0] == "!!sim_storage") loads[loads_no, loads_PROP_sim_storage] = column_in[1];
                         if (column_in[0] == "!!sim_type") loads[loads_no, loads_PROP_sim_type] = column_in[1];
                         if (column_in[0] == "!!sim_type_attr") loads[loads_no, loads_PROP_sim_type_attr] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgrid") loads[loads_no, loads_PROP_MicroGrid1] = column_in[1];
                     }
                     if (loads[loads_no, loads_PROP_brk] == "") loads[loads_no, loads_PROP_brk] = "on";
                     if (loads[loads_no, loads_PROP_brk] == "off") loads[loads_no, loads_PROP_bus] += "@" + loads[loads_no, loads_PROP_name];
@@ -220,6 +226,8 @@ namespace GridMonC
                         if (column_in[0] == "csvfile") loadshapes[loadshapes_no, loadshapes_PROP_csvfile] = column_in[1];
                         if (column_in[0] == "PQCSVFile") loadshapes[loadshapes_no, loadshapes_PROP_PQCSVFile] = column_in[1];
                         if (column_in[0] == "mult") loadshapes[loadshapes_no, loadshapes_PROP_mult] = column_in[1];
+                        if (column_in[0] == "!!calculate_Hour2Min") loadshapes[loadshapes_no, loadshapes_PROP_calculate_Hour2Min] = column_in[1];
+                        if (column_in[0] == "!!replace_PQCSVFile") loadshapes[loadshapes_no, loadshapes_PROP_replace_PQCSVFile] = column_in[1];
                     }
                     loadshapes_no++;
                 }
@@ -268,8 +276,15 @@ namespace GridMonC
                         if (column.Contains("!!x0=")) trafos[trafos_no, trafos_PROP_x0] = column.Remove(0, 5);
                         if (column.Contains("!!y0=")) trafos[trafos_no, trafos_PROP_y0] = column.Remove(0, 5);
                         if (column.Contains("!!gph_direction=")) trafos[trafos_no, trafos_PROP_gph_direction] = column.Remove(0, 16);
+                        //  =0.4
+                        if (column_in[0].ToLower() == "!!kvsprm") trafos[trafos_no, trafos_PROP_U_Prm_nom] = column_in[1];
+                        if (column_in[0].ToLower() == "!!kvssec1") trafos[trafos_no, trafos_PROP_U_Sec1_nom] = column_in[1];
+                        if (column_in[0].ToLower() == "!!kvssec2") trafos[trafos_no, trafos_PROP_U_Sec2_nom] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgridprm") trafos[trafos_no, trafos_PROP_MicroGridPrm] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgridsec1") trafos[trafos_no, trafos_PROP_MicroGridSec1] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgridsec2") trafos[trafos_no, trafos_PROP_MicroGridSec2] = column_in[1];
                     }
-                    if(trafos[trafos_no, trafos_PROP_busses] != "")
+                    if (trafos[trafos_no, trafos_PROP_busses] != "")
                     { // Example of busses description: (N2,N3)
                         char[] delimiterCharsTr = { '(', ',', ')' };
                         string[] lineTr = trafos[trafos_no, trafos_PROP_busses].Split(delimiterCharsTr);
@@ -284,6 +299,11 @@ namespace GridMonC
                         trafos[trafos_no, trafos_PROP_busses] = 
                             "(" + trafos[trafos_no, trafos_PROP_bus1] + "," + trafos[trafos_no, trafos_PROP_bus2] + ")";
                     }
+
+                    if ((trafos[trafos_no, trafos_PROP_x0] != "") && (trafos[trafos_no, trafos_PROP_y0] != ""))
+                        // we can calculate pins position
+                        trafos_properties_calculation(trafos_no);
+
                     trafos_no++;
                 }
                 // analyze "line" objects
@@ -318,6 +338,9 @@ namespace GridMonC
                         if (column_in[0] == "!!Font2") lines[lines_no, lines_PROP_Font2] = column_in[1];
                         if (column_in[0] == "!!Font2_Mask") lines[lines_no, lines_PROP_Font2_Mask] = column_in[1];
                         if (column_in[0] == "!!HidePinsNo") lines[lines_no, lines_PROP_HidePinsNo] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgrid1") lines[lines_no, lines_PROP_MicroGrid1] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgrid2") lines[lines_no, lines_PROP_MicroGrid2] = column_in[1];
+                        if (column_in[0].ToLower() == "!!kv") lines[lines_no, lines_PROP_voltage] = column_in[1];
                     }
                     if (lines[lines_no, lines_PROP_brk1] == "") lines[lines_no, lines_PROP_brk1] = "on";
                     if (lines[lines_no, lines_PROP_brk2] == "") lines[lines_no, lines_PROP_brk2] = "on";
@@ -400,6 +423,7 @@ namespace GridMonC
                         if (column_in[0].ToLower() == "status") generators[generators_no, generators_PROP_status] = column_in[1];
                         if (column_in[0] == "!!x0") generators[generators_no, generators_PROP_x0] = column_in[1];
                         if (column_in[0] == "!!y0") generators[generators_no, generators_PROP_y0] = column_in[1];
+                        if (column_in[0].ToLower() == "!!microgrid") generators[generators_no, generators_PROP_MicroGrid1] = column_in[1];
                         if (column_in[0] == "!!DrawType") generators[generators_no, generators_PROP_gph_DrawType] = column_in[1];
                         if (column.Contains("!!gph_direction=")) generators[generators_no, generators_PROP_gph_direction] = column.Remove(0, 16);
                     }
@@ -752,6 +776,16 @@ namespace GridMonC
                 {
                     Open_DSS_Edit_string = line;
                 }
+                if (line1[0].ToLower() == "solve") // we have a new load declared
+                {
+                    foreach (string column in line1)
+                    {
+                        column_in = column.Split('=');
+                        if (column_in[0].ToLower() == "mode") OpenDSS_solve_mode = column_in[1];
+                        if (column_in[0].ToLower() == "number") OpenDSS_solve_number = column_in[1];
+                        if (column_in[0].ToLower() == "stepsize") OpenDSS_solve_stepsize = column_in[1];
+                    }
+                }
 
                 if (line1[0].ToLower() == "!!new")
                     if(line1[1].ToLower()== "!!global_info") // we have a new load declared
@@ -760,7 +794,7 @@ namespace GridMonC
                         if (column_in[0].ToLower() == "!!nodes_wires_connection") _GridMonK_nodes_wires_connection = column_in[1];
                     }
 
-                if ((line1[0] == "!!set") && (line1[1].Contains("grid_frequency="))) // we have a new load declared
+                if ((line1[0] == "!!set") && (line1[1].Contains("grid_frequency="))) // we set the system frequency
                 {
                     try
                     {
@@ -771,7 +805,10 @@ namespace GridMonC
                     catch { grid_frequency = 50.000; }
                 }
 
+                if ((line1[0] == "!!set") && (line1[1].Contains("Scenario_timeframe_length="))) // we have a new load declared
+                    Scenario_timeframe_length = line1[1].Remove(0, 26);
             }
+
             graph_phasors_no++; // daca era -1 va deveni zero, adica nu s-a gasit nici un astfel de obiect
             graph_sankeys_no++; // daca era -1 va deveni zero, adica nu s-a gasit nici un astfel de obiect
 
@@ -780,6 +817,40 @@ namespace GridMonC
             add_nodes_properties_from_paramaterisation_nodes_metadata();
 
             generate_output_dss("multi_LP_RMB_and_24h", "Forecast");  // producere fisier de iesire compatibil dss.
+
+            double[] loadshapes24p = new double[24]; // 24 hours active power P
+            double[] loadshapes24q = new double[24]; // 24 hours reactive power Q
+            double[] loadshapes1440p = new double[24];
+            double[] loadshapes1440q = new double[24];
+            for (int l1 = 0; l1 < loadshapes_no; l1++)
+            {
+                if (loadshapes[l1, loadshapes_PROP_calculate_Hour2Min] != "")
+                {
+                    string loadshape_file = Grid_Projects_Path + @"/" + GridMonk_Project + @"/"
+                        + loadshapes[l1, loadshapes_PROP_PQCSVFile];
+                    string[] loadshape_file_text = System.IO.File.ReadAllLines(loadshape_file);
+                    int hour = 0;
+                    foreach (string line in loadshape_file_text)
+                    {
+                        char[] delimiterChars1 = { '\t', ',', ' ' };
+                        string[] line1 = line.Split(delimiterChars1);
+                        loadshapes24p[hour] = double.Parse(line1[0]);
+                        loadshapes24q[hour] = double.Parse(line1[1]);
+                        hour++;
+                    }
+                    string loadshape_out = "";
+                    for(int h1=0; h1<24; h1++)
+                    {
+                        for(int m1=0; m1<60; m1++)
+                        {
+                            loadshape_out += loadshapes24p[h1].ToString() + "," + loadshapes24q[h1].ToString() +"\n";
+                        }
+                    }
+                    string loadshape_file_out = Grid_Projects_Path + @"/" + GridMonk_Project + @"/"
+                        + loadshapes[l1, loadshapes_PROP_calculate_Hour2Min];
+                    File.WriteAllText(loadshape_file_out, loadshape_out);
+                }
+            }
 
             // Generare raport obiecte citite, afisate in consola nr. 1
             generate_console1_report();
@@ -865,7 +936,7 @@ namespace GridMonC
             for (int l1 = 0; l1 < lines_no; l1++)
             {
                 found_node = 0;
-                for (int n1 = 0; n1 < nodes_no; n1++)
+                for (int n1 = 0; n1 < nodes_no; n1++) {
                     if (lines[l1, lines_PROP_bus1] == nodes[n1, nodes_PROP_bus])
                     {
                         found_node = 1;
@@ -873,6 +944,7 @@ namespace GridMonC
                         nodes[n1, nodes_PROP_list_of_connected_objects] +=
                             "line." + lines[l1, lines_PROP_name] + "." + lines[l1, lines_PROP_bus1] + ",";
                     }
+                }
                 if (found_node == 0)
                 {
                     nodes[nodes_no, nodes_PROP_bus] = lines[l1, lines_PROP_bus1];
@@ -886,14 +958,19 @@ namespace GridMonC
                     }
                     nodes_no++;
                 }
-                /*found_node = 0;
+                
+                // scan the second bus of the current line
+                found_node = 0;
                 for (int n1 = 0; n1 < nodes_no; n1++)
+                {
                     if (lines[l1, lines_PROP_bus2] == nodes[n1, nodes_PROP_bus])
                     {
-                        found_node = 1; //n1 = nodes_no;
+                        found_node = 1;
+                        //n1 = nodes_no;
                         nodes[n1, nodes_PROP_list_of_connected_objects] +=
                             "line." + lines[l1, lines_PROP_name] + "." + lines[l1, lines_PROP_bus2] + ",";
                     }
+                }
                 if (found_node == 0)
                 {
                     nodes[nodes_no, nodes_PROP_bus] = lines[l1, lines_PROP_bus2];
@@ -904,9 +981,38 @@ namespace GridMonC
                     {
                         nodes[nodes_no, nodes_PROP_U_source_object] = "line";
                         nodes[nodes_no, nodes_PROP_U_source_object_number] = l1.ToString();
+                        nodes[nodes_no, nodes_PROP_U_source_object_name] = lines[l1, lines_PROP_name];
                     }
                     nodes_no++;
-                }*/
+                }
+                
+            }
+            // scan trafos
+            for (int l1 = 0; l1 < trafos_no; l1++)
+            {
+                found_node = 0;
+                for (int n1 = 0; n1 < nodes_no; n1++)
+                    if (trafos[l1, trafos_PROP_bus1] == nodes[n1, nodes_PROP_bus])
+                    {
+                        found_node = 1;
+                        //n1 = nodes_no;
+                        nodes[n1, nodes_PROP_list_of_connected_objects] +=
+                            "trafo." + trafos[l1, trafos_PROP_name] + "." + trafos[l1, trafos_PROP_bus1] + ",";
+                    }
+                if (found_node == 0)
+                {
+                    nodes[nodes_no, nodes_PROP_bus] = trafos[l1, trafos_PROP_bus1];
+                    nodes[nodes_no, nodes_PROP_name] = trafos[l1, trafos_PROP_name];
+                    nodes[nodes_no, nodes_PROP_list_of_connected_objects] +=
+                        "trafo." + trafos[l1, trafos_PROP_name] + "." + trafos[l1, trafos_PROP_bus1] + ",";
+                    if (nodes[nodes_no, nodes_PROP_U_source_object] == "")
+                    {
+                        nodes[nodes_no, nodes_PROP_U_source_object] = "trafo";
+                        nodes[nodes_no, nodes_PROP_U_source_object_number] = l1.ToString();
+                        nodes[nodes_no, nodes_PROP_U_source_object_name] = trafos[l1, trafos_PROP_name];
+                    }
+                    nodes_no++;
+                }
             }
             // Scan generators
             for (int g1 = 0; g1 < generators_no; g1++)
@@ -1031,7 +1137,14 @@ namespace GridMonC
                     s1 += " interval=" + loadshapes[ld1, loadshapes_PROP_interval].Replace("#", " ");
                 else s1 += " interval=" + loadshapes[ld1, loadshapes_PROP_interval];
                 if (loadshapes[ld1, loadshapes_PROP_csvfile] != "") s1 += " csvfile=" + loadshapes[ld1, loadshapes_PROP_csvfile];
-                if (loadshapes[ld1, loadshapes_PROP_PQCSVFile] != "") s1 += " PQCSVFile=" + loadshapes[ld1, loadshapes_PROP_PQCSVFile];
+
+                if (loadshapes[ld1, loadshapes_PROP_PQCSVFile] != "")
+                {
+                    if(loadshapes[ld1, loadshapes_PROP_replace_PQCSVFile]=="")
+                        s1 += " PQCSVFile=" + loadshapes[ld1, loadshapes_PROP_PQCSVFile];
+                    else
+                        s1 += " PQCSVFile=" + loadshapes[ld1, loadshapes_PROP_replace_PQCSVFile];
+                }
                 //s1 += " mult=" + loadshapes[ld1, loadshapes_PROP_mult];
                 s1 += "\n";
             }
@@ -1075,6 +1188,9 @@ namespace GridMonC
                 if (lines[l1, lines_PROP_gph_direction] != "") s1 += " !!gph_direction=" + lines[l1, lines_PROP_gph_direction];
                 if (lines[l1, lines_PROP_brk1] != "") s1 += " !!brk1=" + lines[l1, lines_PROP_brk1];
                 if (lines[l1, lines_PROP_brk2] != "") s1 += " !!brk2=" + lines[l1, lines_PROP_brk2];
+                if (lines[l1, lines_PROP_voltage] != "") s1 += " !!kV=" + lines[l1, lines_PROP_voltage];
+                if (lines[l1, lines_PROP_MicroGrid1] != "") s1 += " !!MicroGrid1=" + lines[l1, lines_PROP_MicroGrid1];
+                if (lines[l1, lines_PROP_MicroGrid2] != "") s1 += " !!MicroGrid2=" + lines[l1, lines_PROP_MicroGrid2];
                 s1 += "\n";
             }
             s1 += "!\n";
@@ -1123,6 +1239,7 @@ namespace GridMonC
                 if (loads[ld1, loads_PROP_brk] != "") s1 += " !!brk=" + loads[ld1, loads_PROP_brk];
                 if (loads[ld1, loads_PROP_x0] != "") s1 += " !!x0=" + loads[ld1, loads_PROP_x0];
                 if (loads[ld1, loads_PROP_y0] != "") s1 += " !!y0=" + loads[ld1, loads_PROP_y0];
+                if (loads[ld1, loads_PROP_MicroGrid1] != "") s1 += " !!MicroGrid=" + loads[ld1, loads_PROP_MicroGrid1];
                 if (loads[ld1, loads_PROP_gph_direction] != "") s1 += " !!gph_direction=" + loads[ld1, loads_PROP_gph_direction];
                 s1 += "\n";
             }
@@ -1152,6 +1269,7 @@ namespace GridMonC
                 if (generators[g1, generators_PROP_duty] != "") s1 += " Duty=" + generators[g1, generators_PROP_duty];
                 if (generators[g1, generators_PROP_x0] != "") s1 += " !!x0=" + generators[g1, generators_PROP_x0];
                 if (generators[g1, generators_PROP_y0] != "") s1 += " !!y0=" + generators[g1, generators_PROP_y0];
+                if (generators[g1, generators_PROP_MicroGrid1] != "") s1 += " !!MicroGrid=" + generators[g1, generators_PROP_MicroGrid1];
                 if (generators[g1, generators_PROP_gph_direction] != "") s1 += " !!gph_direction=" + generators[g1, generators_PROP_gph_direction];
                 s1 += "\n";
             }
@@ -1199,7 +1317,14 @@ namespace GridMonC
             s1 += "!\n";
             s1 += "// ******* Order to make all calculations:" + "\n";
             //s1 += "solve" + "\n";
-            if (type_of_file == "Forecast") s1 += "solve mode=daily number=48 stepsize=1s" + "\n";
+            if (type_of_file == "Forecast")
+            {
+                s1 += "solve ";
+                if (OpenDSS_solve_mode != "") s1 += "mode=" + OpenDSS_solve_mode;
+                if (OpenDSS_solve_number != "") s1 += " number=" + OpenDSS_solve_number;
+                if (OpenDSS_solve_stepsize != "") s1 += " stepsize=" + OpenDSS_solve_stepsize;
+                s1 += "\n";
+            }
             if (type_of_file == "U_stability") s1 += "solve mode=daily number=1500 stepsize=1s" + "\n";
             if (type_of_file == "One_LP") s1 += "solve mode=daily number=1 stepsize=1s" + "\n";
             s1 += "!\n";
