@@ -44,13 +44,13 @@ namespace GridMonC
         const int Sank_max_members = 5;
         string[,] Sank1 = new string[Sank_max_members, Sank_max_members+2];
 
-        private void gph_sankeys_ini() {
+        private void Gph_sankeys_ini() {
              // TBD
         }
 
         private void Paint_sankeys(object sender, PaintEventArgs e, int gph_object_no)
         {
-            string s1 = "";
+            //string s1 = "";
             for (int i1 = 0; i1 < Sank_max_members; i1++)
                 for (int j1 = 0; j1 < Sank_max_members + 2; j1++)
                     Sank1[i1, j1] = "";

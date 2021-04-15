@@ -1,0 +1,452 @@
+2020.5.1	20:45:08:896	############################
+2020.5.1	20:45:08:908	#GridMonk=Start
+2020.5.1	20:45:09:044	InitializeComponent = Done
+2020.5.1	20:45:09:055	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	20:45:09:062	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	20:45:09:068	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	20:45:09:074	GridMonk_Project [UPB_SM_HIL_01]
+2020.5.1	20:45:09:081	GUI_Language [English]
+2020.5.1	20:45:09:088	MQTT_Connect [S4G]
+2020.5.1	20:45:09:095	MQTT_broker_std1 [10.8.0.11]
+2020.5.1	20:45:09:102	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	20:45:09:107	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	20:45:09:113	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	20:45:09:120	Read jpg files
+2020.5.1	20:45:09:140	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	20:45:09:146	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	20:45:09:173	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	20:45:09:179	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	20:45:09:187	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	20:45:09:194	read_config_file = Done
+2020.5.1	20:45:09:286	Start Initiaize MQTT link 1
+2020.5.1	20:45:30:341	Start Initiaize MQTT link 2
+2020.5.1	20:45:49:761	############################
+2020.5.1	20:45:49:776	#GridMonk=Start
+2020.5.1	20:45:50:000	InitializeComponent = Done
+2020.5.1	20:45:50:016	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	20:45:50:026	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	20:45:50:034	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	20:45:50:057	GridMonk_Project [UPB_SM_HIL_01]
+2020.5.1	20:45:50:067	GUI_Language [English]
+2020.5.1	20:45:50:078	MQTT_Connect [S4G]
+2020.5.1	20:45:50:099	MQTT_broker_std1 [10.8.0.11]
+2020.5.1	20:45:50:106	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	20:45:50:114	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	20:45:50:123	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	20:45:50:129	Read jpg files
+2020.5.1	20:45:50:152	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	20:45:50:159	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	20:45:50:183	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	20:45:50:189	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	20:45:50:195	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	20:45:50:202	read_config_file = Done
+2020.5.1	20:45:50:227	Start Initiaize MQTT link 1
+2020.5.1	20:45:50:513	Start Initiaize MQTT link 2
+2020.5.1	20:45:50:762	Initialize variables
+2020.5.1	20:45:50:970	Done initialization
+2020.5.1	20:45:54:385	#Command=Load_file=Start
+2020.5.1	20:45:54:390	GridMonk_Project=UPB_SM_HIL_01
+2020.5.1	20:45:55:596	#Command=Load_file=Finished
+2020.5.1	21:16:28:443	############################
+2020.5.1	21:16:28:457	#GridMonk=Start
+2020.5.1	21:16:28:655	InitializeComponent = Done
+2020.5.1	21:16:28:664	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	21:16:28:671	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:16:28:677	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:16:28:684	GridMonk_Project [UPB_TASE_01]
+2020.5.1	21:16:28:690	GUI_Language [English]
+2020.5.1	21:16:28:696	MQTT_Connect [S4G]
+2020.5.1	21:16:28:702	MQTT_broker_std1 [127.0.0.1]
+2020.5.1	21:16:28:708	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	21:16:28:715	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	21:16:28:720	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	21:16:28:727	Read jpg files
+2020.5.1	21:16:28:749	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	21:16:28:755	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	21:16:28:774	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	21:16:28:781	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	21:16:28:787	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	21:16:28:793	read_config_file = Done
+2020.5.1	21:16:28:824	Start Initiaize MQTT link 1
+2020.5.1	21:16:28:863	Start Initiaize MQTT link 2
+2020.5.1	21:16:28:882	Initialize variables
+2020.5.1	21:16:29:078	Done initialization
+2020.5.1	21:16:32:463	#Command=Load_file=Start
+2020.5.1	21:16:32:468	GridMonk_Project=UPB_TASE_01
+2020.5.1	21:16:33:829	#Command=Load_file=Finished
+2020.5.1	21:16:36:228	#Command=Compute=Started
+2020.5.1	21:16:36:233	Start Compute at: T(ini):2020.05.01 21:16:36.233
+2020.5.1	21:16:39:214	Stop Compute at: T(end):2020.05.01 21:16:39.214
+2020.5.1	21:16:39:224	Compute time (msec): 2981
+2020.5.1	21:16:39:230	#Command=Compute=Finished
+2020.5.1	21:27:54:121	############################
+2020.5.1	21:27:54:135	#GridMonk=Start
+2020.5.1	21:27:54:308	InitializeComponent = Done
+2020.5.1	21:27:54:317	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	21:27:54:324	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:27:54:330	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:27:54:337	GridMonk_Project [UPB_WSCC3M9B]
+2020.5.1	21:27:54:344	GUI_Language [English]
+2020.5.1	21:27:54:350	MQTT_Connect [S4G]
+2020.5.1	21:27:54:355	MQTT_broker_std1 [127.0.0.1]
+2020.5.1	21:27:54:361	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	21:27:54:366	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	21:27:54:372	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	21:27:54:379	Read jpg files
+2020.5.1	21:27:54:399	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	21:27:54:407	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	21:27:54:427	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	21:27:54:432	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	21:27:54:439	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	21:27:54:444	read_config_file = Done
+2020.5.1	21:27:54:471	Start Initiaize MQTT link 1
+2020.5.1	21:27:54:505	Start Initiaize MQTT link 2
+2020.5.1	21:27:54:522	Initialize variables
+2020.5.1	21:27:54:724	Done initialization
+2020.5.1	21:27:57:904	#Command=Load_file=Start
+2020.5.1	21:27:57:904	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:27:59:171	#Command=Load_file=Finished
+2020.5.1	21:42:44:558	#Command=Load_file=Start
+2020.5.1	21:42:44:565	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:42:45:297	#Command=Load_file=Finished
+2020.5.1	21:43:41:144	############################
+2020.5.1	21:43:41:156	#GridMonk=Start
+2020.5.1	21:43:41:340	InitializeComponent = Done
+2020.5.1	21:43:41:349	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	21:43:41:356	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:43:41:363	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	21:43:41:369	GridMonk_Project [UPB_WSCC3M9B]
+2020.5.1	21:43:41:376	GUI_Language [English]
+2020.5.1	21:43:41:384	MQTT_Connect [S4G]
+2020.5.1	21:43:41:392	MQTT_broker_std1 [127.0.0.1]
+2020.5.1	21:43:41:401	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	21:43:41:407	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	21:43:41:414	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	21:43:41:420	Read jpg files
+2020.5.1	21:43:41:443	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	21:43:41:449	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	21:43:41:472	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	21:43:41:478	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	21:43:41:485	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	21:43:41:491	read_config_file = Done
+2020.5.1	21:43:41:581	Start Initiaize MQTT link 1
+2020.5.1	21:43:41:630	Start Initiaize MQTT link 2
+2020.5.1	21:43:41:660	Initialize variables
+2020.5.1	21:43:41:850	Done initialization
+2020.5.1	21:43:45:283	#Command=Load_file=Start
+2020.5.1	21:43:45:291	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:43:46:025	#Command=Load_file=Finished
+2020.5.1	21:44:05:059	#Command=Load_file=Start
+2020.5.1	21:44:05:065	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:44:05:750	#Command=Load_file=Finished
+2020.5.1	21:45:16:527	#Command=Load_file=Start
+2020.5.1	21:45:16:533	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:45:17:142	#Command=Load_file=Finished
+2020.5.1	21:45:27:011	#Command=Load_file=Start
+2020.5.1	21:45:27:021	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:45:27:655	#Command=Load_file=Finished
+2020.5.1	21:45:55:739	#Command=Load_file=Start
+2020.5.1	21:45:55:745	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:45:56:389	#Command=Load_file=Finished
+2020.5.1	21:47:24:028	#Command=Load_file=Start
+2020.5.1	21:47:24:046	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:47:24:757	#Command=Load_file=Finished
+2020.5.1	21:48:41:071	#Command=Load_file=Start
+2020.5.1	21:48:41:079	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:48:41:717	#Command=Load_file=Finished
+2020.5.1	21:52:47:232	#Command=Load_file=Start
+2020.5.1	21:52:47:238	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:52:47:913	#Command=Load_file=Finished
+2020.5.1	21:58:59:674	#Command=Load_file=Start
+2020.5.1	21:58:59:674	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	21:59:00:456	#Command=Load_file=Finished
+2020.5.1	21:59:14:966	#Command=Compute=Started
+2020.5.1	21:59:14:976	Start Compute at: T(ini):2020.05.01 21:59:14.976
+2020.5.1	21:59:16:081	Stop Compute at: T(end):2020.05.01 21:59:16.081
+2020.5.1	21:59:16:089	Compute time (msec): 1105
+2020.5.1	21:59:16:096	#Command=Compute=Finished
+2020.5.1	22:01:52:254	#Command=Load_file=Start
+2020.5.1	22:01:52:261	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:01:52:959	#Command=Load_file=Finished
+2020.5.1	22:02:07:906	#Command=Load_file=Start
+2020.5.1	22:02:07:916	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:02:08:597	#Command=Load_file=Finished
+2020.5.1	22:02:17:938	#Command=Load_file=Start
+2020.5.1	22:02:17:948	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:02:18:682	#Command=Load_file=Finished
+2020.5.1	22:04:31:343	#Command=Load_file=Start
+2020.5.1	22:04:31:348	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:04:32:006	#Command=Load_file=Finished
+2020.5.1	22:04:55:826	#Command=Load_file=Start
+2020.5.1	22:04:55:835	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:04:56:534	#Command=Load_file=Finished
+2020.5.1	22:05:08:344	#Command=Load_file=Start
+2020.5.1	22:05:08:350	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:05:09:009	#Command=Load_file=Finished
+2020.5.1	22:07:20:852	#Command=Load_file=Start
+2020.5.1	22:07:20:859	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:07:21:556	#Command=Load_file=Finished
+2020.5.1	22:08:58:839	#Command=Load_file=Start
+2020.5.1	22:08:58:846	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:08:59:594	#Command=Load_file=Finished
+2020.5.1	22:09:35:376	#Command=Load_file=Start
+2020.5.1	22:09:35:385	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:09:36:096	#Command=Load_file=Finished
+2020.5.1	22:10:05:894	#Command=Load_file=Start
+2020.5.1	22:10:05:901	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:10:06:680	#Command=Load_file=Finished
+2020.5.1	22:11:21:923	#Command=Load_file=Start
+2020.5.1	22:11:21:929	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:11:22:703	#Command=Load_file=Finished
+2020.5.1	22:11:37:346	#Command=Load_file=Start
+2020.5.1	22:11:37:353	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:11:37:993	#Command=Load_file=Finished
+2020.5.1	22:12:07:390	#Command=Load_file=Start
+2020.5.1	22:12:07:396	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:12:08:110	#Command=Load_file=Finished
+2020.5.1	22:12:40:840	#Command=Load_file=Start
+2020.5.1	22:12:40:846	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:12:41:591	#Command=Load_file=Finished
+2020.5.1	22:12:42:363	#Command=Compute=Started
+2020.5.1	22:12:42:369	Start Compute at: T(ini):2020.05.01 22:12:42.369
+2020.5.1	22:12:43:409	Stop Compute at: T(end):2020.05.01 22:12:43.409
+2020.5.1	22:12:43:419	Compute time (msec): 1040
+2020.5.1	22:12:43:428	#Command=Compute=Finished
+2020.5.1	22:15:20:882	#Command=Load_file=Start
+2020.5.1	22:15:20:888	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:15:21:601	#Command=Load_file=Finished
+2020.5.1	22:15:22:861	#Command=Compute=Started
+2020.5.1	22:15:22:861	Start Compute at: T(ini):2020.05.01 22:15:22.861
+2020.5.1	22:15:23:874	Stop Compute at: T(end):2020.05.01 22:15:23.874
+2020.5.1	22:15:23:874	Compute time (msec): 1013
+2020.5.1	22:15:23:884	#Command=Compute=Finished
+2020.5.1	22:16:24:450	#Command=Load_file=Start
+2020.5.1	22:16:24:456	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:16:25:127	#Command=Load_file=Finished
+2020.5.1	22:16:25:511	#Command=Compute=Started
+2020.5.1	22:16:25:514	Start Compute at: T(ini):2020.05.01 22:16:25.514
+2020.5.1	22:16:26:546	Stop Compute at: T(end):2020.05.01 22:16:26.546
+2020.5.1	22:16:26:553	Compute time (msec): 1032
+2020.5.1	22:16:26:559	#Command=Compute=Finished
+2020.5.1	22:18:03:052	#Command=Load_file=Start
+2020.5.1	22:18:03:058	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:18:03:801	#Command=Load_file=Finished
+2020.5.1	22:18:05:968	#Command=Compute=Started
+2020.5.1	22:18:05:978	Start Compute at: T(ini):2020.05.01 22:18:05.978
+2020.5.1	22:18:07:013	Stop Compute at: T(end):2020.05.01 22:18:07.013
+2020.5.1	22:18:07:013	Compute time (msec): 1035
+2020.5.1	22:18:07:023	#Command=Compute=Finished
+2020.5.1	22:19:04:157	#Command=Load_file=Start
+2020.5.1	22:19:04:164	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:19:04:844	#Command=Load_file=Finished
+2020.5.1	22:19:12:969	#Command=Load_file=Start
+2020.5.1	22:19:12:979	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:19:13:690	#Command=Load_file=Finished
+2020.5.1	22:19:53:990	#Command=Load_file=Start
+2020.5.1	22:19:54:000	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:19:54:731	#Command=Load_file=Finished
+2020.5.1	22:20:06:010	#Command=Compute=Started
+2020.5.1	22:20:06:020	Start Compute at: T(ini):2020.05.01 22:20:06.020
+2020.5.1	22:20:07:060	Stop Compute at: T(end):2020.05.01 22:20:07.060
+2020.5.1	22:20:07:066	Compute time (msec): 1040
+2020.5.1	22:20:07:072	#Command=Compute=Finished
+2020.5.1	22:21:00:087	#Command=Load_file=Start
+2020.5.1	22:21:00:093	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:21:00:896	#Command=Load_file=Finished
+2020.5.1	22:21:02:035	#Command=Compute=Started
+2020.5.1	22:21:02:041	Start Compute at: T(ini):2020.05.01 22:21:02.041
+2020.5.1	22:21:03:112	Stop Compute at: T(end):2020.05.01 22:21:03.112
+2020.5.1	22:21:03:118	Compute time (msec): 1071
+2020.5.1	22:21:03:124	#Command=Compute=Finished
+2020.5.1	22:22:55:027	#Command=Load_file=Start
+2020.5.1	22:22:55:037	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:22:55:772	#Command=Load_file=Finished
+2020.5.1	22:22:56:639	#Command=Compute=Started
+2020.5.1	22:22:56:645	Start Compute at: T(ini):2020.05.01 22:22:56.645
+2020.5.1	22:22:57:729	Stop Compute at: T(end):2020.05.01 22:22:57.729
+2020.5.1	22:22:57:735	Compute time (msec): 1084
+2020.5.1	22:22:57:741	#Command=Compute=Finished
+2020.5.1	22:23:17:981	#Command=Load_file=Start
+2020.5.1	22:23:17:991	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:23:18:687	#Command=Load_file=Finished
+2020.5.1	22:23:19:576	#Command=Compute=Started
+2020.5.1	22:23:19:585	Start Compute at: T(ini):2020.05.01 22:23:19.585
+2020.5.1	22:23:20:680	Stop Compute at: T(end):2020.05.01 22:23:20.680
+2020.5.1	22:23:20:688	Compute time (msec): 1095
+2020.5.1	22:23:20:694	#Command=Compute=Finished
+2020.5.1	22:24:39:516	#Command=Load_file=Start
+2020.5.1	22:24:39:523	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:24:40:283	#Command=Load_file=Finished
+2020.5.1	22:24:42:026	#Command=Compute=Started
+2020.5.1	22:24:42:026	Start Compute at: T(ini):2020.05.01 22:24:42.026
+2020.5.1	22:24:43:080	Stop Compute at: T(end):2020.05.01 22:24:43.080
+2020.5.1	22:24:43:086	Compute time (msec): 1054
+2020.5.1	22:24:43:092	#Command=Compute=Finished
+2020.5.1	22:36:28:167	#Command=Load_file=Start
+2020.5.1	22:36:28:174	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:36:28:862	#Command=Load_file=Finished
+2020.5.1	22:36:32:704	#Command=Compute=Started
+2020.5.1	22:36:32:714	Start Compute at: T(ini):2020.05.01 22:36:32.714
+2020.5.1	22:36:33:724	Stop Compute at: T(end):2020.05.01 22:36:33.724
+2020.5.1	22:36:33:734	Compute time (msec): 1010
+2020.5.1	22:36:33:744	#Command=Compute=Finished
+2020.5.1	22:37:20:756	#Command=Load_file=Start
+2020.5.1	22:37:20:766	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:37:21:466	#Command=Load_file=Finished
+2020.5.1	22:37:22:827	#Command=Compute=Started
+2020.5.1	22:37:22:837	Start Compute at: T(ini):2020.05.01 22:37:22.837
+2020.5.1	22:37:24:115	Stop Compute at: T(end):2020.05.01 22:37:24.115
+2020.5.1	22:37:24:128	Compute time (msec): 1278
+2020.5.1	22:37:24:135	#Command=Compute=Finished
+2020.5.1	22:38:16:801	#Command=Load_file=Start
+2020.5.1	22:38:16:801	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:38:17:551	#Command=Load_file=Finished
+2020.5.1	22:38:18:768	#Command=Compute=Started
+2020.5.1	22:38:18:778	Start Compute at: T(ini):2020.05.01 22:38:18.778
+2020.5.1	22:38:19:889	Stop Compute at: T(end):2020.05.01 22:38:19.889
+2020.5.1	22:38:19:889	Compute time (msec): 1111
+2020.5.1	22:38:19:899	#Command=Compute=Finished
+2020.5.1	22:39:05:367	#Command=Load_file=Start
+2020.5.1	22:39:05:374	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:39:06:041	#Command=Load_file=Finished
+2020.5.1	22:39:07:787	#Command=Compute=Started
+2020.5.1	22:39:07:797	Start Compute at: T(ini):2020.05.01 22:39:07.797
+2020.5.1	22:39:08:858	Stop Compute at: T(end):2020.05.01 22:39:08.858
+2020.5.1	22:39:08:868	Compute time (msec): 1061
+2020.5.1	22:39:08:878	#Command=Compute=Finished
+2020.5.1	22:39:42:881	############################
+2020.5.1	22:39:42:901	#GridMonk=Start
+2020.5.1	22:39:43:113	InitializeComponent = Done
+2020.5.1	22:39:43:123	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.5.1	22:39:43:130	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	22:39:43:137	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.5.1	22:39:43:144	GridMonk_Project [UPB_WSCC3M9B]
+2020.5.1	22:39:43:149	GUI_Language [English]
+2020.5.1	22:39:43:155	MQTT_Connect [S4G]
+2020.5.1	22:39:43:161	MQTT_broker_std1 [127.0.0.1]
+2020.5.1	22:39:43:166	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.5.1	22:39:43:171	MQTT_broker_std2 [127.0.0.1]
+2020.5.1	22:39:43:178	MQTT_broker_std2_subscribe_topic [#]
+2020.5.1	22:39:43:186	Read jpg files
+2020.5.1	22:39:43:219	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.5.1	22:39:43:227	Grid_Monk_Conf=initialze_PROC_modules
+2020.5.1	22:39:43:253	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.5.1	22:39:43:263	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.5.1	22:39:43:270	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.5.1	22:39:43:277	read_config_file = Done
+2020.5.1	22:39:43:316	Start Initiaize MQTT link 1
+2020.5.1	22:39:43:362	Start Initiaize MQTT link 2
+2020.5.1	22:39:43:385	Initialize variables
+2020.5.1	22:39:43:605	Done initialization
+2020.5.1	22:39:47:004	#Command=Load_file=Start
+2020.5.1	22:39:47:004	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:39:47:867	#Command=Load_file=Finished
+2020.5.1	22:39:49:347	#Command=Compute=Started
+2020.5.1	22:39:49:353	Start Compute at: T(ini):2020.05.01 22:39:49.353
+2020.5.1	22:39:50:540	Stop Compute at: T(end):2020.05.01 22:39:50.540
+2020.5.1	22:39:50:549	Compute time (msec): 1187
+2020.5.1	22:39:50:557	#Command=Compute=Finished
+2020.5.1	22:40:54:434	#Command=Load_file=Start
+2020.5.1	22:40:54:440	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:40:55:184	#Command=Load_file=Finished
+2020.5.1	22:40:55:850	#Command=Compute=Started
+2020.5.1	22:40:55:850	Start Compute at: T(ini):2020.05.01 22:40:55.850
+2020.5.1	22:40:56:924	Stop Compute at: T(end):2020.05.01 22:40:56.924
+2020.5.1	22:40:56:935	Compute time (msec): 1074
+2020.5.1	22:40:56:935	#Command=Compute=Finished
+2020.5.1	22:47:28:880	#Command=Load_file=Start
+2020.5.1	22:47:28:886	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	22:47:29:639	#Command=Load_file=Finished
+2020.5.1	22:47:30:373	#Command=Compute=Started
+2020.5.1	22:47:30:379	Start Compute at: T(ini):2020.05.01 22:47:30.379
+2020.5.1	22:47:31:506	Stop Compute at: T(end):2020.05.01 22:47:31.506
+2020.5.1	22:47:31:514	Compute time (msec): 1127
+2020.5.1	22:47:31:520	#Command=Compute=Finished
+2020.5.1	23:36:32:401	#Command=Load_file=Start
+2020.5.1	23:36:32:408	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:36:33:175	#Command=Load_file=Finished
+2020.5.1	23:36:34:493	#Command=Compute=Started
+2020.5.1	23:36:34:500	Start Compute at: T(ini):2020.05.01 23:36:34.500
+2020.5.1	23:36:35:911	Stop Compute at: T(end):2020.05.01 23:36:35.911
+2020.5.1	23:36:35:921	Compute time (msec): 1411
+2020.5.1	23:36:35:931	#Command=Compute=Finished
+2020.5.1	23:37:43:355	#Command=Load_file=Start
+2020.5.1	23:37:43:362	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:37:44:071	#Command=Load_file=Finished
+2020.5.1	23:37:44:915	#Command=Compute=Started
+2020.5.1	23:37:44:920	Start Compute at: T(ini):2020.05.01 23:37:44.920
+2020.5.1	23:37:46:270	Stop Compute at: T(end):2020.05.01 23:37:46.270
+2020.5.1	23:37:46:280	Compute time (msec): 1350
+2020.5.1	23:37:46:286	#Command=Compute=Finished
+2020.5.1	23:39:35:459	#Command=Load_file=Start
+2020.5.1	23:39:35:466	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:39:36:231	#Command=Load_file=Finished
+2020.5.1	23:39:37:351	#Command=Compute=Started
+2020.5.1	23:39:37:357	Start Compute at: T(ini):2020.05.01 23:39:37.357
+2020.5.1	23:39:38:694	Stop Compute at: T(end):2020.05.01 23:39:38.694
+2020.5.1	23:39:38:706	Compute time (msec): 1337
+2020.5.1	23:39:38:716	#Command=Compute=Finished
+2020.5.1	23:40:49:868	#Command=Load_file=Start
+2020.5.1	23:40:49:874	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:40:50:625	#Command=Load_file=Finished
+2020.5.1	23:40:51:849	#Command=Compute=Started
+2020.5.1	23:40:51:859	Start Compute at: T(ini):2020.05.01 23:40:51.859
+2020.5.1	23:40:53:193	Stop Compute at: T(end):2020.05.01 23:40:53.193
+2020.5.1	23:40:53:205	Compute time (msec): 1334
+2020.5.1	23:40:53:219	#Command=Compute=Finished
+2020.5.1	23:48:34:502	#Command=Load_file=Start
+2020.5.1	23:48:34:508	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:48:35:295	#Command=Load_file=Finished
+2020.5.1	23:48:36:665	#Command=Compute=Started
+2020.5.1	23:48:36:672	Start Compute at: T(ini):2020.05.01 23:48:36.672
+2020.5.1	23:48:37:961	Stop Compute at: T(end):2020.05.01 23:48:37.961
+2020.5.1	23:48:37:977	Compute time (msec): 1289
+2020.5.1	23:48:37:985	#Command=Compute=Finished
+2020.5.1	23:51:53:554	#Command=Load_file=Start
+2020.5.1	23:51:53:560	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:51:54:300	#Command=Load_file=Finished
+2020.5.1	23:51:55:972	#Command=Compute=Started
+2020.5.1	23:51:55:982	Start Compute at: T(ini):2020.05.01 23:51:55.982
+2020.5.1	23:51:57:520	Stop Compute at: T(end):2020.05.01 23:51:57.520
+2020.5.1	23:51:57:528	Compute time (msec): 1538
+2020.5.1	23:51:57:535	#Command=Compute=Finished
+2020.5.1	23:52:41:572	#Command=Load_file=Start
+2020.5.1	23:52:41:578	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:52:42:328	#Command=Load_file=Finished
+2020.5.1	23:52:43:027	#Command=Compute=Started
+2020.5.1	23:52:43:036	Start Compute at: T(ini):2020.05.01 23:52:43.036
+2020.5.1	23:52:44:428	Stop Compute at: T(end):2020.05.01 23:52:44.428
+2020.5.1	23:52:44:436	Compute time (msec): 1392
+2020.5.1	23:52:44:442	#Command=Compute=Finished
+2020.5.1	23:54:25:087	#Command=Load_file=Start
+2020.5.1	23:54:25:092	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:54:25:805	#Command=Load_file=Finished
+2020.5.1	23:54:26:541	#Command=Compute=Started
+2020.5.1	23:54:26:546	Start Compute at: T(ini):2020.05.01 23:54:26.546
+2020.5.1	23:54:27:886	Stop Compute at: T(end):2020.05.01 23:54:27.886
+2020.5.1	23:54:27:896	Compute time (msec): 1340
+2020.5.1	23:54:27:906	#Command=Compute=Finished
+2020.5.1	23:55:06:561	#Command=Load_file=Start
+2020.5.1	23:55:06:570	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:55:07:349	#Command=Load_file=Finished
+2020.5.1	23:55:07:754	#Command=Compute=Started
+2020.5.1	23:55:07:759	Start Compute at: T(ini):2020.05.01 23:55:07.759
+2020.5.1	23:55:09:134	Stop Compute at: T(end):2020.05.01 23:55:09.134
+2020.5.1	23:55:09:144	Compute time (msec): 1375
+2020.5.1	23:55:09:151	#Command=Compute=Finished
+2020.5.1	23:56:57:145	#Command=Load_file=Start
+2020.5.1	23:56:57:150	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:56:57:924	#Command=Load_file=Finished
+2020.5.1	23:56:59:153	#Command=Compute=Started
+2020.5.1	23:56:59:160	Start Compute at: T(ini):2020.05.01 23:56:59.160
+2020.5.1	23:57:00:317	Stop Compute at: T(end):2020.05.01 23:57:00.317
+2020.5.1	23:57:00:329	Compute time (msec): 1157
+2020.5.1	23:57:00:347	#Command=Compute=Finished
+2020.5.1	23:58:35:170	#Command=Load_file=Start
+2020.5.1	23:58:35:175	GridMonk_Project=UPB_WSCC3M9B
+2020.5.1	23:58:35:922	#Command=Load_file=Finished
+2020.5.1	23:58:36:634	#Command=Compute=Started
+2020.5.1	23:58:36:640	Start Compute at: T(ini):2020.05.01 23:58:36.640
+2020.5.1	23:58:37:995	Stop Compute at: T(end):2020.05.01 23:58:37.995
+2020.5.1	23:58:37:995	Compute time (msec): 1355
+2020.5.1	23:58:38:005	#Command=Compute=Finished

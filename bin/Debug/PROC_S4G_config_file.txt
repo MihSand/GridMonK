@@ -1,0 +1,84 @@
+#activate_S4G_HIL must be "YES" in order to start the algorithm
+#this is implemented because we may not want to use the S4G HIL module in Grid Monk
+#
+# yes, no
+activate_S4G_HIL=no
+#
+#PROC_S4G_data_path=E:\App\VStudio\GridMonK\GridMonC\bin\Debug\
+PROC_S4G_data_path=E:\App\VStudio\GridMonK\GM_Projects\UPB_SM_HIL_01\LPs\
+# The above data path is for both input and output files
+#
+#LESSAg_project_name is going to be the prefix of generated files  
+LESSAg_project_name=Test1_full
+#
+#
+#EMS_strategy=Battery_forecast_optimized
+EMS_strategy=UniRCon
+#EMS_strategy=PV_CONS_forecast_driven
+#EMS_strategy=PV_forecast_driven
+#
+#####If sim_type is fullday, simulation starting point is 00:00:00.
+#####If sim_type is RealTime, simulation starting point is the current time.
+#sim_type=FullDay
+sim_type=RealTime
+#####sim_time gives how many seconds the algorithm will run, counted from the starting point 
+####by default, the algorithm runs until the end of day
+####if you want the algorithm to run until the end of day, set sim_time=-1
+#sim_time=3600
+#
+# Storage battery details
+#
+#Battery_forecast_24h_file_name=Bat_forecast.txt;bat_scaling_factor=1;bat_time_period=60
+#
+#E_bat- in Wh
+E_bat_nominal=8000
+E_Bat_max=8000
+E_bat_min=0
+SoC_init=0.2
+#SoC_init is used in simulation mode (mode 1-see below)
+#
+#T_integration in s
+T_integration=60
+#
+#Battery characteristics
+P_BAT_max_inverters=2500
+Battery_discharging_efficiency=0.95
+Battery_charging_efficiency=0.92
+bat_scaling_factor=10
+bat_time_period=60
+#
+##################### Consumer characteristics
+P_CONS_profile_number=0;P_CONS_profile_date=default;P_CONS_profile_info=Default;P_CONS_profile_file_name=P_CONS_profile_01.txt;Cons_time_period=60;Cons_scaling_factor=1
+#P_CONS_profile_number=1;P_CONS_profile_date=2019.12.28;P_CONS_profile_info=C1;P_CONS_profile_file_name=P_CONS_profile_01.txt;Cons_time_period=60;Cons_scaling_factor=1
+#P_CONS_profile_number=2;P_CONS_profile_date=2019.12.29;P_CONS_profile_info=C2;P_CONS_profile_file_name=P_CONS_profile_02.txt;Cons_time_period=60;Cons_scaling_factor=1
+#P_CONS_profile_number=3;P_CONS_profile_date=2019.12.30;P_CONS_profile_info=C3;P_CONS_profile_file_name=P_CONS_profile_03.txt;Cons_time_period=60;Cons_scaling_factor=1
+#P_CONS_profile_number=4;P_CONS_profile_date=2019.12.31;P_CONS_profile_info=C4;P_CONS_profile_file_name=P_CONS_profile_04.txt;Cons_time_period=60;Cons_scaling_factor=1
+#P_CONS_profile_number=5;P_CONS_profile_date=2020.01.01;P_CONS_profile_info=C5;P_CONS_profile_file_name=P_CONS_profile_05.txt;Cons_time_period=60;Cons_scaling_factor=1
+P_CONS_profile_forecast_24h__file_name=P_CONS_profile_01.txt;P_CONS_profile_forecast_time_period=60;P_CONS_profile_forecast_factor=1
+P_Cons_SeTpoint=1600
+#
+#################### PV characteristics
+PV_scaling_factor=1
+#PV_time_period=60
+P_PV_profile_meteo_file_name=P_PV_meteo_profile_01.txt;P_PV_profile_meteo_shift=0;PV_time_period=60;PV_scaling_factor=1
+P_PV_profile_meteo_foreacst_24h_file_name=P_PV_meteo_profile_01.txt;P_PV_profile_meteo_forecast_shift=0;PV_forecast_time_period=60;P_PV_profile_meteo_forecast_24h_factor=40
+#
+##############General characteristics
+#
+process_time_period=60
+#time_periods expressed in seconds
+PCC_injection_allowed=0
+# 0-we are not allowed to inject power in the distribution system (P_PCC is always positive)
+# 1-we are allowed (P_PCC can also be negative - injection mode towards the distribution system)
+#
+###### P_CONS and P_PV_METEO and (forecasts!!!!) can be in one of the following modes:
+##### 0 - data comes from a file located on disk (pre-recorded data)
+##### 1 - data comes from a "software loop" (the input value at current time(t) is the output value at time t-1)
+##### 2 - data comes as MQTT messages from a real process (hardware in the loop). In this mode, output values at time t may differ from input values at time t+1
+P_cons_mode=0
+P_PV_meteo_mode=2
+P_PV_after_curtail_mode=1
+P_PV_curtail_mode=1
+P_bat_mode=2
+SoC_mode=1
+#

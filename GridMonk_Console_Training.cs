@@ -41,7 +41,7 @@ namespace GridMonC
         string current_violations_on_each_phase = "false";
 
         // calculates nodes violations in the current grid view (RBM)
-        void assess_nodes_violations()
+        void Assess_nodes_violations()
         {
             //  
             double U_nom = 230;
@@ -85,7 +85,7 @@ namespace GridMonC
         }
 
         // calculates lines violations in the current grid view (RBM)
-        void assess_lines_violations()
+        void Assess_lines_violations()
         {
             double I1, I2, I3;
             for (int l1 = 0; l1 < lines_no; l1++)
@@ -98,6 +98,38 @@ namespace GridMonC
                         Congestions_temp += "I1[Line=" + lines[l1, lines_PROP_name] + "] =" + lines[l1, lines_PROP_I1] + "A" + " > Imax =" + lines[l1, lines_PROP_Imax] + "A (OVER-Current)\n";
                     if (current_violations_on_each_phase == "true")
                     {
+                        if (I2 > double.Parse(lines[l1, lines_PROP_Imax]))
+                            Congestions_temp += "I2[Line=" + lines[l1, lines_PROP_name] + "] =" + lines[l1, lines_PROP_I2] + "A" + " > Imax =" + lines[l1, lines_PROP_Imax] + "A (OVER-Current)\n";
+                        if (I3 > double.Parse(lines[l1, lines_PROP_Imax]))
+                            Congestions_temp += "I3[Line=" + lines[l1, lines_PROP_name] + "] =" + lines[l1, lines_PROP_I3] + "A" + " > Imax =" + lines[l1, lines_PROP_Imax] + "A (OVER-Current)\n";
+                    }
+                }
+                catch { }
+            }
+        }
+
+        // calculates lines violations in the current grid view (after a "Compute" order)
+        //int GridCongestionsFinal = 0;
+        void Assess_lines_violations__for_JSON()
+        {
+            double I1, I2, I3;
+            for (int l1 = 0; l1 < lines_no; l1++)
+            {
+                try
+                {
+                    I1 = double.Parse(lines[l1, lines_PROP_I1]);
+                    I2 = double.Parse(lines[l1, lines_PROP_I2]);
+                    I3 = double.Parse(lines[l1, lines_PROP_I3]);
+                    if (I1 > double.Parse(lines[l1, lines_PROP_Imax]))
+                        Congestions_temp += "I1[Line=" + lines[l1, lines_PROP_name] + "] =" + lines[l1, lines_PROP_I1] + "A" + " > Imax =" + lines[l1, lines_PROP_Imax] + "A (OVER-Current)\n";
+                    if (current_violations_on_each_phase == "true")
+                    {
+                        // Make a new record in the vector "Operations"
+                        GridCongestions[0,GridCongestions_no[0], GridCongestions_PROP_object] = crt_object;
+                        GridCongestions[0, GridCongestions_no[0], GridCongestions_PROP_name] = crt_name;
+                        GridCongestions[0, GridCongestions_no[0], GridCongestions_PROP_attrib] = crt_atrib;
+                        GridCongestions[0, GridCongestions_no[0], GridCongestions_PROP_value] = crt_value;
+
                         if (I2 > double.Parse(lines[l1, lines_PROP_Imax]))
                             Congestions_temp += "I2[Line=" + lines[l1, lines_PROP_name] + "] =" + lines[l1, lines_PROP_I2] + "A" + " > Imax =" + lines[l1, lines_PROP_Imax] + "A (OVER-Current)\n";
                         if (I3 > double.Parse(lines[l1, lines_PROP_Imax]))
@@ -137,8 +169,8 @@ namespace GridMonC
             //gph_phasors_ini();
             //for (int i1 = 0; i1 < lines_MAX; i1++) for (int j1 = 0; j1 < lines_values_set_MAX; j1++)
             //        for (int k1 = 0; k1 < lines_values_depth_MAX; k1++) lines_values_set[i1, j1, k1] = "";
-            calculate_values_from_results();
-            assess_nodes_properties(); // se realoca tensiuni la noduri etc.
+            Calculate_values_from_results();
+            Assess_nodes_properties(); // se realoca tensiuni la noduri etc.
 
         }
 
@@ -185,14 +217,14 @@ namespace GridMonC
 
             Generate_Load_PQ_circular_scan_file(1.0);
 
-            generate_output_dss("multi_LP_Scan_1440", "U_stability");  // producere fisier de iesire compatibil dss.
+            Generate_output_dss("multi_LP_Scan_1440", "U_stability");  // producere fisier de iesire compatibil dss.
 
             OpenDSS_invoke("multi_LP_Scan_1440"); // se lanseaza OpenDSS
 
             return;
 
             richTextBox_console_answers_str += ">> Generate output (";
-            generate_output_dss("multi_LP_RMB_and_24h", "One_LP"); // se salveaza statusul curent al retelei
+            Generate_output_dss("multi_LP_RMB_and_24h", "One_LP"); // se salveaza statusul curent al retelei
 
             t1 = DateTime.Now;
             int t2s = t1.Second, t2ms = t1.Millisecond; // dupa generate_output_dss()
@@ -218,10 +250,10 @@ namespace GridMonC
 
             Grid_is_calculated = 1; // some further functions can work only if the grid is calculated (Compute is requested)
 
-            assess_nodes_properties(); // in urma valorilor rezultat, asociate la obiecte, se fac calcule legate de noduri
-            add_nodes_properties_from_paramaterisation_nodes_metadata(); // proprietati de noduri din parametrzarea initiala; nu se cheama aceasta component ataunci cand se parcurg cele 24 ore
+            Assess_nodes_properties(); // in urma valorilor rezultat, asociate la obiecte, se fac calcule legate de noduri
+            Add_nodes_properties_from_paramaterisation_nodes_metadata(); // proprietati de noduri din parametrzarea initiala; nu se cheama aceasta component ataunci cand se parcurg cele 24 ore
 
-            calculate_values_from_results(); // in urma valorilor rezultat, asociate la obiecte, se fac calcule legate de noduri
+            Calculate_values_from_results(); // in urma valorilor rezultat, asociate la obiecte, se fac calcule legate de noduri
             Timeframe_crt = -1;
 
             DateTime t2;
@@ -250,6 +282,12 @@ namespace GridMonC
 
         }
 
+        void Write_training_log(string s1)
+        {
+            string Training_file = Grid_Projects_Path + @"/" + GridMonk_Project + @"/" + Console_Training_log;
+            File.AppendAllText(Training_file, s1);
+
+        }
         // Scan the buttons of the Training console
         private void Scan_console_Training(int xm, int ym)
         {
@@ -257,33 +295,33 @@ namespace GridMonC
             // Prepare coordinates for command "Right"
             x1 = console_Training_X0 + 2;
             y1 = console_Training_Y0;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 30, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 30, xm, ym);
             if (inside == 1) Console_Training_forecast_Next(); // Execute command "Right"
 
             // Prepare coordinates for command "Left"
             //g.DrawImage(Image_left, console_Training_X0 + 32 + 192 + 37, console_Training_Y0 + 10, 35, 20); // 169 x 148, raport 1.142
             x1 = console_Training_X0 + 32 + 192 + 37;
             y1 = console_Training_Y0 +10;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
             if (inside == 1) Console_Training_forecast_Prev(); // Execute command "Left"
 
             // Prepare coordinates for command "Right" forecast corrected
             x1 = console_Training_X0 + 2;
             y1 = console_Training_Y0 + 100;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
             if (inside == 1) Console_Training_forecast_corrected_Next(); // Execute command "Right"
             // Prepare coordinates for command "Left" forecast corrected
             //g.DrawImage(Image_left, console_Training_X0 + 32 + 192 + 37, console_Training_Y0 + 100, 35, 20); // 169 x 148, raport 1.142
             x1 = console_Training_X0 + 32+192+37;
             y1 = console_Training_Y0 + 100;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 20, xm, ym);
             if (inside == 1) Console_Training_forecast_corrected_Prev(); // Execute command "Right"
 
             // Cmd+Calc
             //e.Graphics.DrawImage(Image_Cmd_Calc, console_Training_X0 + 190, console_Training_Y0 + 40, 80, 25); // 169 x 148, raport 1.142
             x1 = console_Training_X0 + 190;
             y1 = console_Training_Y0 + 40;
-            inside = inside_rect(x1, y1, x1 + 80, y1 + 25, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 80, y1 + 25, xm, ym);
             if (inside == 1) Console_Training_Cmd_Calc(); // Execute command "Cmd_Calc"
 
             Copy_Training_Set();
@@ -292,19 +330,36 @@ namespace GridMonC
         Image Image_right, Image_left, Image_down, Image_Work_space, Image_regim_baza, Image_Input_grid, Image_Cmd_Calc;
         Image Image_Save_solved, Image_Back, Image_Undo, Image_Redo, Image_Config;
 
-        private void Console_Training_Ini() { 
-            Image_right = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_right1.jpg"); // 222 x 154, 58 x 40
-            Image_left = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_left1b.jpg"); // 222 x 154, 58 x 40
-            Image_down = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_down.jpg"); // 222 x 154, 58 x 40
-            Image_Work_space = Image.FromFile(OpenDSS_Path + @"/" + @"work_space1.jpg"); // 222 x 154, 58 x 40
-            Image_regim_baza = Image.FromFile(OpenDSS_Path + @"/" + @"regim_baza1.jpg"); // 222 x 154, 58 x 40
-            Image_Input_grid = Image.FromFile(OpenDSS_Path + @"/" + @"input_grid1.jpg"); // 222 x 154, 58 x 40
-            Image_Cmd_Calc = Image.FromFile(OpenDSS_Path + @"/" + @"cmd+calc2.jpg"); // 222 x 154, 58 x 40
-            Image_Save_solved = Image.FromFile(OpenDSS_Path + @"/" + @"Save_solved1.jpg"); // 222 x 154, 58 x 40
-            Image_Back = Image.FromFile(OpenDSS_Path + @"/" + @"back1.jpg"); // 222 x 154, 58 x 40
-            Image_Undo = Image.FromFile(OpenDSS_Path + @"/" + @"undo1.jpg"); // 222 x 154, 58 x 40
-            Image_Redo = Image.FromFile(OpenDSS_Path + @"/" + @"redo1.jpg"); // 222 x 154, 58 x 40
-            Image_Config = Image.FromFile(OpenDSS_Path + @"/" + @"config2.jpg"); // 222 x 154, 58 x 40
+        private void Console_Training_Ini() {
+            int mark = 0;
+            try {
+                mark = 1;  Image_right = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_right1.jpg"); // 222 x 154, 58 x 40
+                mark = 2; Image_left = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_left1b.jpg"); // 222 x 154, 58 x 40
+                mark = 3; Image_down = Image.FromFile(OpenDSS_Path + @"/" + @"arrow_down.jpg"); // 222 x 154, 58 x 40
+                mark = 4; Image_Work_space = Image.FromFile(OpenDSS_Path + @"/" + @"work_space1.jpg"); // 222 x 154, 58 x 40
+                mark = 5; Image_regim_baza = Image.FromFile(OpenDSS_Path + @"/" + @"regim_baza1.jpg"); // 222 x 154, 58 x 40
+                mark = 6; Image_Input_grid = Image.FromFile(OpenDSS_Path + @"/" + @"input_grid1.jpg"); // 222 x 154, 58 x 40
+                mark = 7; Image_Cmd_Calc = Image.FromFile(OpenDSS_Path + @"/" + @"cmd+calc2.jpg"); // 222 x 154, 58 x 40
+                mark = 8; Image_Save_solved = Image.FromFile(OpenDSS_Path + @"/" + @"Save_solved1.jpg"); // 222 x 154, 58 x 40
+                mark = 9; Image_Back = Image.FromFile(OpenDSS_Path + @"/" + @"back1.jpg"); // 222 x 154, 58 x 40
+                mark = 10; Image_Undo = Image.FromFile(OpenDSS_Path + @"/" + @"undo1.jpg"); // 222 x 154, 58 x 40
+                mark = 11; Image_Redo = Image.FromFile(OpenDSS_Path + @"/" + @"redo1.jpg"); // 222 x 154, 58 x 40
+                mark = 12; Image_Config = Image.FromFile(OpenDSS_Path + @"/" + @"config2.jpg"); // 222 x 154, 58 x 40
+            }
+            catch
+            {
+                Write_GridMonK_log("Console_Training_Ini=Error1="+mark.ToString());
+            }
+            try
+            {
+                string Training_file = Grid_Projects_Path + @"/" + GridMonk_Project + @"/" + Console_Training_log;
+                File.WriteAllText(Training_file, ">Console_Training_log initialisation\n");
+            }
+            catch
+            {
+                Write_GridMonK_log("Console_Training_Ini=Error2");
+            }
+
         }
 
         private void Paint_console_Training(object sender, PaintEventArgs e)
@@ -328,8 +383,8 @@ namespace GridMonC
             if(Grid_is_calculated==1) if (Timeframe_crt != -1)
             {
                 Congestions_temp += " for Timeframe: "+ timeframe_crt_Text + "\n";
-                assess_nodes_violations();
-                assess_lines_violations();
+                Assess_nodes_violations();
+                Assess_lines_violations();
                 Congestions[Timeframe_crt] = Congestions_temp;
             }
 

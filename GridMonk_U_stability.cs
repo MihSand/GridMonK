@@ -54,9 +54,9 @@ namespace GridMonC
         }
 
         double S_max_consumption = 1000000; // maximum S power 
-        int textBox_U_stability_Load_no_value = 0;
+        int textBox_U_stability_Load_no_value = 0; // The load noimber value for which we make U_Stability
 
-        private void button_U_stability_Click(object sender, EventArgs e)
+        private void Button_U_stability_Click(object sender, EventArgs e)
         {
             // in this routine the OpenDSS LF is requested to provide 60 x 24 LF's
             DateTime t1 = DateTime.Now;
@@ -80,7 +80,7 @@ namespace GridMonC
             // generate constant profiles for all other loads
             Generate_Load_PQ_constant_file(1500);
 
-            generate_output_dss("multi_LP_Scan_1440", "U_stability");  // producere fisier de iesire compatibil dss.
+            Generate_output_dss("multi_LP_Scan_1440", "U_stability");  // producere fisier de iesire compatibil dss.
 
             OpenDSS_invoke("multi_LP_Scan_1440"); // se lanseaza OpenDSS
 

@@ -14,7 +14,6 @@ E:\App\VStudio\GridMonC\GridMonC\obj\Debug\GridMonk.csprojResolveAssemblyReferen
 E:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.dll
 E:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.pdb
 E:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.xml
-E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csprojResolveAssemblyReference.cache
 E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonC.GridMonk.resources
 E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csproj.GenerateResource.Cache
 E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csproj.CoreCompileInputs.cache
@@ -26,3 +25,19 @@ E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonK.exe
 E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonK.pdb
 E:\App\VStudio\GridMonK\GridMonC\bin\Debug\M2Mqtt.Net.dll
 E:\App\VStudio\GridMonK\GridMonC\bin\Debug\M2Mqtt.Net.pdb
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\GridMonK.exe.config
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\GridMonK.exe
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\GridMonK.pdb
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\M2Mqtt.Net.dll
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.dll
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\M2Mqtt.Net.pdb
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.pdb
+D:\App\VStudio\GridMonK\GridMonC\bin\Debug\Newtonsoft.Json.xml
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csprojAssemblyReference.cache
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonC.GridMonk.resources
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonK.Properties.Resources.resources
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csproj.GenerateResource.cache
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csproj.CopyComplete
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonK.exe
+D:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonK.pdb
+E:\App\VStudio\GridMonK\GridMonC\obj\Debug\GridMonk.csprojResolveAssemblyReference.cache

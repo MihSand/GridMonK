@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 using Newtonsoft;
 using Newtonsoft.Json;
 using System.IO;
@@ -18,12 +20,16 @@ namespace GridMonC
     public partial class GridMonk : Form
     {
 
+        const int trafos_MAX_MAX = 10; // 50, 10
+        const int generators_MAX_MAX = 50; //200; 50
+        const int monitors_MAX_MAX = 400; //1000; 100
 
         Pen p1Black = new Pen(Color.Black);
         Pen p1Black3 = new Pen(Color.Black, 3);
         Pen p2LightGray = new Pen(Color.LightGray);
         Pen p3DarkGray = new Pen(Color.DarkGray);
         Pen p4LightBlue2 = new Pen(Color.LightBlue, 2);
+        Pen p4_Line = new Pen(Color.Blue, 4);
         Pen p4Blue3 = new Pen(Color.Blue, 3);
         Pen p5DarkBlue = new Pen(Color.DarkBlue);
         Pen p5DarkBlue2 = new Pen(Color.DarkBlue, 2);
@@ -64,6 +70,8 @@ namespace GridMonC
         SolidBrush b6LightPink = new SolidBrush(Color.LightPink);
         SolidBrush b7Green = new SolidBrush(Color.Green);
         SolidBrush b7LightGreen = new SolidBrush(Color.LightGreen);
+        SolidBrush b7DarkGreen = new SolidBrush(Color.DarkGreen);
+        SolidBrush b7LightGreen2 = new SolidBrush(Color.SpringGreen);
         SolidBrush b8Magenta = new SolidBrush(Color.Magenta);
         SolidBrush b8LightCoral = new SolidBrush(Color.LightCoral);
         SolidBrush b9Lime = new SolidBrush(Color.Lime);
@@ -74,6 +82,7 @@ namespace GridMonC
         SolidBrush b13Yellow = new SolidBrush(Color.Yellow);
         SolidBrush b13LightYellow = new SolidBrush(Color.LightYellow);
         SolidBrush b14Aqua = new SolidBrush(Color.Aqua);
+        SolidBrush b14Cyan = new SolidBrush(Color.Cyan);
         SolidBrush SolidBrush_crt = new SolidBrush(Color.Black);// b12;
 
         string GUI_Language = "English";
@@ -96,9 +105,11 @@ namespace GridMonC
         // Next value points where "forecast" scenarios start, 24/96 intervals of 1h / 15m are memorized, calculated by OpenDSS
         const int LPs_scenarios_LF_forecasts_start = 11;
         //const int LPs_scenarios_LF_forecasts_length_MAX = 99; // total number of possible LF scenarios of "forecast" scenarios
-        
-            // total number of possible LF scenarios of "forecast" scenarios, allowing an LP scenario for at least each minute of a day (1440 minutes)
-        const int LPs_scenarios_LF_forecasts_length_MAX = 1450;
+
+        // total number of possible LF scenarios of "forecast" scenarios, allowing an LP scenario for at least each minute of a day (1440 minutes)
+        //const int LPs_scenarios_LF_forecasts_length_MAX = 100;
+        const int LPs_scenarios_LF_forecasts_length_MAX = 3005; // more than one hour
+        //const int LPs_scenarios_LF_forecasts_length_MAX = 11005; // more than one hour
         //const int LPs_scenarios_LF_forecasts_length_MAX = 5000;
         //const int LPs_scenarios_LF_forecasts_length_MAX = 9000; 
 
@@ -127,6 +138,8 @@ namespace GridMonC
 
         int Grid_is_calculated = 0; // 0=no  1=yes  ; used to make some calculations only if the grid is calculated by invoking OpenDSS
 
+        double double_NULL = 2.71314e-20; // a number near zero but which cannot be practically obtained from input or calculated data
+
         const int scenarios_prop_MAX = 20;
         string[,] scenarios = new string[scenarios_prop_MAX, historical_values_depth_MAX]; // 50 x loads (attached to nodes), 50 x properties
         const int scenarios_PROP_name = 0;
@@ -136,7 +149,7 @@ namespace GridMonC
         const int scenarios_PROP_violations = 4;
         const int scenarios_PROP_recorded_commands = 5;
 
-        const int loads_MAX = 250; const int loads_prop_MAX = 60;
+        const int loads_MAX = 250; const int loads_prop_MAX = 75;
         //const int loads_values_set_MAX = 40;
         //const int loads_values_depth_MAX = 500;
 //        string[,,] loads_values_set = new string[loads_MAX, loads_values_set_MAX, loads_values_depth_MAX];
@@ -144,6 +157,7 @@ namespace GridMonC
         const int loads_values_start = 9;
         //int loads_values_set_no = 0;
         string[,] loads = new string[loads_MAX, loads_prop_MAX]; // 50 x loads (attached to nodes), 50 x properties
+        double[,,,] loads_npolys = new double[loads_MAX, 10, 2, 2]; // poli-linii [nr.load, segment, connection, x/y=0/1
         const int loads_PROP_name = 0;
         const int loads_PROP_bus = 1;
         const int loads_PROP_phases = 3;
@@ -193,16 +207,31 @@ namespace GridMonC
         const int loads_PROP_pin1_x = 47;
         const int loads_PROP_pin1_y = 48;
         const int loads_PROP_Font1 = 49;
-        const int loads_PROP_Font1_Mask = 50;
+        const int loads_PROP_kWmax = 50;
+        const int loads_PROP_node_auto_draw = 51;
+        const int loads_PROP_Font1_Mask = 52;
         // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
         // The pool for balance calculations is based on voltage level + Microgrid name
-        const int loads_PROP_MicroGrid1 = 51;
-        const int loads_PROP_MicroGrid2 = 52;
-        const int loads_PROP_MicroGrid3 = 53;
+        const int loads_PROP_user_name = 53;
+        const int loads_PROP_MicroGrid1 = 54;
+        const int loads_PROP_MicroGrid2 = 55;
+        const int loads_PROP_MicroGrid3 = 56;
         //
-        const int loads_PROP_gph_DrawType = 57;
-        const int loads_PROP_gph_selected = 58;
-        const int loads_PROP_gph_direction = 59; // N,W,S,E (modul de desenare; N=cu borna sus, W=cu borna in satnga
+        const int loads_PROP_Prosumer_SaaS = 57; // The Storage as a Service (SaaS) asked for the prosumer
+        const int loads_PROP_Pn_buffered = 58;
+        const int loads_PROP_Prosumer_SaaS_pair = 59; // The SaaS pair number of the prosumer
+        //
+        const int loads_PROP_bus_poz = 60; // pozition on the connection bus
+        const int loads_PROP_npoly1_xy = 61; // polyline data
+        const int loads_PROP_pin1_x0 = 62;
+        const int loads_PROP_pin1_y0 = 63;
+        //
+        const int loads_PROP_gph_Draw_Highlighted = 64; // The drawing is high lighred if this attribute is "1"
+        const int loads_PROP_gph_Draw_Highlighted_color = 65; // The highlighet color may be custom; if it is "", then the color is the normal color of the border
+        const int loads_PROP_gph_Draw_Highlighted_blinking = 66; // The highlighet color is blinking if it is "1"
+        const int loads_PROP_gph_DrawType = 67;
+        const int loads_PROP_gph_selected = 68;
+        const int loads_PROP_gph_direction = 69; // N,W,S,E (modul de desenare; N=cu borna sus, W=cu borna in satnga
         int loads_no = 0;
 
         const int loadshapes_MAX = 250; const int loadshapes_prop_MAX = 10;
@@ -229,10 +258,37 @@ namespace GridMonC
         const int linecodes_PROP_Umax = 7;
         int linecodes_no = 0;
 
+        const int HIL_FrontEnd_MAX = 10;  // cel mult 10 legaturi HIL u procesul
+        const int HIL_FrontEnd_prop_MAX = 25; // 
+        string[,] HIL_FrontEnd = new string[HIL_FrontEnd_MAX, HIL_FrontEnd_prop_MAX]; // 10 x HIL_FrontEnd, 10 x properties
+        const int HIL_FrontEnd_PROP_Name = 0;
+        const int HIL_FrontEnd_PROP_ComType = 1; // Serial, IP
+        const int HIL_FrontEnd_PROP_ComAddr = 2; // If IP, it gives the IP address; If Serial, it gives the name of the Com port (e.g. COM6) 
+        const int HIL_FrontEnd_PROP_ComPort = 3; // If IP, it gives the IP port; If RS485, it gives the address of the device
+        const int HIL_FrontEnd_PROP_Baudrate = 4; // Applicable only for Serial
+        const int HIL_FrontEnd_PROP_ProtocolType = 5; // Several protocols can be implemented: UI_Generators etc.
+        const int HIL_FrontEnd_PROP_ProtocolVer = 6; // In case the version is important, this is a filed to descrive the version
+        const int HIL_FrontEnd_PROP_X0 = 7; // Position X0 of the drawing
+        const int HIL_FrontEnd_PROP_Y0 = 8; // Position Y0 of the drawing
+        const int HIL_FrontEnd_PROP_Visible = 9; // If the drawing is visible
+        const int HIL_FrontEnd_PROP_ObjType = 12; // The type of object in GridMonK realtime database: line, load, generator
+        const int HIL_FrontEnd_PROP_ObjNo = 13;  // The object number in GridMonK realtime database
+        const int HIL_FrontEnd_PROP_Terminal = 14; // If the object has more than one terminal, it can be written here (for lines, trafos, nodes etc.)
+        const int HIL_FrontEnd_PROP_Phases = 15; // If it is targeted one phase or the 3-pahse measurement (1 or 3)
+        const int HIL_FrontEnd_PROP_Phase_Number = 16; // the phase number. It can be 1,2,3 if HIL_FrontEnd_PROP_Phases=1, or it is neglected otherwise
+        const int HIL_FrontEnd_PROP_ScaleMaxU = 17; // Scaling the U sent data, based on a maximum value of the externalk HIL generator
+        const int HIL_FrontEnd_PROP_ScaleMaxI = 18; // Scaling the I sent data, based on a maximum value of the externalk HIL generator
+
+        const int HIL_FrontEnd_PROP_gph_selected = 24; // Selectare = 1
+
+        int HIL_FrontEnd_no = 0;
+        int HIL_FrontEnd_dX = 40;
+        int HIL_FrontEnd_dY = 26;
+
         //const int lines__scenarios_series_start = 9; // where a series of scenario start, e.g. 24 intervals fo one hour calculated by OpenDSS
 
         const int lines_MAX = 250;  // cel mult 200 linii in retea
-        const int lines_prop_MAX = 100;
+        const int lines_prop_MAX = 110;
         //const int lines_values_set_MAX = 40;
         //const int lines_values_depth_MAX = 500;
         //string[,,] lines_values_set = new string[lines_MAX, lines_values_set_MAX, lines_values_depth_MAX];
@@ -240,9 +296,12 @@ namespace GridMonC
         //const int lines_values_start = 9; // LPs_scenarios_series_start
         int lines_values_set_no = 0;
 
+
         //const int lines_scenarios_MAX = 200; // numarul de situatii diferite (scenarii) de retea
         //string[,,] lines_scenarios = new string[lines_MAX, lines_prop_MAX, lines_scenarios_MAX]; //seturi de scenarii de stari linie
         string[,] lines = new string[lines_MAX, lines_prop_MAX]; // 100 x lines (connecting two nodes), 50 x properties
+        double[,] lines_double = new double[lines_MAX, lines_prop_MAX]; // 100 x lines (connecting two nodes), 50 x properties
+        double[,,,] lines_npolys = new double[lines_MAX, 10, 2, 2]; // poli-linii [nr.gen, segment, connection, x/y=0/1
         const int lines_PROP_name = 0;
         const int lines_PROP_bus1 = 1;
         const int lines_PROP_bus2 = 2;
@@ -320,23 +379,36 @@ namespace GridMonC
         const int lines_PROP_pin1_y = 81;
         const int lines_PROP_pin2_x = 82;
         const int lines_PROP_pin2_y = 83;
-        const int lines_PROP_Font1 = 83;
-        const int lines_PROP_Font1_Mask = 84;
-        const int lines_PROP_Font2 = 85;
-        const int lines_PROP_Font2_Mask = 86;
-        const int lines_PROP_HidePinsNo = 87;
+        const int lines_PROP_Font_P = 84;
+        const int lines_PROP_Font1_Mask = 85;
+        const int lines_PROP_Font_Q = 86;
+        const int lines_PROP_Font_U = 87;
+        const int lines_PROP_HidePinsNo = 88;
 
-        const int lines_PROP_voltage = 88;  // Nominal voltage level, useful for making balancing calculations
+        const int lines_PROP_voltage = 89;  // Nominal voltage level, useful for making balancing calculations
+        const int lines_PROP_bus1poz = 90; // to which position in bus 1 is connected
+        const int lines_PROP_bus2poz = 91; // to which position in bus 2 is connected
         // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
         // The pool for balance calculations is based on voltage level + Microgrid name
-        const int lines_PROP_MicroGrid1 = 89;
-        const int lines_PROP_MicroGrid2 = 90;
-        const int lines_PROP_MicroGrid3 = 91;
+        const int lines_PROP_MicroGrid1 = 92;
+        const int lines_PROP_MicroGrid2 = 93;
+        const int lines_PROP_MicroGrid3 = 94;
+        const int lines_PROP_ConnectionType = 95;
+        const int lines_PROP_npoly1_xy = 96; // GridMonK: line connection on connection 1 of the line
+        const int lines_PROP_npoly2_xy = 97;
+        const int lines_PROP_pin1_x0 = 98;
+        const int lines_PROP_pin1_y0 = 99;
+        const int lines_PROP_pin2_x0 = 100;
+        const int lines_PROP_pin2_y0 = 101;
+        const int lines_PROP_OutUI = 102;
         //
-        const int lines_PROP_gph_DrawType = 97;
-        const int lines_PROP_gph_selected = 98;
-        const int lines_PROP_gph_direction = 99; // N,W,S,E
+        const int lines_PROP_gph_DrawType = 107;
+        const int lines_PROP_gph_selected = 108;
+        const int lines_PROP_gph_direction = 109; // N,W,S,E
         int lines_no = 0;
+        const int line_Terminal_1 = 0;
+        const int line_Terminal_2 = 1;
+
 
         //const int trafos_values_set_MAX = 40;
         //const int trafos_values_depth_MAX = 500;
@@ -345,11 +417,14 @@ namespace GridMonC
         const int trafos_values_start = 9;
         //int trafos_values_set_no = 0;
 
-        const int trafos_MAX = 50; const int trafos_prop_MAX = 70;
+        const int trafos_MAX = trafos_MAX_MAX; // Large=50
+        const int trafos_prop_MAX = 80;
         const int trafos__scenarios_series_start = 9; // where a series of scenario start, e.g. 24 intervals fo one hour calculated by OpenDSS
         //const int trafos_scenarios_MAX = 200; // numarul de situatii diferite (scenarii) de retea
         //string[,,] trafos_values_set = new string[trafos_MAX, trafos_prop_MAX, trafos_scenarios_MAX]; //seturi de scenarii de stari linie
         string[,] trafos = new string[trafos_MAX, trafos_prop_MAX]; // 40 x transformers (connecting two nodes), 50 x properties
+        double[,] trafos_double = new double[trafos_MAX, trafos_prop_MAX]; // "doubl evariable, if can be calculated
+        double[,,,] trafos_npolys = new double[trafos_MAX, 10, 2, 2]; // poli-linii [nr.trafo, segment, connection, x/y=0/1
         const int trafos_PROP_name = 0;
         const int trafos_PROP_bus1 = 1;
         const int trafos_PROP_bus2 = 2;
@@ -408,78 +483,109 @@ namespace GridMonC
         const int trafos_PROP_U_Prm_nom = 53;   // primary voltage, information can be extracted from "trafos_PROP_kVs"
         const int trafos_PROP_U_Sec1_nom = 54;   // secondary voltage winding 1, information can be extracted from "trafos_PROP_kVs"
         const int trafos_PROP_U_Sec2_nom = 55;   // secondary voltage winding 2 (if exist), information can be extracted from "trafos_PROP_kVs"
+        const int trafos_PROP_kVAs_sec1 = 56; // kVA for winding 1 (primary), considred as sec1 
+        const int trafos_PROP_kVAs_sec2 = 57; // kVA for winding 2 (secondary), consudred as sec2
         // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
         // The pool for balance calculations is based on voltage level + Microgrid name
-        const int trafos_PROP_MicroGridPrm = 56;  
-        const int trafos_PROP_MicroGridSec1 = 57;
-        const int trafos_PROP_MicroGridSec2 = 58;
+        const int trafos_PROP_MicroGridPrm = 58;  
+        const int trafos_PROP_MicroGridSec1 = 59;
+        const int trafos_PROP_MicroGridSec2 = 60;
         //
-        const int trafos_PROP_gph_DrawType = 67;
-        const int trafos_PROP_gph_selected = 68;
-        const int trafos_PROP_gph_direction = 69; // N,W,S,E
+        const int trafos_PROP_pin1_x0 = 61;
+        const int trafos_PROP_pin1_y0 = 62;
+        const int trafos_PROP_pin1_x2 = 63;
+        const int trafos_PROP_pin1_y2 = 64;
+        const int trafos_PROP_node_auto_draw = 65;
+        const int trafos_PROP_bus_poz = 66;
+        const int trafos_PROP_npoly1_xy = 67;
+        //
+        const int trafos_PROP_gph_DrawType = 77;
+        const int trafos_PROP_gph_selected = 78;
+        const int trafos_PROP_gph_direction = 79; // N,W,S,E
         int trafos_no = 0;
 
-        const int generators_MAX = 100; const int generators_prop_MAX = 60;
+        const int generators_MAX = generators_MAX_MAX; //200;
+        const int generators_prop_MAX = 70; // total number of properties associated to each generator
         string[,] generators = new string[generators_MAX, generators_prop_MAX]; // 50 x generators (attached to nodes), 40 x properties
+        double[,] generators_double = new double[generators_MAX, generators_prop_MAX]; // varianta double a valorilor, where possible
+        double[,,,] generators_npolys = new double[generators_MAX, 10, 2, 2]; // poli-linii [nr.gen, segment, connection, x/y=0/1
         string[,,] generators_values_set = new string[generators_MAX, generators_prop_MAX, historical_values_depth_MAX]; //seturi de scenarii de stari linie
         // HashMap<string, string> generator[generators_MAX];
         // generator.get("name")
         // generator.set(column[0], column[1]);
         const int generators_PROP_name = 0;
-        const int generators_PROP_bus = 1;
+        const int generators_PROP_bus = 1; // OpenDSS input for describing the topology: the name of the bus where the generator is connected
         const int generators_PROP_phases = 3;
         const int generators_PROP_voltage = 4;
-        const int generators_PROP_Pn = 5;
-        const int generators_PROP_Qn = 6;
+        const int generators_PROP_Pn = 5; // OpenDSS input for the proposed active power P of the generator. After LF calculation, the real power is stored as "P"
+        const int generators_PROP_Qn = 6; // OpenDSS input for the proposed reactive power Q of the generator. After LF calculation, the real power is stored as "Q"
         const int generators_PROP_model = 7;
-        const int generators_PROP_PF = 8;
+        const int generators_PROP_PF = 8; // OpenDSS input for the proposed power power PF of the generator. If defined, Qn prevails over PF
         const int generators_PROP_status = 9;
         const int generators_PROP_daily = 10;
-        const int generators_PROP_x0 = 11;
-        const int generators_PROP_y0 = 12;
-        const int generators_PROP_U1 = 13;
-        const int generators_PROP_U2 = 14;
-        const int generators_PROP_U3 = 15;
-        const int generators_PROP_U4 = 16;
-        const int generators_PROP_I1 = 17;
-        const int generators_PROP_I2 = 18;
-        const int generators_PROP_I3 = 19;
-        const int generators_PROP_I4 = 20;
-        const int generators_PROP_P1 = 21;
-        const int generators_PROP_P2 = 22;
-        const int generators_PROP_P3 = 23;
-        const int generators_PROP_P = 24;
-        const int generators_PROP_Q1 = 25;
-        const int generators_PROP_Q2 = 26;
-        const int generators_PROP_Q3 = 27;
-        const int generators_PROP_Q = 28;
-        const int generators_PROP_U1fi = 29;
-        const int generators_PROP_U2fi = 30;
-        const int generators_PROP_U3fi = 31;
-        const int generators_PROP_U4fi = 32;
-        const int generators_PROP_I1fi = 33;
-        const int generators_PROP_I2fi = 34;
-        const int generators_PROP_I3fi = 35;
-        const int generators_PROP_I4fi = 36;
-        const int generators_PROP_Preal = 37;
-        const int generators_PROP_Qreal = 38;
+        const int generators_PROP_x0 = 11; // GridMonK: x0 position of the generator drawing in the UI
+        const int generators_PROP_y0 = 12; // GridMonK: x0 position of the generator drawing in the UI
+        const int generators_PROP_U1 = 13; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U2 = 14; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U3 = 15; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U4 = 16; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I1 = 17; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I2 = 18; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I3 = 19; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I4 = 20; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_P1 = 21; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_P2 = 22; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_P3 = 23; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_P = 24; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_Q1 = 25; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_Q2 = 26; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_Q3 = 27; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_Q = 28; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U1fi = 29; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U2fi = 30; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U3fi = 31; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_U4fi = 32; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I1fi = 33; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I2fi = 34; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I3fi = 35; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_I4fi = 36; // GridMonK: result obtained by OpenDSS
+        const int generators_PROP_Preal = 37; // GridMonK: result obtained by OpenDSS: the real active power P after LF calculation
+        const int generators_PROP_Qreal = 38; // GridMonK: result obtained by OpenDSS: the real reactive power Q after LF calculation
         const int generators_PROP_S = 39;
         const int generators_PROP_duty = 40;
         const int generators_PROP_Vminpu = 41;
         const int generators_PROP_Vmaxpu = 42;
-        const int generators_PROP_conn = 43;
-        const int generators_PROP_pin1_x = 44;
-        const int generators_PROP_pin1_y = 45;
-        const int generators_PROP_gph_DrawType = 46;
-        const int generators_PROP_brk = 47;
+        const int generators_PROP_Pn_max = 43;
+        const int generators_PROP_Qn_max = 44;
+        const int generators_PROP_conn = 45;
+        const int generators_PROP_pin1_x = 46; // GridMonK: 
+        const int generators_PROP_pin1_y = 47; // GridMonK: 
+        const int generators_PROP_gph_DrawType = 48; // GridMonK: 
+        const int generators_PROP_brk = 49; // GridMonK: The status of a generator. It can be "on" or "off". If the styring is empty, the breaker status is not defined
+        const int generators_PROP_node_auto_draw = 50; // points to which node connector to draw line
+        const int generators_PROP_gen_type = 51;
+        const int generators_PROP_user_name = 52;
         // Information below: For a certain voltage level, user can choose a Microgrid name, e.g "A" or "B" or "MyMG"; 
         // The pool for balance calculations is based on voltage level + Microgrid name
-        const int generators_PROP_MicroGrid1 = 48;
-        const int generators_PROP_MicroGrid2 = 49;
-        const int generators_PROP_MicroGrid3 = 50;
-        //
-        const int generators_PROP_gph_selected = 58;
-        const int generators_PROP_gph_direction = 59;
+        const int generators_PROP_MicroGrid1 = 53;
+        const int generators_PROP_MicroGrid2 = 54;
+        const int generators_PROP_MicroGrid3 = 55;
+        // description of connections of a generator to a substation busbar system (one or two busbars)
+        const int generators_PROP_bus_poz = 56;
+        const int generators_PROP_bus2_poz = 57;
+        // additional descriptions for the generator
+        const int generators_PROP_kVA = 60; // OpenDSS: kVA rating of electrical machine. Defaults to 1.2* kW if not specified. Applied to machine or inverter definition for Dynamics mode solutions
+        const int generators_PROP_Max_kvar = 61; // OpenDSS: Maximum kvar limit for Model = 3. Defaults to twice the specified load kvar. Always reset this if you change PF or kvar properties.
+        const int generators_PROP_Min_kvar = 62; // OpenDSS: Minimum kvar limit for Model = 3. Enter a negative number if generator can absorb vars. Defaults to negative of Maxkvar. Always reset this if you change PF or kvar properties.
+        const int generators_PROP_Xd = 63; // OpenDSS: Per unit synchronous reactance of machine. Presently used only for Thevinen impedance for power flow calcs of user models (model=6). Typically use a value from 0.4 to 1.0. Default is 1.0
+
+        const int generators_PROP_Pvfactor = 64; // OpenDSS: Convergence deceleration factor for P-V generator model (Model=3). Default is 0.1. If the circuit converges easily, you may want to use a higher number such as 1.0. Use a lower number if solution diverges.
+        const int generators_PROP_Debugtrace = 65;
+        const int generators_PROP_npoly1_xy = 66; // GridMonK: line connection on connection 1 of the line
+        const int generators_PROP_npoly2_xy = 67;
+
+        const int generators_PROP_gph_selected = 68;
+        const int generators_PROP_gph_direction = 69;
         int generators_no = 0;
 
         const int vsources_MAX = 20; const int vsources_prop_MAX = 20;
@@ -501,7 +607,8 @@ namespace GridMonC
         const int vsources_PROP_gph_direction = 19;
         int vsources_no = 0;
 
-        const int monitors_MAX = 1000; const int monitors_prop_MAX = 10;
+        const int monitors_MAX = monitors_MAX_MAX; //1000;
+        const int monitors_prop_MAX = 10;
         string[,] monitors = new string[monitors_MAX, monitors_prop_MAX]; // 50 x generators (attached to nodes), 20 x properties
         const int monitors_PROP_name = 0;
         const int monitors_PROP_element = 1;
@@ -517,8 +624,30 @@ namespace GridMonC
         const int exports_PROP_param = 1;
         int exports_no = 0;
 
-        const int nodes_MAX = 250; const int nodes_prop_MAX = 40;
+        struct Draw_item_attrib
+        {
+            public string Attrib_text;
+            public string Visible; // "0" or "1"
+            public string phases; // "1x1x"  1=se afiseaza, orice alta valoare se neglijeaza
+            public int x0;
+            public int y0;
+            public int Font;
+            public string Color;
+        };
+        struct Draw_busbar_attrib
+        {
+            public string Attrib_text;
+            public string Enable; // "0" or "1"
+            public string Direction; // "N" or other
+            public int Bays_number;
+            public int[] coord_x, coord_y;
+            public int Bay_size;
+        };
+
+        const int nodes_MAX = 250; const int nodes_prop_MAX = 60;
         string[,] nodes = new string[nodes_MAX, nodes_prop_MAX]; // 100 x nodes (attached to objects), 30 x properties
+        Draw_item_attrib[] nodes_Draw_U_proc = new Draw_item_attrib[nodes_MAX];
+        Draw_busbar_attrib[] nodes_Draw_busbar = new Draw_busbar_attrib[nodes_MAX];
         const int nodes_PROP_name = 0;
         const int nodes_PROP_bus = 1;
         const int nodes_PROP_x0 = 2;
@@ -535,46 +664,67 @@ namespace GridMonC
         const int nodes_PROP_U3fi = 13;
         const int nodes_PROP_U4 = 14;
         const int nodes_PROP_U4fi = 15;
-        const int nodes_PROP_U_source_object = 16;
-        const int nodes_PROP_U_source_object_number = 17;
-        const int nodes_PROP_U_source_object_name = 18;
-        const int nodes_PROP_U_source_object_avail_U_meas = 19;
-        const int nodes_PROP_voltage = 20;
-        const int nodes_PROP_arrow = 21;
-        const int nodes_PROP_bus_name = 22;
-        const int nodes_PROP_draw_U1 = 23;
-        const int nodes_PROP_draw_U1fi = 24;
-        const int nodes_PROP_draw_type = 25;
-        const int nodes_PROP_pin1_x = 26;
-        const int nodes_PROP_pin1_y = 27;
-        const int nodes_PROP_pin2_x = 28;
-        const int nodes_PROP_pin2_y = 29;
-        const int nodes_PROP_bus_name_x = 30;
-        const int nodes_PROP_bus_name_y = 31;
-        const int nodes_PROP_Font1 = 32;
-        const int nodes_PROP_U_x = 33;
-        const int nodes_PROP_U_y = 34;
-        const int nodes_PROP_gph_selected = 38;
-        const int nodes_PROP_plylines = 39;
+        const int nodes_PROP_U_source_object = 16; // line, generator, load etc.
+        const int nodes_PROP_U_source_object_number = 17; // numer of line, generator etc.
+        const int nodes_PROP_U_source_object_name = 18; // name of the source
+        const int nodes_PROP_U_source_object_avail_U_meas = 19; //
+        const int nodes_PROP_U_source_object_terminal = 20; // some obejcts have more than one terminal, e.g. lines have 2 terminals: "1" and "2"
+        const int nodes_PROP_voltage = 21;
+        const int nodes_PROP_arrow = 22;
+        const int nodes_PROP_bus_name = 23;
+        const int nodes_PROP_draw_U1 = 24;
+        const int nodes_PROP_draw_U1fi = 25;
+        const int nodes_PROP_draw_type = 26;
+        const int nodes_PROP_pin1_x0 = 27;
+        const int nodes_PROP_pin1_y0 = 28;
+        const int nodes_PROP_pin1_x1 = 29;
+        const int nodes_PROP_pin1_y1 = 30;
+        const int nodes_PROP_pin1_x2 = 31;
+        const int nodes_PROP_pin1_y2 = 32;
+        const int nodes_PROP_pin2_x = 33;
+        const int nodes_PROP_pin2_y = 34;
+        const int nodes_PROP_bus_name_x = 35;
+        const int nodes_PROP_bus_name_y = 36;
+        const int nodes_PROP_Font1 = 37;
+        const int nodes_PROP_U_x = 38;
+        const int nodes_PROP_U_y = 39;
+        const int nodes_PROP_x1 = 40;
+        const int nodes_PROP_y1 = 41;
+        const int nodes_PROP_con1from = 42;
+        const int nodes_PROP_x2 = 43;
+        const int nodes_PROP_y2 = 44;
+        const int nodes_PROP_con2from = 45;
+        const int nodes_PROP_Draw_U1proc = 46;
+
+        const int nodes_PROP_gph_selected = 58;
+        const int nodes_PROP_plylines = 59;
         int nodes_no = 0;
 
-        const int nodes_metadata_MAX = 250; const int nodes_metadata_prop_MAX = 20;
+        const int nodes_metadata_MAX = 250; const int nodes_metadata_prop_MAX = 25;
         string[,] nodes_metadata = new string[nodes_MAX, nodes_metadata_prop_MAX]; // 100 x nodes_metadata, 20 x properties
+        Draw_item_attrib[] nodes_metadata_Draw_U_proc = new Draw_item_attrib[nodes_MAX];
+        Draw_busbar_attrib[] nodes_metadata_Draw_busbar = new Draw_busbar_attrib[nodes_MAX];
         const int nodes_metadata_PROP_name = 0;
         const int nodes_metadata_PROP_bus = 1;
         const int nodes_metadata_PROP_x0 = 2;
         const int nodes_metadata_PROP_y0 = 3;
-        const int nodes_metadata_PROP_arrow = 4;
-        const int nodes_metadata_PROP_bus_name = 5;
-        const int nodes_metadata_PROP_draw_U1 = 6;
-        const int nodes_metadata_PROP_draw_U1fi = 7;
-        const int nodes_metadata_PROP_draw_type = 8;
-        const int nodes_metadata_PROP_bus_name_x = 9;
-        const int nodes_metadata_PROP_bus_name_y = 10;
-        const int nodes_metadata_PROP_Font1 = 11;
-        const int nodes_metadata_PROP_U_x = 12;
-        const int nodes_metadata_PROP_U_y = 13;
-        const int nodes_metadata_PROP_gph_selected = 19;
+        const int nodes_metadata_PROP_x1 = 4;
+        const int nodes_metadata_PROP_y1 = 5;
+        const int nodes_metadata_PROP_x2 = 6;
+        const int nodes_metadata_PROP_y2 = 7;
+        const int nodes_metadata_PROP_arrow = 8;
+        const int nodes_metadata_PROP_bus_name = 9;
+        const int nodes_metadata_PROP_draw_U1 = 10;
+        const int nodes_metadata_PROP_draw_U1fi = 11;
+        const int nodes_metadata_PROP_draw_type = 12;
+        const int nodes_metadata_PROP_bus_name_x = 13;
+        const int nodes_metadata_PROP_bus_name_y = 14;
+        const int nodes_metadata_PROP_Font1 = 15;
+        const int nodes_metadata_PROP_U_x = 16;
+        const int nodes_metadata_PROP_U_y = 17;
+        const int nodes_metadata_PROP_con1from = 18;
+        const int nodes_metadata_PROP_con2from = 19;
+        const int nodes_metadata_PROP_gph_selected = 24;
         int nodes_metadata_no = 0;
 
         const int labels_MAX = 100; const int labels_prop_MAX = 20;
@@ -635,6 +785,31 @@ namespace GridMonC
         const int graph_phasors_PROP_gph_direction = 19;
         int graph_phasors_no = 0;
 
+        const int graphs_MAX = 10; const int graphs_prop_MAX = 30;
+        string[,] graphs = new string[graphs_MAX, graphs_prop_MAX];
+        const int graphs_PROP_name = 0;
+        const int graphs_PROP_gph_title = 2;
+        const int graphs_PROP_command = 3;
+        const int graphs_PROP_x0 = 4;
+        const int graphs_PROP_y0 = 5;
+        const int graphs_PROP_magnif = 6;
+        const int graphs_PROP_legend_dx = 7;
+        const int graphs_PROP_Y_min = 8; // max value on Y axis
+        const int graphs_PROP_Y_max = 9; // min value on Y axis
+        const int graphs_PROP_Samples_max = 10;
+        const int graphs_PROP_Samples_X_width = 11;
+        const int graphs_PROP_Graph_type = 12;
+        const int graphs_PROP_dX_legend = 13;
+        const int graphs_PROP_graph_dY = 14;
+
+        const int graphs_PROP_graph_shaddow = 25; // if it is "1", a shadow of the object is also displayed, usefu for dragging the object
+
+        const int graphs_PROP_transparency = 26;
+        const int graphs_PROP_enlarge = 27;
+        const int graphs_PROP_gph_selected = 28;
+        const int graphs_PROP_gph_direction = 29;
+        int graphs_no = 0;
+
         const int graph_sankeys_MAX = 10; const int graph_sankeys_prop_MAX = 20;
         string[,] graph_sankeys = new string[graph_sankeys_MAX, graph_sankeys_prop_MAX];
         const int graph_sankeys_PROP_name = 0;
@@ -650,8 +825,9 @@ namespace GridMonC
         const int graph_sankeys_PROP_gph_direction = 19;
         int graph_sankeys_no = 0;
 
-        const int graph_pies_MAX = 100; const int graph_pies_prop_MAX = 20;
+        const int graph_pies_MAX = 100; const int graph_pies_prop_MAX = 25;
         string[,] graph_pies = new string[graph_pies_MAX, graph_pies_prop_MAX];
+        double[,] graph_pies_double = new double[graph_pies_MAX, graph_pies_prop_MAX];
         const int graph_pies_PROP_name = 0;
         const int graph_pies_PROP_command = 3;
         const int graph_pies_PROP_x0 = 4;
@@ -664,8 +840,10 @@ namespace GridMonC
         const int graph_pies_PROP_min_norm = 11;
         const int graph_pies_PROP_meas_type = 12;
         const int graph_pies_PROP_visible = 13;
+        const int graph_pies_PROP_bus = 14;
         const int graph_pies_PROP_gph_selected = 18;
         const int graph_pies_PROP_gph_direction = 19; // at the moment it is implemented only "N"
+        const int graph_pies_PROP_size = 20;
         int graph_pies_no = 0;
 
         const int graph_smallgph_MAX = 20; const int graph_smallgph_prop_MAX = 20;
@@ -680,6 +858,30 @@ namespace GridMonC
         const int graph_smallgph_PROP_P_type = 9;
         const int graph_smallgph_PROP_gph_direction = 19; // at the moment it is implemented only "N"
         int graph_smallgph_no = 0;
+
+        const int prosumers_MAX = 10; const int prosumers_prop_MAX = 30;
+        string[,] prosumers = new string[prosumers_MAX, prosumers_prop_MAX];
+        const int prosumers_PROP_name = 0;
+        const int prosumers_PROP_text = 1;
+        const int prosumers_PROP_x0 = 2;
+        const int prosumers_PROP_y0 = 3;
+        const int prosumers_PROP_obj = 4;
+        const int prosumers_PROP_load_number = 5;
+        const int prosumers_PROP_phases = 6;
+        const int prosumers_PROP_bus = 7;
+        const int prosumers_PROP_voltage = 8;
+        const int prosumers_PROP_P_PCC = 9;
+        const int prosumers_PROP_Q_PCC = 10;
+        const int prosumers_PROP_P_BAT = 11;
+        const int prosumers_PROP_SoC = 12;
+        const int prosumers_PROP_P_PV = 13;
+        const int prosumers_PROP_ER_Mode = 14;
+        const int prosumers_PROP_P_scal_factor = 15;
+        const int prosumers_PROP_Q_scal_factor = 16;
+        const int prosumers_PROP_P_source2grid = 17; // which power is mirrored into the grid: PCC, PV, CONS
+        const int prosumers_PROP_Type = 18; // main, pair
+        const int prosumers_PROP_load_pair_number = 19;
+        int prosumers_no = 0;
 
         const int smart_meters_MAX = 100; const int smart_meters_prop_MAX = 80;
         string[,] smart_meters = new string[smart_meters_MAX, smart_meters_prop_MAX];
@@ -782,7 +984,64 @@ namespace GridMonC
         const int polylines2node_PROP_bus2 = 2;
         const int polylines2node_PROP_npolylines_xys = 3;
         int polylines2node_no = 0;
-        
+
+        const int Operations_MAX = 500; const int Operations_prop_MAX = 20;
+        string[,] Operations = new string[Operations_MAX, Operations_prop_MAX]; // 
+        const int Operations_PROP_object = 0;
+        const int Operations_PROP_name = 1;
+        const int Operations_PROP_attrib = 2;
+        const int Operations_PROP_value = 3;
+        const int Operations_PROP_value_old = 4; // Old value, before the operation took place
+        const int Operations_PROP_date = 5;
+        const int Operations_PROP_time = 6;
+        const int Operations_PROP_TimePeriod = 7;
+        const int Operations_PROP_TimePeriodUnit = 8;
+        const int Operations_PROP_reason = 9;
+        const int Operations_PROP_detail1_bus1 = 10; // specific detail: for "line" is Node1 from "Node_Connection": ["Node1", "Node2"]; for "load" and "generator" is Node1
+        const int Operations_PROP_detail2_bus2 = 11; // specific detail: for "line" is Node2 from "Node_Connection": ["Node1", "Node2"]
+        const int Operations_PROP_detail3_item_no = 12; // specific detail: for "line" is "Line_Number", for "load" is "Load_number" etc.
+        const int Operations_PROP_detail4_type = 13; // type of object; for "load" can be storage, for "line" can be "MV line", for "generator" can be "PV"
+        const int Operations_PROP_user_name = 14;
+        int Operations_no = 0;
+
+        const int GridCongestions_MAX = 500;
+        const int GridCongestions_prop_MAX = 30;
+
+        string[,,] GridCongestions = new string[2, GridCongestions_MAX, GridCongestions_prop_MAX]; // 
+        const int GridCongestions_PROP_object = 0;
+        const int GridCongestions_PROP_name = 1;
+        const int GridCongestions_PROP_attrib = 2;
+        const int GridCongestions_PROP_value = 3;
+        const int GridCongestions_PROP_value_proc = 4;
+        const int GridCongestions_PROP_value_lim = 5;
+        const int GridCongestions_PROP_value_lim2_down = 6;
+        const int GridCongestions_PROP_value_lim1_down = 7;
+        const int GridCongestions_PROP_value_nominal = 8;
+        const int GridCongestions_PROP_value_lim1_up = 9;
+        const int GridCongestions_PROP_value_lim2_up = 10;
+        const int GridCongestions_PROP_value_phase1 = 11;
+        const int GridCongestions_PROP_value_phase2 = 12;
+        const int GridCongestions_PROP_value_phase3 = 13;
+        const int GridCongestions_PROP_value_P1 = 14;
+        const int GridCongestions_PROP_value_P2 = 15;
+        const int GridCongestions_PROP_value_P3 = 16;
+        const int GridCongestions_PROP_value_Q1 = 17;
+        const int GridCongestions_PROP_value_Q2 = 18;
+        const int GridCongestions_PROP_value_Q3 = 19;
+        const int GridCongestions_PROP_node1 = 20;
+        const int GridCongestions_PROP_node2 = 21;
+        int[] GridCongestions_no = new int[2];
+
+        // Load profiles (LPs)
+        const int LP_depth_MAX = 4000; const int LP_prop_MAX = 10;
+        string[,] LPs = new string[LP_depth_MAX, LP_prop_MAX]; // 
+        const int LP_PROP_object = 0;
+        const int LP_PROP_name = 1;
+        const int LP_PROP_attrib = 2;
+        const int LP_PROP_value = 3;
+        int LP_pointer = 0;
+
+
         // "global graphics information" = Global_Gph_Info
         const int Global_Gph_Info__types_MAX = 10; // 10 different global information, to be possible to switch during GridMink operation
         const int Global_Gph_Info_prop_MAX = 10; // 10 properties for each type
@@ -831,10 +1090,23 @@ namespace GridMonC
         int Timeframe_crt = -1;
 
         // MQTT connections
+        string MQTT_Connect = "";
         string MQTT_broker_std1 = "127.0.0.1";
         string MQTT_broker_std1_subscribe_topic = "Basic_Topic_client1";
+        string MQTT_broker_user1 = "";
+        string MQTT_broker_password1 = "";
 
         string MQTT_broker_std2 = "127.0.0.1";
         string MQTT_broker_std2_subscribe_topic = "#";
+        string MQTT_broker_user2 = "";
+        string MQTT_broker_password2 = "";
+
+        // Received MQTT data in JSON format (seen as external SCADA system data) need to be decoded 
+        // and information need to be copied (mapped) into GridMonK database
+        const int _GridMonK_Max_Nodes_input_mapping = 100; // defines the maximum mapping rules for reading and mapping external nodes data from MQTT messages
+        const int _GridMonK_Max_Lines_input_mapping = 100; // defines the maximum mapping rules for reading and mapping external lines data from MQTT messages
+
+        int GridMonK_Congestion_Forecast_mode = 0; // no CFM
+        int GridMonK_realtime_data_mode = 0; // no realtime data
     }
 }

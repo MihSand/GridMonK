@@ -1,0 +1,8 @@
+# Connect Congestion Forecast Management tool to MQTT
+MQTT_Connect=CFM
+#
+# The message type V2 is enabled (1) or desabled (0 or as default)
+MQTT_Message_V2_enable=1
+# The type of message sent to MQTT broker 1
+MQTT_broker1_Message_type=V2
+#

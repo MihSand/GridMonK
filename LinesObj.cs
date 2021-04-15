@@ -129,7 +129,7 @@ namespace GridMonC
         SolidBrush b9Lime = new SolidBrush(Color.Lime);
         SolidBrush b10Maroon = new SolidBrush(Color.Maroon);
         SolidBrush b11Orange = new SolidBrush(Color.Orange);
-        SolidBrush b12;
+        //SolidBrush b12;
         SolidBrush b13Yellow = new SolidBrush(Color.Yellow);
         SolidBrush b13LightYellow = new SolidBrush(Color.LightYellow);
         /*

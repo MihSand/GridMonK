@@ -1,0 +1,32 @@
+2020.4.13	16:12:21:915	############################
+2020.4.13	16:12:21:931	#GridMonk=Start
+2020.4.13	16:12:22:118	InitializeComponent = Done
+2020.4.13	16:12:22:127	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.4.13	16:12:22:133	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.4.13	16:12:22:139	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.4.13	16:12:22:145	GridMonk_Project [UPB_Primer_02]
+2020.4.13	16:12:22:152	GUI_Language [English]
+2020.4.13	16:12:22:158	MQTT_Connect [S4G]
+2020.4.13	16:12:22:166	MQTT_broker_std1 [127.0.0.1]
+2020.4.13	16:12:22:173	MQTT_broker_std1_subscribe_topic [/LESSAg/SMX/LESSAg_ER_Data]
+2020.4.13	16:12:22:178	MQTT_broker_std2 [127.0.0.1]
+2020.4.13	16:12:22:184	MQTT_broker_std2_subscribe_topic [#]
+2020.4.13	16:12:22:190	Read jpg files
+2020.4.13	16:12:22:208	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.4.13	16:12:22:214	Grid_Monk_Conf=initialze_PROC_modules
+2020.4.13	16:12:22:256	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.4.13	16:12:22:261	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.4.13	16:12:22:267	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.4.13	16:12:22:274	read_config_file = Done
+2020.4.13	16:12:22:368	Start Initiaize MQTT link 1
+2020.4.13	16:12:23:447	Start Initiaize MQTT link 2
+2020.4.13	16:12:24:466	Initialize variables
+2020.4.13	16:12:24:662	Done initialization
+2020.4.13	16:12:29:214	#Command=Load_file=Start
+2020.4.13	16:12:29:221	GridMonk_Project=UPB_Primer_02
+2020.4.13	16:12:30:724	#Command=Load_file=Finished
+2020.4.13	16:12:31:509	#Command=Compute=Started
+2020.4.13	16:12:31:515	Start Compute at: T(ini):2020.04.13 16:12:31.515
+2020.4.13	16:12:34:986	Stop Compute at: T(end):2020.04.13 16:12:34.986
+2020.4.13	16:12:34:993	Compute time (msec): 3471
+2020.4.13	16:12:34:998	#Command=Compute=Finished

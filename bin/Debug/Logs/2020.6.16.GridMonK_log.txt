@@ -1,0 +1,180 @@
+2020.6.16	18:39:43:132	############################
+2020.6.16	18:39:43:151	#GridMonk=Start
+2020.6.16	18:39:43:274	InitializeComponent = Done
+2020.6.16	18:39:43:284	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.6.16	18:39:43:293	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	18:39:43:302	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	18:39:43:310	GridMonk_Project [WSG_MESOGIA_01]
+2020.6.16	18:39:43:318	GUI_Language [English]
+2020.6.16	18:39:43:325	MQTT_Connect [WiseGrid]
+2020.6.16	18:39:43:333	MQTT_broker_std1 [127.0.0.1]
+2020.6.16	18:39:43:340	MQTT_broker_user1 [gridmonk]
+2020.6.16	18:39:43:347	MQTT_broker_password1 [gridmonk]
+2020.6.16	18:39:43:354	MQTT_broker_std1_subscribe_topic [#]
+2020.6.16	18:39:43:363	MQTT_broker_std2 [127.0.0.1]
+2020.6.16	18:39:43:373	MQTT_broker_std2_subscribe_topic [#]
+2020.6.16	18:39:43:386	Read jpg files
+2020.6.16	18:39:43:468	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.6.16	18:39:43:475	Grid_Monk_Conf=initialze_PROC_modules
+2020.6.16	18:39:43:550	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.6.16	18:39:43:558	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.6.16	18:39:43:566	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.6.16	18:39:43:574	read_config_file = Done
+2020.6.16	18:39:43:680	Start Initialize MQTT link 1
+2020.6.16	18:39:44:725	Error initialising MQTT Client 1
+2020.6.16	18:39:44:733	Start Initialize MQTT link 2
+2020.6.16	18:39:45:751	Error initialising MQTT Client 2
+2020.6.16	18:39:45:759	Initialize variables
+2020.6.16	18:39:45:936	Done initialization
+2020.6.16	18:40:00:858	#Command=Load_file=Start
+2020.6.16	18:40:00:866	GridMonk_Project=WSG_MESOGIA_01
+2020.6.16	18:40:09:922	#Command=Load_file=Finished
+2020.6.16	18:40:23:961	#Command=Compute=Started
+2020.6.16	18:40:23:971	Start Compute at: T(ini):2020.06.16 18:40:23.971
+2020.6.16	18:40:34:732	Stop Compute at: T(end):2020.06.16 18:40:34.732
+2020.6.16	18:40:34:741	Compute time (msec): 10761
+2020.6.16	18:40:34:748	#Command=Compute=Finished
+2020.6.16	19:04:43:786	############################
+2020.6.16	19:04:43:798	#GridMonk=Start
+2020.6.16	19:04:43:890	InitializeComponent = Done
+2020.6.16	19:04:43:900	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.6.16	19:04:43:908	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:04:43:915	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:04:43:923	GridMonk_Project [WSG_MESOGIA_01]
+2020.6.16	19:04:43:938	GUI_Language [English]
+2020.6.16	19:04:43:945	MQTT_Connect [WiseGrid]
+2020.6.16	19:04:43:952	MQTT_broker_std1 [127.0.0.1]
+2020.6.16	19:04:43:960	MQTT_broker_user1 [gridmonk]
+2020.6.16	19:04:43:968	MQTT_broker_password1 [gridmonk]
+2020.6.16	19:04:43:977	MQTT_broker_std1_subscribe_topic [#]
+2020.6.16	19:04:43:985	MQTT_broker_std2 [127.0.0.1]
+2020.6.16	19:04:43:995	MQTT_broker_std2_subscribe_topic [#]
+2020.6.16	19:04:44:004	Read jpg files
+2020.6.16	19:04:44:027	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.6.16	19:04:44:035	Grid_Monk_Conf=initialze_PROC_modules
+2020.6.16	19:04:44:056	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.6.16	19:04:44:064	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.6.16	19:04:44:073	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.6.16	19:04:44:080	read_config_file = Done
+2020.6.16	19:04:44:115	Start Initialize MQTT link 1
+2020.6.16	19:04:45:155	Error initialising MQTT Client 1
+2020.6.16	19:04:45:164	Start Initialize MQTT link 2
+2020.6.16	19:04:46:181	Error initialising MQTT Client 2
+2020.6.16	19:04:46:190	Initialize variables
+2020.6.16	19:04:46:369	Done initialization
+2020.6.16	19:04:51:409	#Command=Load_file=Start
+2020.6.16	19:04:51:419	GridMonk_Project=WSG_MESOGIA_01
+2020.6.16	19:04:59:556	#Command=Load_file=Finished
+2020.6.16	19:05:03:943	#Command=Compute=Started
+2020.6.16	19:05:03:952	Start Compute at: T(ini):2020.06.16 19:05:03.952
+2020.6.16	19:05:13:564	Stop Compute at: T(end):2020.06.16 19:05:13.564
+2020.6.16	19:05:13:573	Compute time (msec): 9612
+2020.6.16	19:05:13:581	#Command=Compute=Finished
+2020.6.16	19:12:35:887	############################
+2020.6.16	19:12:35:901	#GridMonk=Start
+2020.6.16	19:12:36:051	InitializeComponent = Done
+2020.6.16	19:12:36:073	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.6.16	19:12:36:083	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:12:36:093	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:12:36:103	GridMonk_Project [WSG_MESOGIA_01]
+2020.6.16	19:12:36:112	GUI_Language [English]
+2020.6.16	19:12:36:122	MQTT_Connect [WiseGrid]
+2020.6.16	19:12:36:131	MQTT_broker_std1 [127.0.0.1]
+2020.6.16	19:12:36:145	MQTT_broker_user1 [gridmonk]
+2020.6.16	19:12:36:159	MQTT_broker_password1 [gridmonk]
+2020.6.16	19:12:36:179	MQTT_broker_std1_subscribe_topic [#]
+2020.6.16	19:12:36:191	MQTT_broker_std2 [127.0.0.1]
+2020.6.16	19:12:36:200	MQTT_broker_std2_subscribe_topic [#]
+2020.6.16	19:12:36:213	Read jpg files
+2020.6.16	19:12:36:240	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.6.16	19:12:36:248	Grid_Monk_Conf=initialze_PROC_modules
+2020.6.16	19:12:36:272	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.6.16	19:12:36:281	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.6.16	19:12:36:292	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.6.16	19:12:36:300	read_config_file = Done
+2020.6.16	19:12:36:350	Start Initialize MQTT link 1
+2020.6.16	19:12:37:389	Error initialising MQTT Client 1
+2020.6.16	19:12:37:403	Start Initialize MQTT link 2
+2020.6.16	19:12:38:416	Error initialising MQTT Client 2
+2020.6.16	19:12:38:425	Initialize variables
+2020.6.16	19:12:38:615	Done initialization
+2020.6.16	19:12:45:122	#Command=Load_file=Start
+2020.6.16	19:12:45:130	GridMonk_Project=WSG_MESOGIA_01
+2020.6.16	19:13:22:982	############################
+2020.6.16	19:13:23:000	#GridMonk=Start
+2020.6.16	19:13:23:124	InitializeComponent = Done
+2020.6.16	19:13:23:138	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.6.16	19:13:23:151	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:13:23:163	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:13:23:176	GridMonk_Project [WSG_MESOGIA_01]
+2020.6.16	19:13:23:188	GUI_Language [English]
+2020.6.16	19:13:23:200	MQTT_Connect [WiseGrid]
+2020.6.16	19:13:23:210	MQTT_broker_std1 [127.0.0.1]
+2020.6.16	19:13:23:218	MQTT_broker_user1 [gridmonk]
+2020.6.16	19:13:23:228	MQTT_broker_password1 [gridmonk]
+2020.6.16	19:13:23:241	MQTT_broker_std1_subscribe_topic [#]
+2020.6.16	19:13:23:253	MQTT_broker_std2 [127.0.0.1]
+2020.6.16	19:13:23:262	MQTT_broker_std2_subscribe_topic [#]
+2020.6.16	19:13:23:271	Read jpg files
+2020.6.16	19:13:23:294	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.6.16	19:13:23:302	Grid_Monk_Conf=initialze_PROC_modules
+2020.6.16	19:13:23:322	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.6.16	19:13:23:330	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.6.16	19:13:23:337	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.6.16	19:13:23:346	read_config_file = Done
+2020.6.16	19:13:23:381	Start Initialize MQTT link 1
+2020.6.16	19:13:24:430	Error initialising MQTT Client 1
+2020.6.16	19:13:24:442	Start Initialize MQTT link 2
+2020.6.16	19:13:25:462	Error initialising MQTT Client 2
+2020.6.16	19:13:25:471	Initialize variables
+2020.6.16	19:13:25:670	Done initialization
+2020.6.16	19:13:29:263	#Command=Load_file=Start
+2020.6.16	19:13:29:271	GridMonk_Project=WSG_MESOGIA_01
+2020.6.16	19:13:37:591	#Command=Load_file=Finished
+2020.6.16	19:13:45:887	#Command=Compute=Started
+2020.6.16	19:13:45:895	Start Compute at: T(ini):2020.06.16 19:13:45.895
+2020.6.16	19:13:54:541	Stop Compute at: T(end):2020.06.16 19:13:54.541
+2020.6.16	19:13:54:551	Compute time (msec): 8646
+2020.6.16	19:13:54:560	#Command=Compute=Finished
+2020.6.16	19:14:06:994	Export_JSON=E:\App\VStudio\GridMonK\GM_Projects\WSG_MESOGIA_01\Operations_export_JSON.txt.json
+2020.6.16	19:14:07:019	Export_JSON=Done
+2020.6.16	19:14:07:038	Export_JSON[MQTT_broker1]=done;length=5338
+2020.6.16	19:18:03:073	############################
+2020.6.16	19:18:03:089	#GridMonk=Start
+2020.6.16	19:18:03:204	InitializeComponent = Done
+2020.6.16	19:18:03:217	Grid_Monk_Conf readout [Grid_Monk_Conf.txt]
+2020.6.16	19:18:03:225	OpenDSS_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:18:03:234	Grid_Projects_Path [E:\App\VStudio\GridMonK\GM_Projects]
+2020.6.16	19:18:03:243	GridMonk_Project [WSG_MESOGIA_01]
+2020.6.16	19:18:03:252	GUI_Language [English]
+2020.6.16	19:18:03:259	MQTT_Connect [WiseGrid]
+2020.6.16	19:18:03:268	MQTT_broker_std1 [127.0.0.1]
+2020.6.16	19:18:03:276	MQTT_broker_user1 [gridmonk]
+2020.6.16	19:18:03:284	MQTT_broker_password1 [gridmonk]
+2020.6.16	19:18:03:291	MQTT_broker_std1_subscribe_topic [#]
+2020.6.16	19:18:03:299	MQTT_broker_std2 [127.0.0.1]
+2020.6.16	19:18:03:308	MQTT_broker_std2_subscribe_topic [#]
+2020.6.16	19:18:03:316	Read jpg files
+2020.6.16	19:18:03:336	Read jpg files complete [arrow_right2.jpg;arrow_right1.jpg;arrow_left1.jpg;arrow_up.jpg;arrow_down.jpg;zoom_in.jpg;zoom_out.jpg;Button_center.jpg;]
+2020.6.16	19:18:03:345	Grid_Monk_Conf=initialze_PROC_modules
+2020.6.16	19:18:03:366	Grid_Monk_Conf=initialze_PROC_modules=S4G=Finished
+2020.6.16	19:18:03:375	Grid_Monk_Conf=initialze_PROC_modules=WSG=Finished
+2020.6.16	19:18:03:383	Grid_Monk_Conf=initialze_PROC_modules=SCADA=Finished
+2020.6.16	19:18:03:392	read_config_file = Done
+2020.6.16	19:18:03:426	Start Initialize MQTT link 1
+2020.6.16	19:18:04:470	Error initialising MQTT Client 1
+2020.6.16	19:18:04:478	Start Initialize MQTT link 2
+2020.6.16	19:18:05:495	Error initialising MQTT Client 2
+2020.6.16	19:18:05:503	Initialize variables
+2020.6.16	19:18:05:682	Done initialization
+2020.6.16	19:18:10:889	#Command=Load_file=Start
+2020.6.16	19:18:10:898	GridMonk_Project=WSG_MESOGIA_01
+2020.6.16	19:18:18:829	#Command=Load_file=Finished
+2020.6.16	19:18:18:965	#Command=Compute=Started
+2020.6.16	19:18:18:974	Start Compute at: T(ini):2020.06.16 19:18:18.974
+2020.6.16	19:18:27:142	Stop Compute at: T(end):2020.06.16 19:18:27.142
+2020.6.16	19:18:27:150	Compute time (msec): 8168
+2020.6.16	19:18:27:158	#Command=Compute=Finished
+2020.6.16	19:18:35:447	Export_JSON_to_file=E:\App\VStudio\GridMonK\GM_Projects\WSG_MESOGIA_01\Operations_export_JSON.txt.json
+2020.6.16	19:18:35:459	Export_JSON[file]=Done
+2020.6.16	19:18:35:471	Export_JSON_to_MQTT_broker1=done;topic=Congestion_Forecast/DCM-CkP;payload_length=5338

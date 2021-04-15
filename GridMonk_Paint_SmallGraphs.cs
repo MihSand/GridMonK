@@ -55,12 +55,12 @@ namespace GridMonC
         private void Scan_SimpleGph(int xm, int ym)
         {
             // Interracts on the graph:  buttons and cursors
-            int x1, x2, y1, y2, inside;
+            int x1, y1, inside;
 
             // Prepare coordinates for command "Up"
             x1 = SimpleGph1_X0_start + Up_button_dX-6;
             y1 = SimpleGph_Y0 + Up_button_dY - 2;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 14, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 14, xm, ym);
             // Execute command "Up"
             if (inside == 1)
             {
@@ -78,7 +78,7 @@ namespace GridMonC
             // Prepare coordinates for command "Down"
             x1 = SimpleGph1_X0_start + Up_button_dX - 6;
             y1 = SimpleGph_Y0 + Up_button_dY +18;
-            inside = inside_rect(x1, y1, x1 + 35, y1 + 15, xm, ym);
+            inside = Inside_rect(x1, y1, x1 + 35, y1 + 15, xm, ym);
             // execute command "Down", with 1, 2, 5 and 10 multipliers, from 10 kW to 20 MW 
             if (inside == 1)
             {
@@ -99,7 +99,6 @@ namespace GridMonC
 
         private void Paint_SimpleGph(object sender, PaintEventArgs e)
         {
-            string s1 = "";
             int y1, y2;
             Graphics g = e.Graphics;
 

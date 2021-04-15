@@ -40,7 +40,7 @@ namespace GridMonC
         Phasor[] gph_phasors_properties = new Phasor[graph_phasors_MAX];
         double Angle_real_time = 0;
 
-        private void gph_phasors_alloc()
+        private void Gph_phasors_alloc()
         {
             for (int p1 = 0; p1 < graph_phasors_MAX; p1++)
             {
@@ -62,7 +62,7 @@ namespace GridMonC
             }
         }
 
-        private void gph_phasors_ini()
+        private void Gph_phasors_ini()
         {
             for (int p1 = 0; p1 < graph_phasors_MAX; p1++)
             {

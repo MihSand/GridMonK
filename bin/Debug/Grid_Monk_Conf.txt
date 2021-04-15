@@ -1,36 +1,78 @@
 # ********* File for GridMonK configuration **************
 #
-#OpenDSS_Path=E:\App\VStudio\GridMonK\PowerGrid
 OpenDSS_Path=E:\App\VStudio\GridMonK\GM_Projects
 Grid_Projects_Path=E:\App\VStudio\GridMonK\GM_Projects
 #
 #
 ##### Selection of one of the following projects:
+
+############## TASE
+GridMonk_Project=UPB_TASE_01
+###GridMonk_Project=UPB_WSCC3M9B
+###GridMonk_Project=UPB_TEST2_V01
+
+############## SCADA
 ###GridMonk_Project=UPB_Trainer_01
-###GridMonk_Project=PAPER_UPB_Trainer_03_UniRCon
+####GridMonk_Project=PAPER_UPB_Trainer_03_UniRCon
 ###GridMonk_Project=UPB_Primer_01
 ###GridMonk_Project=PHD_GHINEA_01
 ###GridMonk_Project=UPB_Primer_02
-###GridMonk_Project=UPB_TASE_01
 #######   SVC_Caracteristici_SEE:
 ###GridMonk_Project=UPB_TASE_02
 #######   Caracteristici_SEE si stabilitate de tensiune intr-un nod:
 ###GridMonk_Project=UPB_TASE_03
 ###GridMonk_Project=SCRED_AscDesc_01
+
+######################## S4G final tests
 ###GridMonk_Project=UPB_SmartMeters_01
+###GridMonk_Project=UPB_SM_HIL_01
+
+########################
 ###GridMonk_Project=NRG5_Simulation_01
 ###GridMonk_Project=EDYNA_SmartMeters_15A
 ###GridMonk_Project=UPB_DSS_Server_01
 ###GridMonk_Project=UPB_Stabilitate_Tensiune_01
 ###GridMonk_Project=UPB_Stabilitate_Tensiune_01A
 ###GridMonk_Project=UPB_Microgrid_01
-GridMonk_Project=WSG_MESOGIA_01
+######################## Papers
+
+###GridMonk_Project=SST_Microgrid_02
+###GridMonk_Project=TII_SM_Microgrid_01
+######################## WISEGRID - Mesogia tests
+
+###GridMonk_Project=WSG_MESOGIA_01
+########################
+###GridMonk_Project=WSG_CREVILLENT_01
+###GridMonk_Project=WSG_TERNI_01
+##GridMonk_Project=GridMonk_Project_00
 ###GridMonk_Project=UPB_Trainer_02_Forecast24
 ###GridMonk_Project=SST_Microgrid_01
 ###GridMonk_Project=SST_Microgrid_02
 ###GridMonk_Project=UPB_Microgrid_02
 #
+###GridMonk_Project=UPB_WSCC3M9B
 #
 #### Languages accepted: Romanian, English
 #GUI_Language=Romanian
 GUI_Language=English
+#
+# MQTT links can be connected to a specific layout for each project, currently S4G and Wisegrid
+# The variable "MQTT_Connect" can have at the moment the following possible vaules: "WiseGrid" or "S4G"
+#MQTT_Connect=S4G
+MQTT_Connect=WiseGrid
+MQTT_broker_std1=127.0.0.1
+#MQTT_broker_std1=10.8.0.11
+#172.23.13.253
+MQTT_broker_user1=gridmonk
+MQTT_broker_password1=gridmonk
+#MQTT_broker_std1_subscribe_topic=Congestion_Forecast/DCM-CkP
+#MQTT_broker_std1_subscribe_topic=/LESSAg/SMX/LESSAg_ER_Data
+MQTT_broker_std1_subscribe_topic=#
+MQTT_broker_std2=127.0.0.1
+#MQTT_broker_std2=172.23.13.253
+MQTT_broker_std2_subscribe_topic=#
+#Congestion_Forecast/PQG-DCM
+#Congestion_Forecast/GTP-DCM
+#
+SCADA_information=SCADA_links.txt
+Console_Training_log=Training_log.txt

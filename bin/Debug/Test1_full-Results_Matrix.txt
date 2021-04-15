@@ -1,0 +1,1 @@
+Counter	Date_Time(de modificat pentru timp real!!)	time_elapsed	P_cons	P_PV_meteo	P_PV_after_curtail	P_bat	SoC	P_PCC	P_bat_cd_setpoint	LESSAg_time [ms]

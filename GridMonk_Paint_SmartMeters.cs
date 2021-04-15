@@ -52,7 +52,7 @@ namespace GridMonC
             int value_min = (int)Smart_Meter_Pie_value_min; // value min, at left part fo the pie
             //int value_max_norm = 100; // normal value max, at right part fo the pie 
             //int value_min_norm = -100; // normal value min, at left part fo the pie
-            int obj_number = -1;
+            //int obj_number = -1;
             int value_center = 0;
             string pie_meas_type = Smart_Meter_Pie_type;
 
@@ -187,18 +187,18 @@ namespace GridMonC
             // Paint interracts
             for (int i1 = 0; i1 < smart_meters_no; i1++)
             {
-                int default_xy = 1;
+                //int default_xy = 1;
                 if ((smart_meters[i1, smart_meters_PROP_x0] == "") || (smart_meters[i1, smart_meters_PROP_y0] == ""))
                 {
                     object_x0 = x0_unordered + object_dxtot * 3 / 5 * (obj_number % nr_obj_parked_ox) + 20 * (obj_number / nr_obj_parked_ox);
                     object_y0 = y0_unordered + line_dytot * 1 / 3 * (obj_number / nr_obj_parked_ox);
-                    default_xy = 1;
+                    //default_xy = 1;
                 }
                 else
                 {
                     object_x0 = -X0_shift + int.Parse(smart_meters[i1, smart_meters_PROP_x0]);
                     object_y0 = -Y0_shift + int.Parse(smart_meters[i1, smart_meters_PROP_y0]);
-                    default_xy = 0;
+                    //default_xy = 0;
                 }
 
                 Associated_obj = smart_meters[i1, smart_meters_PROP_obj];
@@ -287,6 +287,7 @@ namespace GridMonC
                 catch
                 {
                     //Debug.Print(ee.ToString());
+                    Console.WriteLine("Paint_Smart_Meter-Err1");
                 }
                 /*
 	"SMX/LD01/1-1-36-7-0-255/-9": {"decimals" : 2, "label": "P1_prm" },	"SMX/LD01/1-1-56-7-0-255/-9": {"decimals" : 2, "label": "P2_prm" },	"SMX/LD01/1-1-76-7-0-255/-9": {"decimals" : 2, "label": "P3_prm" },
