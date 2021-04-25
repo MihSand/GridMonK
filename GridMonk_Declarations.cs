@@ -1061,6 +1061,8 @@ namespace GridMonC
         string OpenDSS_controlmode = "";
         string OpenDSS_mode = "";
         string OpenDSS_Circuit = ""; // this one is not global, but in simple circuits there is only one declaration
+        string OpenDSS_load_flows_number = "";
+        int OpenDSS_load_flows_number_int = 1;
 
         string OpenDSS_other_exports = "";
         double Global_PVs_factor = 1.0;

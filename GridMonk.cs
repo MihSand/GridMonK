@@ -1054,6 +1054,29 @@ namespace GridMonC
             HIL_FEP_action1();
         }
 
+        int button_Obj_prop_Fx = 0; // 0 = Std; 1 = Hist; 2 = Gph; 3=Oth
+        private void button_Obj_prop_F1_Click(object sender, EventArgs e)
+        {
+            // Button for querying Standard data from the current object
+            button_Obj_prop_Fx = 0; // 0 = Standard data
+        }
+
+        private void button_Obj_prop_F2_Click(object sender, EventArgs e)
+        {
+            // Button for querying historical data from the current object
+            button_Obj_prop_Fx = 1; // 1=  Historical data
+        }
+
+        private void button_Obj_prop_F3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Obj_prop_F4_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void Button_realtime_data_Click(object sender, EventArgs e)
         {
             if (GridMonK_realtime_data_mode == 0) GridMonK_realtime_data_mode = 1;
@@ -1106,6 +1129,7 @@ namespace GridMonC
             Write_GridMonK_log("#Command=" + "Compute=Started");
             DateTime t1 = DateTime.Now;
             string st1 = ">> Grid compute\n";
+            st1 += "LPs=" + OpenDSS_solve_number + "\n";
             string T_ini = "T(ini):" + t1.Year.ToString() + "." + t1.Month.ToString("00") + "." + t1.Day.ToString("00")
                 + " " + t1.Hour.ToString("00") + ":" + t1.Minute.ToString("00") + ":" + t1.Second.ToString("00")
                  + "." + t1.Millisecond.ToString("000");
@@ -1184,7 +1208,9 @@ namespace GridMonC
 
             Write_GridMonK_log("#Command=" + "Compute=Finished");
 
-            if(new_Load_command==1) { 
+            richTextBox_console2.Text = ""; // delete all data lisetd on this richTextBox
+
+            if (new_Load_command==1) { 
                 GridCongestions_screening(0); // request Grid congestions list
                 new_Load_command = 0;
             }
@@ -1314,22 +1340,22 @@ namespace GridMonC
                 if (found_linecode != -1) { 
                     double R1 = 0;
                     if (linecodes[found_linecode, linecodes_PROP_R1] != "")
-                        R1 = double.Parse(linecodes[found_linecode, linecodes_PROP_R1]) * double.Parse(lines[i1, lines_PROP_length]);
+                        R1 = double.Parse(linecodes[found_linecode, linecodes_PROP_R1]);// * double.Parse(lines[i1, lines_PROP_length]);
                     if (lines[i1, lines_PROP_R1] == "") {
                         // if there is not yet a value in the variable, it is copied form linecode
                         // however, if it was changed with the console, it is kept as it is.
                         lines[i1, lines_PROP_R1] = R1.ToString("###0.000");
-                        lines_double[i1, lines_PROP_R1] = R1; // we store als the R1 value as a "double" number
                     }
+                    lines_double[i1, lines_PROP_R1] = R1; // we store also the R1 value as a "double" number
                     double X1 = 0;
                     if (linecodes[found_linecode, linecodes_PROP_X1] != "")
-                        X1 = double.Parse(linecodes[found_linecode, linecodes_PROP_X1]) * double.Parse(lines[i1, lines_PROP_length]);
+                        X1 = double.Parse(linecodes[found_linecode, linecodes_PROP_X1]);// * double.Parse(lines[i1, lines_PROP_length]);
                     if(lines[i1, lines_PROP_X1] == "") {
                         // if there is not yet a value in the variable, it is copied form linecode
                         // however, if it was changed with the console, it is kept as it is.
                         lines[i1, lines_PROP_X1] = X1.ToString("###0.000");
-                        lines_double[i1, lines_PROP_X1] = X1; // we store also the X1 value as a "double" number
                     }
+                    lines_double[i1, lines_PROP_X1] = X1; // we store also the X1 value as a "double" number
                     //double Imax = 0;
                     if (lines[i1, lines_PROP_Imax] == "") 
                         // Only if there is no Imax defined for the current line we take the Imax from linecode
@@ -1339,6 +1365,12 @@ namespace GridMonC
                     //double Umax = 0;
                     if (linecodes[found_linecode, linecodes_PROP_Umax] != "")
                         lines[i1, lines_PROP_Umax] = linecodes[found_linecode, linecodes_PROP_Umax];
+                }
+                double Length = 0;
+                if (lines[i1, lines_PROP_length] != "")
+                {
+                    Length = double.Parse(lines[i1, lines_PROP_length]);
+                    lines_double[i1, lines_PROP_length] = Length; // we store also the X1 value as a "double" number
                 }
             }
             for (int i1 = 0; i1 < lines_MAX; i1++)

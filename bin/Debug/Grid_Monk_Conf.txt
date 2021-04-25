@@ -7,7 +7,7 @@ Grid_Projects_Path=E:\App\VStudio\GridMonK\GM_Projects
 ##### Selection of one of the following projects:
 
 ############## TASE
-GridMonk_Project=UPB_TASE_01
+###GridMonk_Project=UPB_TASE_01
 ###GridMonk_Project=UPB_WSCC3M9B
 ###GridMonk_Project=UPB_TEST2_V01
 
@@ -37,7 +37,11 @@ GridMonk_Project=UPB_TASE_01
 ######################## Papers
 
 ###GridMonk_Project=SST_Microgrid_02
+GridMonk_Project=UPB_LV_uG_03
+#
+# Low voltage grid for Transactions on Industrial Information
 ###GridMonk_Project=TII_SM_Microgrid_01
+#
 ######################## WISEGRID - Mesogia tests
 
 ###GridMonk_Project=WSG_MESOGIA_01

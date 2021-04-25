@@ -19,6 +19,19 @@ namespace GridMonC
     {
         string Gph_element_identified = "";
 
+        private string get_val_with_multiplier(string val_str)
+        {
+            string multiplier = "";
+            double dbl_tmp = 0;
+            multiplier = "";
+            dbl_tmp = double.Parse(val_str);
+            if (Math.Abs(dbl_tmp) >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+            if (Math.Abs(dbl_tmp) >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+            return dbl_tmp.ToString("###.000") + multiplier;
+            //richTextBox_console2.Text += "\nP_t2= " + dbl_tmp.ToString("###.000") + multiplier;
+            
+        }
+
         private void Gph_element_identification_trafos(int xm, int ym, int draw_param)
         {
             int x1, y1, inside;
@@ -175,52 +188,203 @@ namespace GridMonC
         private void Gph_element_identification_line_attributes(int crt_line)
         {
             double dbl_tmp = 0;
-
-            lines[crt_line, lines_PROP_gph_selected] = "1";
+            string multiplier = "";
 
             richTextBox_console2.Text += "line=#" + crt_line.ToString() + "\tname=" + lines[crt_line, lines_PROP_name]
                 + "\nBus1=" + lines[crt_line, lines_PROP_bus1] + "\tBus2=" + lines[crt_line, lines_PROP_bus2];
             richTextBox_console2.Text += "\n--------------------------------------------\n";
 
-            richTextBox_console2.Text += "P=" + lines[crt_line, lines_PROP_P];
+            // Active powers P, P1,P2,P3
+            if (lines[crt_line, lines_PROP_P] != "") {
+                //multiplier = "";
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P]);
+                //if (dbl_tmp >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+                //if (dbl_tmp >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+                //richTextBox_console2.Text += "P= " + dbl_tmp.ToString("###.000") + multiplier;
+                richTextBox_console2.Text += "P= " + get_val_with_multiplier(lines[crt_line, lines_PROP_P]);
+            }
             if (lines[crt_line, lines_PROP_P1] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P1]);
-                richTextBox_console2.Text += " [" + dbl_tmp.ToString("###.0");
+                //multiplier = "";
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P1]);
+                //if (dbl_tmp >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+                //if (dbl_tmp >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+                //richTextBox_console2.Text += "\n[" + dbl_tmp.ToString("###.000") + multiplier;
+                richTextBox_console2.Text += "\n[" + get_val_with_multiplier(lines[crt_line, lines_PROP_P1]);
             }
-            else richTextBox_console2.Text += " [";
+            else richTextBox_console2.Text += "\n[";
             if (lines[crt_line, lines_PROP_P2] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P2]);
-                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
+                //multiplier = "";
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P2]);
+                //if (dbl_tmp >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+                //if (dbl_tmp >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.000") + multiplier;
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_P2]);
             }
             else richTextBox_console2.Text += ", ";
             if (lines[crt_line, lines_PROP_P3] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P3]);
-                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
+                //multiplier = "";
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P3]);
+                //if (dbl_tmp >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+                //if (dbl_tmp >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.000") + multiplier + "]";
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_P3]) + "]";
             }
             else richTextBox_console2.Text += ", ";
-            richTextBox_console2.Text += "\nP_t2=" + lines[crt_line, lines_PROP_P_t2];
+
+            // Reactive powers Q, Q1,Q2,Q3
+            if (lines[crt_line, lines_PROP_Q] != "") {
+                multiplier = "";
+                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q]);
+                if (dbl_tmp >= 1000) { multiplier = "M"; dbl_tmp = dbl_tmp / 1000; }
+                if (dbl_tmp >= 1000000) { multiplier = "G"; dbl_tmp = dbl_tmp / 1000000; }
+                richTextBox_console2.Text += "\nQ= " + dbl_tmp.ToString("###.000") + multiplier;
+            }
+            if (lines[crt_line, lines_PROP_Q1] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q1]);
+                //richTextBox_console2.Text += "\n[" + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += "\n[" + get_val_with_multiplier(lines[crt_line, lines_PROP_Q1]);
+            }
+            else richTextBox_console2.Text += "\n[";
+            if (lines[crt_line, lines_PROP_Q2] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q2]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_Q2]);
+            }
+            else richTextBox_console2.Text += ", ";
+            if (lines[crt_line, lines_PROP_Q3] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q3]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_Q3]) + "]";
+            }
+            else richTextBox_console2.Text += ", ";
+
+            // Active powers P, P1,P2,P3  fro the other side of the line
+            if (lines[crt_line, lines_PROP_P_t2] != "")
+            {
+                richTextBox_console2.Text += "\nP_t2= " + get_val_with_multiplier(lines[crt_line, lines_PROP_P_t2]);
+            }
             if (lines[crt_line, lines_PROP_P1_t2] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P1_t2]);
-                richTextBox_console2.Text += " [" + dbl_tmp.ToString("###.0");
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P1_t2]);
+                //richTextBox_console2.Text += "\n[" + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += "\n[" + get_val_with_multiplier(lines[crt_line, lines_PROP_P1_t2]);
             }
-            else richTextBox_console2.Text += " [";
+            else richTextBox_console2.Text += "\n[";
             if (lines[crt_line, lines_PROP_P2_t2] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P2_t2]);
-                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P2_t2]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_P2_t2]);
             }
             else richTextBox_console2.Text += ", ";
             if (lines[crt_line, lines_PROP_P3_t2] != "")
             {
-                dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P3_t2]);
-                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_P3_t2]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_P3_t2]) + "]";
             }
             else richTextBox_console2.Text += ", ";
 
+            // Reactive powers Q, Q1,Q2,Q3 on the other side of the line
+            if(lines[crt_line, lines_PROP_Q_t2] != "") { 
+                //richTextBox_console2.Text += "\nQ_t2= " + lines[crt_line, lines_PROP_Q_t2];
+                richTextBox_console2.Text += "\nQ_t2= " + get_val_with_multiplier(lines[crt_line, lines_PROP_Q_t2]);
+            }
+            if (lines[crt_line, lines_PROP_Q1_t2] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q1_t2]);
+                //richTextBox_console2.Text += "\n[" + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += "\n[" + get_val_with_multiplier(lines[crt_line, lines_PROP_Q1_t2]);
+            }
+            else richTextBox_console2.Text += "\n[";
+            if (lines[crt_line, lines_PROP_Q2_t2] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q2_t2]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_Q2_t2]);
+            }
+            else richTextBox_console2.Text += ", ";
+            if (lines[crt_line, lines_PROP_Q3_t2] != "")
+            {
+                //dbl_tmp = double.Parse(lines[crt_line, lines_PROP_Q3_t2]);
+                //richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
+                richTextBox_console2.Text += ", " + get_val_with_multiplier(lines[crt_line, lines_PROP_Q2_t2]) + "]";
+            }
+            else richTextBox_console2.Text += ", ";
+
+            richTextBox_console2.Text += "\n--------------------------------------------";
+            double val1 = 0, val1fi = 0;
+            if ((lines[crt_line, lines_PROP_U1] != "") && (lines[crt_line, lines_PROP_U1fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_U1]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_U1fi]);
+                richTextBox_console2.Text += "\nU1=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+                //richTextBox_console2.Text += "\nU1=" + get_val_with_multiplier(lines[crt_line, lines_PROP_U1])
+                //        + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            if ((lines[crt_line, lines_PROP_U2] != "") && (lines[crt_line, lines_PROP_U2fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_U2]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_U2fi]);
+                richTextBox_console2.Text += "\nU2=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            if ((lines[crt_line, lines_PROP_U3] != "") && (lines[crt_line, lines_PROP_U3fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_U3]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_U3fi]);
+                richTextBox_console2.Text += "\nU3=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            richTextBox_console2.Text += "\n--------------------------------------------";
+            if ((lines[crt_line, lines_PROP_I1] != "") && (lines[crt_line, lines_PROP_I1fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_I1]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_I1fi]);
+                richTextBox_console2.Text += "\nI1=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            if ((lines[crt_line, lines_PROP_I2] != "") && (lines[crt_line, lines_PROP_I2fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_I2]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_I2fi]);
+                richTextBox_console2.Text += "\nI2=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            if ((lines[crt_line, lines_PROP_I3] != "") && (lines[crt_line, lines_PROP_I3fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_I3]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_I3fi]);
+                richTextBox_console2.Text += "\nI3=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+            }
+            if ((lines[crt_line, lines_PROP_delta_U1] != "") && (lines[crt_line, lines_PROP_delta_U1fi] != ""))
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_delta_U1]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_delta_U1fi]);
+                richTextBox_console2.Text += "\nΔU1= " + val1.ToString("##0.000") + "\tΔU1fi=" + val1fi.ToString("##0.000");
+            }
+            if (lines[crt_line, lines_PROP_X1] != "")
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_X1]);
+                val1fi = double.Parse(lines[crt_line, lines_PROP_R1]);
+                richTextBox_console2.Text += "\nX1= " + val1.ToString("##0.000") + "\tR1=" + val1fi.ToString("##0.000");
+            }
+            if (lines[crt_line, lines_PROP_length] != "")
+            {
+                val1 = double.Parse(lines[crt_line, lines_PROP_length]);
+                richTextBox_console2.Text += "\nlength= " + val1.ToString("##0.000") + " km";
+            }
+            richTextBox_console2.Text += "\nbrk1=" + lines[crt_line, lines_PROP_brk1]
+                + "\nbrk2=" + lines[crt_line, lines_PROP_brk2];
+            richTextBox_console2.Text += "\nImax=" + lines[crt_line, lines_PROP_Imax] + " A";
+            richTextBox_console2.Text += "\nUn_line= " + lines[crt_line, lines_PROP_voltage] + " V";
+
+            richTextBox_console2.Text += "\nx0=" + lines[crt_line, lines_PROP_x0] + "\ty0=" + lines[crt_line, lines_PROP_y0];
+            richTextBox_console2.Text += "\npin1x=" + lines[crt_line, lines_PROP_pin1_x] + "\tpin1y=" + lines[crt_line, lines_PROP_pin1_y];
+            richTextBox_console2.Text += "\npin2x=" + lines[crt_line, lines_PROP_pin2_x] + "\tpin2y=" + lines[crt_line, lines_PROP_pin2_y];
+            richTextBox_console2.Text += "\nOutUI=" + lines[crt_line, lines_PROP_OutUI] + "";
         }
 
         private void Gph_element_identification_lines(int xm, int ym, int draw_param)
@@ -232,7 +396,7 @@ namespace GridMonC
                 double dbl_tmp = 0;
                 int selected_line = -1;
                 if ((lines[i1, lines_PROP_x0] != "") && (lines[i1, lines_PROP_x0] != ""))
-                // daca coordonatele au fost initializate pentru pozitai obiectelor de tip "lines"
+                // daca coordonatele au fost initializate pentru pozitia obiectelor de tip "lines"
                 {
                     x1 = int.Parse(lines[i1, lines_PROP_x0])- X0_shift;
                     y1 = int.Parse(lines[i1, lines_PROP_y0]) - Y0_shift;
@@ -246,148 +410,47 @@ namespace GridMonC
 
                             richTextBox_console2.Text = "";
 
-                            // se cheama rutina care scrie atributele obiectului in "richTextBox_console2"
-                            Gph_element_identification_line_attributes(i1); // se vor muta toate afisarile de atribute de mai jso in ac. functie
+                            lines[i1, lines_PROP_gph_selected] = "1";
+
+                            if (button_Obj_prop_Fx == 0) // if we consider standard data
+                                // se cheama rutina care scrie atributele obiectului in "richTextBox_console2"
+                                Gph_element_identification_line_attributes(i1); // se vor muta toate afisarile de atribute de mai jso in ac. functie
 
 
-                            richTextBox_console2.Text += "\nQ=" + lines[i1, lines_PROP_Q];
-                            if (lines[i1, lines_PROP_Q1] != "")
-                            {
-                                 dbl_tmp = double.Parse(lines[i1, lines_PROP_Q1]);
-                                richTextBox_console2.Text += " [" + dbl_tmp.ToString("###.0");
-                            }
-                            else richTextBox_console2.Text += " [";
-                            if (lines[i1, lines_PROP_Q2] != "")
-                            {
-                                dbl_tmp = double.Parse(lines[i1, lines_PROP_Q2]);
-                                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
-                            }
-                            else richTextBox_console2.Text += ", ";
-                            if (lines[i1, lines_PROP_Q3] != "")
-                            {
-                                dbl_tmp = double.Parse(lines[i1, lines_PROP_Q3]);
-                                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
-                            }
-                            else richTextBox_console2.Text += ", ";
-                            richTextBox_console2.Text += "\nQ_t2=" + lines[i1, lines_PROP_Q_t2];
-                            if (lines[i1, lines_PROP_Q1_t2] != "")
-                            {
-                                dbl_tmp = double.Parse(lines[i1, lines_PROP_Q1_t2]);
-                                richTextBox_console2.Text += " [" + dbl_tmp.ToString("###.0");
-                            }
-                            else richTextBox_console2.Text += " [";
-                            if (lines[i1, lines_PROP_Q2_t2] != "")
-                            {
-                                dbl_tmp = double.Parse(lines[i1, lines_PROP_Q2]);
-                                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0");
-                            }
-                            else richTextBox_console2.Text += ", ";
-                            if (lines[i1, lines_PROP_Q3_t2] != "")
-                            {
-                                dbl_tmp = double.Parse(lines[i1, lines_PROP_Q3]);
-                                richTextBox_console2.Text += ", " + dbl_tmp.ToString("###.0") + "]";
-                            }
-                            else richTextBox_console2.Text += ", ";
 
-                            richTextBox_console2.Text += "\n--------------------------------------------";
-                            double val1 = 0, val1fi = 0;
-                            if ((lines[i1, lines_PROP_U1] != "") && (lines[i1, lines_PROP_U1fi] != ""))
+                            if (button_Obj_prop_Fx == 1) {
+                                // if we consider historica data
+                            richTextBox_console2.Text += "\n-------Recorded data----";
+                            for (int h1 = 0; h1 < LPs_scenarios_multi_LF_start + lines_values_set_no; h1++)
                             {
-                                val1 = double.Parse(lines[i1, lines_PROP_U1]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_U1fi]);
-                                richTextBox_console2.Text += "\nU1=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
+                                richTextBox_console2.Text += "\n" + "P,Q[" + h1.ToString() + "]=\t";
+                                try
+                                {
+                                    if (h1 <= LPs_scenarios_multi_LF_start) richTextBox_console2.Text +=
+                                        // powers
+                                        lines_values_set[i1, lines_PROP_P1, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_Q1, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_P2, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_Q2, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_P3, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_Q3, h1] + "\t" +
+                                        // lines
+                                        lines_values_set[i1, lines_PROP_U1, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_U2, h1] + "\t" +
+                                        lines_values_set[i1, lines_PROP_U3, h1];
+                                    else richTextBox_console2.Text +=
+                                        double.Parse(lines_values_set[i1, lines_PROP_P1, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_Q1, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_P2, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_Q2, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_P3, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_Q3, h1]).ToString("##0.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_U1, h1]).ToString("000.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_U2, h1]).ToString("000.00") + "\t" +
+                                        double.Parse(lines_values_set[i1, lines_PROP_U3, h1]).ToString("000.00") + "\t";
+                                }
+                                catch { Console.WriteLine("Gph_element_identification_lines-Err1"); }
                             }
-                            if ((lines[i1, lines_PROP_U2] != "") && (lines[i1, lines_PROP_U2fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_U2]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_U2fi]);
-                                richTextBox_console2.Text += "\nU2=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
-                            }
-                            if ((lines[i1, lines_PROP_U3] != "") && (lines[i1, lines_PROP_U3fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_U3]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_U3fi]);
-                                richTextBox_console2.Text += "\nU3=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
-                            }
-                            richTextBox_console2.Text += "\n--------------------------------------------";
-                            if ((lines[i1, lines_PROP_I1] != "") && (lines[i1, lines_PROP_I1fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_I1]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_I1fi]);
-                                richTextBox_console2.Text += "\nI1=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
-                            }
-                            if ((lines[i1, lines_PROP_I2] != "") && (lines[i1, lines_PROP_I2fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_I2]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_I2fi]);
-                                richTextBox_console2.Text += "\nI2=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
-                            }
-                            if ((lines[i1, lines_PROP_I3] != "") && (lines[i1, lines_PROP_I3fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_I3]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_I3fi]);
-                                richTextBox_console2.Text += "\nI3=" + val1.ToString("##0.000") + "\tfi=" + val1fi.ToString("##0.000");
-                            }
-                            if ((lines[i1, lines_PROP_delta_U1] != "") && (lines[i1, lines_PROP_delta_U1fi] != ""))
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_delta_U1]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_delta_U1fi]);
-                                richTextBox_console2.Text += "\nΔU1= " + val1.ToString("##0.000") + "\tΔU1fi=" + val1fi.ToString("##0.000");
-                            }
-                            if (lines[i1, lines_PROP_X1] != "")
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_X1]);
-                                val1fi = double.Parse(lines[i1, lines_PROP_R1]);
-                                richTextBox_console2.Text += "\nX1= " + val1.ToString("##0.000") + "\tR1=" + val1fi.ToString("##0.000");
-                            }
-                            if (lines[i1, lines_PROP_length] != "")
-                            {
-                            if (lines[i1, lines_PROP_X1] != "")
-                            {
-                                val1 = double.Parse(lines[i1, lines_PROP_X1]);
-                                richTextBox_console2.Text += "\nlength= " + val1.ToString("##0.000") + " km";
-                            }
-                        }
-
-                        richTextBox_console2.Text += "\nbrk1=" + lines[i1, lines_PROP_brk1]
-                            + "\nbrk2=" + lines[i1, lines_PROP_brk2];
-                        richTextBox_console2.Text += "\nImax=" + lines[i1, lines_PROP_Imax] + " A";
-                        richTextBox_console2.Text += "\nUn_line= " + lines[i1, lines_PROP_voltage] + " V";
-                            
-                        richTextBox_console2.Text += "\nx0=" + lines[i1, lines_PROP_x0] + "\ty0=" + lines[i1, lines_PROP_y0];
-                        richTextBox_console2.Text += "\npin1x=" + lines[i1, lines_PROP_pin1_x] + "\tpin1y=" + lines[i1, lines_PROP_pin1_y];
-                        richTextBox_console2.Text += "\npin2x=" + lines[i1, lines_PROP_pin2_x] + "\tpin2y=" + lines[i1, lines_PROP_pin2_y];
-                        richTextBox_console2.Text += "\nOutUI=" + lines[i1, lines_PROP_OutUI] + "";
-                        richTextBox_console2.Text += "\n-------Recorded data----";
-                        for (int h1 = 0; h1 < LPs_scenarios_multi_LF_start + lines_values_set_no; h1++)
-                        {
-                            richTextBox_console2.Text += "\n" + "P,Q[" + h1.ToString() + "]=\t";
-                            try
-                            {
-                                if (h1 <= LPs_scenarios_multi_LF_start) richTextBox_console2.Text +=
-                                    // powers
-                                    lines_values_set[i1, lines_PROP_P1, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_Q1, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_P2, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_Q2, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_P3, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_Q3, h1] + "\t" +
-                                    // lines
-                                    lines_values_set[i1, lines_PROP_U1, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_U2, h1] + "\t" +
-                                    lines_values_set[i1, lines_PROP_U3, h1];
-                                else richTextBox_console2.Text +=
-                                    double.Parse(lines_values_set[i1, lines_PROP_P1, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_Q1, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_P2, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_Q2, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_P3, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_Q3, h1]).ToString("##0.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_U1, h1]).ToString("000.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_U2, h1]).ToString("000.00") + "\t" +
-                                    double.Parse(lines_values_set[i1, lines_PROP_U3, h1]).ToString("000.00") + "\t";
-                            }
-                            catch { Console.WriteLine("Gph_element_identification_lines-Err1"); }
                         }
                         for (int h1 = LPs_scenarios_multi_LF_start + 2; h1 < LPs_scenarios_multi_LF_start + 24 + 2; h1++)
                         {

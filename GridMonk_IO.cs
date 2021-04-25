@@ -321,7 +321,12 @@ namespace GridMonC
                     {
                         column_in = column.Split('=');
                         if (column.Contains("loadshape.")) loadshapes[loadshapes_no, loadshapes_PROP_name] = column.Remove(0, 10);
-                        if (column_in[0] == "npts") loadshapes[loadshapes_no, loadshapes_PROP_npts] = column_in[1];
+                        if (column_in[0] == "npts")
+                        {
+                            if ((column_in[1] == "load_flows_number") || (column_in[1] == "LFs"))
+                                loadshapes[loadshapes_no, loadshapes_PROP_npts] = OpenDSS_load_flows_number;
+                            else loadshapes[loadshapes_no, loadshapes_PROP_npts] = column_in[1];
+                        }
                         if (column_in[0] == "interval") loadshapes[loadshapes_no, loadshapes_PROP_interval] = column_in[1];
                         if (column_in[0] == "csvfile") loadshapes[loadshapes_no, loadshapes_PROP_csvfile] = column_in[1];
                         if (column_in[0] == "PQCSVFile") loadshapes[loadshapes_no, loadshapes_PROP_PQCSVFile] = column_in[1];
@@ -450,6 +455,8 @@ namespace GridMonC
                         if (column_in[0] == "!!sign2") lines[lines_no, lines_PROP_sign2] = column_in[1];
                         if (column_in[0] == "!!Imax") lines[lines_no, lines_PROP_Imax] = column_in[1];
                         if (column_in[0] == "!!Umax") lines[lines_no, lines_PROP_Umax] = column_in[1];
+                        if (column_in[0].ToLower() == "!!r1_line") lines[lines_no, lines_PROP_R1] = column_in[1];
+                        if (column_in[0].ToLower() == "!!x1_line") lines[lines_no, lines_PROP_X1] = column_in[1];
                         if (column_in[0].ToLower() == "!!outui") lines[lines_no, lines_PROP_OutUI] = column_in[1];
                         if (column_in[0].ToLower() == "!!connectiontype")
                             lines[lines_no, lines_PROP_ConnectionType] = column_in[1];
@@ -988,7 +995,7 @@ namespace GridMonC
                 // Global variables
                 //if ((line1[0].ToLower() == "set") && (line1[1].Contains("datapath="))) // we have a new load declared
                 //{ OpenDSS_datapath = line1[1].Remove(0, 9); }
-                if ((line1[0] == "set") && (line1[1].Contains("DefaultBaseFrequency="))) // we have a new load declared
+                if ((line1[0] == "set") && (line1[1].Contains("DefaultBaseFrequency="))) // 
                 { OpenDSS_DefaultBaseFrequency = line1[1].Replace("DefaultBaseFrequency=", ""); }
                 if ((line1[0] == "set") && (line1[1].Contains("controlmode="))) // we have a new load declared
                 { OpenDSS_controlmode = line1[1].Replace("controlmode=", ""); }
@@ -998,13 +1005,18 @@ namespace GridMonC
                 {
                     Open_DSS_Edit_string = line;
                 }
-                if (line1[0].ToLower() == "solve") // we have a new load declared
+                if (line1[0].ToLower() == "solve") // OpenDSS instruction
                 {
                     foreach (string column in line1)
                     {
                         column_in = column.Split('=');
                         if (column_in[0].ToLower() == "mode") OpenDSS_solve_mode = column_in[1];
-                        if (column_in[0].ToLower() == "number") OpenDSS_solve_number = column_in[1];
+                        if (column_in[0].ToLower() == "number")
+                        {
+                            OpenDSS_solve_number = column_in[1];
+                            if ((OpenDSS_solve_number == "load_flows_number") || (OpenDSS_solve_number == "LFs"))
+                                OpenDSS_solve_number = OpenDSS_load_flows_number;
+                        }
                         if (column_in[0].ToLower() == "stepsize") OpenDSS_solve_stepsize = column_in[1];
                     }
                 }
@@ -1015,6 +1027,18 @@ namespace GridMonC
                         column_in = line1[2].Split('=');
                         if (column_in[0].ToLower() == "!!nodes_wires_connection") _GridMonK_nodes_wires_connection = column_in[1];
                     }
+
+                if ((line1[0] == "!!set") && (line1[1].Contains("load_flows_number="))) // we set the system frequency
+                {
+                    try
+                    {
+                        OpenDSS_load_flows_number_int = int.Parse(line1[1].Remove(0, 18));
+                        OpenDSS_load_flows_number = line1[1].Remove(0, 18);
+                        if (OpenDSS_load_flows_number_int > 8760) OpenDSS_load_flows_number_int = 8760;
+                        if (OpenDSS_load_flows_number_int < 1) OpenDSS_load_flows_number_int = 1;
+                    }
+                    catch { OpenDSS_load_flows_number_int = 1; OpenDSS_load_flows_number = "";  }
+                }
 
                 if ((line1[0] == "!!set") && (line1[1].Contains("grid_frequency="))) // we set the system frequency
                 {
@@ -1137,6 +1161,19 @@ namespace GridMonC
             // Generare raport obiecte citite, afisate in consola nr. 1
             Generate_console1_report();
 
+            for (int l1 = 0; l1 < lines_no; l1++)
+            {
+                if (lines[l1, lines_PROP_linecode][0] == '_') // If linecode is not in the linecode list, it is needed to add a linecode fro OpenDSS
+                {
+                    // We add this new linecode in the linecode list
+                    linecodes[linecodes_no, linecodes_PROP_name] = lines[l1, lines_PROP_linecode];
+                    linecodes[linecodes_no, linecodes_PROP_nphases] = "3";
+                    linecodes[linecodes_no, linecodes_PROP_R1] = lines[l1, lines_PROP_R1];
+                    linecodes[linecodes_no, linecodes_PROP_X1] = lines[l1, lines_PROP_X1];
+                    linecodes[linecodes_no, linecodes_PROP_units] = lines[l1, lines_PROP_units];
+                    linecodes_no++;
+                }
+            }
         }
 
         private void Generate_console1_report()
@@ -1462,7 +1499,7 @@ namespace GridMonC
             string type_of_file = type;
             // pregatirea fisierului de iesire, in format dss
             string s1 = "!!type_of_file=" + type_of_file + "\n";
-            s1 += "!!GMK_version=0.99-2018.02.27\n";
+            s1 += "!!GMK_version=1.01-2021.04.18\n";
             s1 += "!\n";
             //s1 += "set datapath=" + OpenDSS_datapath + "\n";
             s1 += "set datapath=" + OpenDSS_datapath + "\n";
@@ -1532,6 +1569,32 @@ namespace GridMonC
                 s1 += " units=" + linecodes[g1, linecodes_PROP_units];
                 s1 += "\n";
             }
+            /*
+            s1 += "!Linecodes from special lines data\n";
+            for (int l1 = 0; l1 < lines_no; l1++)
+            {
+                if (lines[l1, lines_PROP_linecode][0] == '_') // If linecode is not in the linecode list, it is needed to add a linecode fro OpenDSS
+                {
+                    s1 += "new linecode.";
+                    s1 += lines[l1, lines_PROP_linecode];
+                    s1 += " nphases=" + "3";
+                    if (lines[l1, lines_PROP_R1] == "") lines[l1, lines_PROP_R1] = "0.0001";
+                    s1 += " R1=" + lines[l1, lines_PROP_R1];
+                    if (lines[l1, lines_PROP_X1] == "") lines[l1, lines_PROP_X1] = "0.0";
+                    s1 += " X1=" + lines[l1, lines_PROP_X1];
+                    //if (linecodes[g1, linecodes_PROP_C1] != "") s1 += " C1=" + linecodes[g1, linecodes_PROP_C1];
+                    if (lines[l1, lines_PROP_units] == "") lines[l1, lines_PROP_units] = "km";
+                    s1 += " units=" + lines[l1, lines_PROP_units];
+                    s1 += "\n";
+                    // We add this new linecode in the linecode list
+                    linecodes[linecodes_no, linecodes_PROP_name] = lines[l1, lines_PROP_linecode];
+                    linecodes[linecodes_no, linecodes_PROP_nphases] = "3";
+                    linecodes[linecodes_no, linecodes_PROP_R1] = lines[l1, lines_PROP_R1];
+                    linecodes[linecodes_no, linecodes_PROP_X1] = lines[l1, lines_PROP_X1];
+                    linecodes[linecodes_no, linecodes_PROP_units] = lines[l1, lines_PROP_units];
+                    linecodes_no++;
+                }
+            }*/
             s1 += "!\n";
             for (int ld1 = 0; ld1 < loadshapes_no; ld1++)
             {
@@ -1586,6 +1649,8 @@ namespace GridMonC
                 s1 += " phases=" + lines[l1, lines_PROP_phases];
                 s1 += " units=" + lines[l1, lines_PROP_units];
                 s1 += " linecode=" + lines[l1, lines_PROP_linecode];
+                if(lines[l1, lines_PROP_R1] != "") s1 += " !!R1_line=" + lines[l1, lines_PROP_R1];
+                if (lines[l1, lines_PROP_X1] != "") s1 += " !!X1_line=" + lines[l1, lines_PROP_X1];
                 if (lines[l1, lines_PROP_x0] != "") s1 += " !!x0=" + lines[l1, lines_PROP_x0];
                 if (lines[l1, lines_PROP_y0] != "") s1 += " !!y0=" + lines[l1, lines_PROP_y0];
                 if (lines[l1, lines_PROP_Imax] != "") s1 += " !!Imax=" + lines[l1, lines_PROP_Imax];
@@ -1597,6 +1662,7 @@ namespace GridMonC
                 if (lines[l1, lines_PROP_MicroGrid1] != "") s1 += " !!MicroGrid1=" + lines[l1, lines_PROP_MicroGrid1];
                 if (lines[l1, lines_PROP_MicroGrid2] != "") s1 += " !!MicroGrid2=" + lines[l1, lines_PROP_MicroGrid2];
                 s1 += "\n";
+
             }
             s1 += "!\n";
             //s1 += "new transformer.T1 windings=2 buses=(N2, N3) conns=(delta, wye) kVs=(20, 0.4) kVAs=(630, 630) %noloadloss=0.025 %loadloss=0.095 %imag=0 xhl=2.5 wdg=1 tap=1 maxtap=1.05 mintap=0.85" + "\n"; // very rigid implementation, will be changed later

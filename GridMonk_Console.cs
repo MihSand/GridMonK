@@ -467,6 +467,14 @@ namespace GridMonC
                     }
                     if (crt_atrib.ToLower() == "x1") // reactance in case of direct sequence
                     {
+                        int found_linecode = -1;
+                        for (int j1 = 0; j1 < linecodes_no; j1++)
+                        {
+                            if (linecodes[j1, linecodes_PROP_name] == lines[line_pos, lines_PROP_linecode])
+                            {
+                                found_linecode = j1; j1 = linecodes_no;
+                            }
+                        }
                         double x1r;
                         try
                         {
@@ -478,14 +486,24 @@ namespace GridMonC
                             }
                             lines[line_pos, lines_PROP_X1] = x1r.ToString("##0.0000");
                             richTextBox_console_answers.Text += "length changed to: " + x1r.ToString("##0.0000");
+                            if ((found_linecode != -1) && (linecodes[found_linecode, linecodes_PROP_name][0] == '_'))
+                                linecodes[found_linecode, linecodes_PROP_X1] = lines[line_pos, lines_PROP_X1];
                         }
                         catch
                         {
                             richTextBox_console_answers.Text = "Error for this length input";
                         }
                     }
-                    if (crt_atrib.ToLower() == "r1") // resitance in case of direct sequence
+                    if (crt_atrib.ToLower() == "r1") // resistance in case of direct sequence
                     {
+                        int found_linecode = -1;
+                        for (int j1 = 0; j1 < linecodes_no; j1++) // look for the associated linecode
+                        {
+                            if (linecodes[j1, linecodes_PROP_name] == lines[line_pos, lines_PROP_linecode])
+                            {
+                                found_linecode = j1; j1 = linecodes_no;
+                            }
+                        }
                         double x1r;
                         try
                         {
@@ -497,6 +515,9 @@ namespace GridMonC
                             }
                             lines[line_pos, lines_PROP_R1] = x1r.ToString("##0.0000");
                             richTextBox_console_answers.Text += "length changed to: " + x1r.ToString("##0.0000");
+                            // if the linecode name starts with "_", it is a unique linecode for the line and the R1 need to be written
+                            if ((found_linecode != -1) && (linecodes[found_linecode, linecodes_PROP_name][0] == '_'))
+                                linecodes[found_linecode, linecodes_PROP_R1] = lines[line_pos, lines_PROP_R1];
                         }
                         catch
                         {

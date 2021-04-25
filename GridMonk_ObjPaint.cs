@@ -51,8 +51,9 @@ namespace GridMonC
                 int x0 = int.Parse(lines[nr_line, lines_PROP_x0]);
                 int y0 = int.Parse(lines[nr_line, lines_PROP_y0]);
                 int pin1_x = 0, pin1_y = 0, pin1_x0 = 0, pin1_y0 = 0, pin2_x = 0, pin2_y = 0, pin2_x0 = 0, pin2_y0 = 0;
-                if (lines[nr_line, lines_PROP_gph_DrawType] == "")
-                if((lines[nr_line, lines_PROP_gph_direction] == "N") || (lines[nr_line, lines_PROP_gph_direction] == "W")
+                if ((lines[nr_line, lines_PROP_gph_DrawType] == "") || (lines[nr_line, lines_PROP_gph_DrawType] == "L1S0")
+                    || (lines[nr_line, lines_PROP_gph_DrawType] == "L0S1"))
+                if ((lines[nr_line, lines_PROP_gph_direction] == "N") || (lines[nr_line, lines_PROP_gph_direction] == "W")
                          || (lines[nr_line, lines_PROP_gph_direction] == "E"))
                 {
                     // extend line terminals with polylines at 90 degree
@@ -272,12 +273,19 @@ namespace GridMonC
                     object_x0 = (int)(object_x0 * zoom);
                     object_y0 = -Y0_shift + int.Parse(lines[i1, lines_PROP_y0]);
                     //object_y0 = (int)(object_y0 * zoom);
-                    Brush brush1 = new SolidBrush(Color.FromArgb(127, 255, 255, 255)); // b1White
+                    //Brush brush1 = new SolidBrush(Color.FromArgb(127, 255, 255, 255)); // b1White
+                    Brush brush1 = b1White;
                     int object_dx_zoom = (int)(object_dx * zoom);
                     if ((gph_direction == "N") && (extend_x == 1)) {
                         if (lines[i1, lines_PROP_ConnectionType] == "Separator")
-                            g.FillRectangle(brush1, object_x0, object_y0, object_dx_zoom * extend_x*5/6, line_dy);
-                        else g.FillRectangle(brush1, object_x0, object_y0, object_dx_zoom * extend_x, line_dy);
+                            g.FillRectangle(brush1, object_x0, object_y0, object_dx_zoom * extend_x * 5 / 6, line_dy);
+                        else
+                        {
+                            if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                                g.FillRectangle(brush1, object_x0, object_y0, object_dx_zoom * extend_x, line_dy);
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0"))
+                                g.FillRectangle(brush1, object_x0, object_y0, object_dx_zoom * extend_x, line_dy / 2 + 7);
+                        }
                     }
                     if ((gph_direction == "N") && (extend_x == 2)) // lines[i1, lines_PROP_gph_DrawType] == "L2S0";
                     {
@@ -294,8 +302,14 @@ namespace GridMonC
                     {
                         if (lines[i1, lines_PROP_ConnectionType] == "Separator")
                             //g.FillRectangle(brush1, object_x0, object_y0, object_dx * extend_x, line_dy * 2 / 3);
-                            g.FillRectangle(brush1, object_x0, object_y0, object_dx * extend_x, line_dy *5 / 6);
-                        else g.FillRectangle(brush1, object_x0, object_y0, object_dx * extend_x, line_dy);
+                            g.FillRectangle(brush1, object_x0, object_y0, object_dx * extend_x, line_dy * 5 / 6);
+                        else
+                        {
+                            if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                                g.FillRectangle(brush1, object_x0, object_y0, object_dx * extend_x, line_dy);
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1"))
+                                g.FillRectangle(brush1, object_x0, object_y0, object_dx /2 +15, line_dy);
+                        }
                     }
                     if ((gph_direction == "E") && (extend_x == 1))
                     {
@@ -389,8 +403,7 @@ namespace GridMonC
                     if (lines[i1, lines_PROP_ConnectionType] == "Separator") dx = -4;
                     g.DrawString("1", Font1, b0Black, object_x0 + 1 + dx, object_y0 + 22);
                     g.DrawString("2", Font0, b0Black, object_x0 + 1 + dx, object_y0 + line_dy * (extend_x-1) + 60);
-                    //g.DrawString("2", Font0, b0Black, object_x0 + 1 + dx, object_y0 + 60);
-                    //lines_PROP_ConnectionType
+
                     if ((lines[i1, lines_PROP_ConnectionType] == "") || (lines[i1, lines_PROP_ConnectionType] == "line")) { 
                         if (extend_x == 1) g.DrawRectangle(p_crt, object_x0 + 0, object_y0 + 22, 11, line_dy - 46); // Desenare simbol linie
                         if (extend_x == 2) g.DrawRectangle(p_crt, object_x0 - 2, object_y0 + 22, 14, line_dy * extend_x - 46); // Desenare simbol linie
@@ -515,8 +528,6 @@ namespace GridMonC
                         }
                     }
                 }
-                //x1 = int.Parse(lines[l1, lines_PROP_pin1_x]) - X0_shift;
-                //y1 = int.Parse(lines[l1, lines_PROP_pin1_y]) - Y0_shift;
 
                 if (((extend_x == 3)|| (extend_x == 2)) && (gph_direction == "N")) { 
                     if(lines[i1, lines_PROP_onoff]=="enable") { 
@@ -551,7 +562,7 @@ namespace GridMonC
                     }
                 }
 
-                // display parameters
+                // ************************* display line parameters
                 int dy3 = 0;
                 if (lines[i1, lines_PROP_ConnectionType] == "Separator") dy3 = 10;
                 int indent = 0;
@@ -570,7 +581,15 @@ namespace GridMonC
                 }
                 if (gph_direction == "W")
                 {
-                    if (extend_x == 1) g.DrawString(s1, Font_crt, SolidBrush_crt, object_x0 + 2 + indent, object_y0 + 11);
+                    if (extend_x == 1)
+                    {
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font_crt, SolidBrush_crt, object_x0 + 2 + indent, object_y0 + 11);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1")) {
+                            s1 = s1.Remove(6) + "*";
+                            g.DrawString(s1, Font_crt, SolidBrush_crt, object_x0 + 2 + indent, object_y0 + 11);
+                        }
+                    }
 
                     if (extend_x == 2)
                     {
@@ -584,11 +603,13 @@ namespace GridMonC
                 if (bus_display.Length > 4) s1 = "B1=" + bus_display.Remove(4); else s1 = "B1=" + bus_display;
                 if ((extend_x == 1) && (gph_direction == "N"))
                 {
+                    if((lines[i1, lines_PROP_gph_DrawType] == ""))
                     g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 22 +dy3);
                 }
                 if ((extend_x == 1) && (gph_direction == "W"))
                 {
-                    g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 22);
+                    if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                        g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 22);
                 }
                 if ((extend_x == 2) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 - 10 + (extend_x - 1) * 10, object_y0 + 13);
                 if ((extend_x == 2) && (gph_direction == "W"))
@@ -600,11 +621,13 @@ namespace GridMonC
                 if(bus_display.Length>4) s1 = "B2=" + bus_display.Remove(4); else s1 = "B2=" + bus_display;
                 if ((extend_x == 1) && (gph_direction == "N"))
                 {
-                    g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent + 47, object_y0 + 22+dy3);
+                    if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                        g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent + 47, object_y0 + 22+dy3);
                 }
                 if ((extend_x == 1) && (gph_direction == "W"))
                 {
-                    g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent + 47, object_y0 + 22);
+                    if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                        g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent + 47, object_y0 + 22);
                 }
                 if ((extend_x == 2) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + object_dx * extend_x - 25 - (extend_x - 1) * 20, object_y0 + 13);
                 if ((extend_x == 2) && (gph_direction == "W"))
@@ -613,25 +636,34 @@ namespace GridMonC
 
                 if(lines[i1, lines_PROP_length] != "")
                 s1 = "L=" + double.Parse(lines[i1, lines_PROP_length]).ToString("##0.000") + "" + lines[i1, lines_PROP_units];
+                double R_line=0, X_line = 0;
+                R_line = lines_double[i1, lines_PROP_R1] * lines_double[i1, lines_PROP_length];
+                X_line = lines_double[i1, lines_PROP_X1] * lines_double[i1, lines_PROP_length];
                 if (extend_x == 1)
-                {
-                    if (lines_double[i1, lines_PROP_R1] < 0.1) s1 = "R=" + lines_double[i1, lines_PROP_R1].ToString("#0.000");
-                    else s1 = "R=" + lines_double[i1, lines_PROP_R1].ToString("#0.00");
-                    if (lines_double[i1, lines_PROP_X1] < 0.1) s1 += " X=" + lines_double[i1, lines_PROP_X1].ToString("#0.000");
-                    else s1 += " X=" + lines_double[i1, lines_PROP_X1].ToString("#0.00");
+                {   // We calculate the line parameters R_line and X_line, using R1, X1 and the length of the line
+
+                    if (R_line < 0.1) s1 = "R=" + R_line.ToString("#0.000");
+                    else s1 = "R=" + R_line.ToString("#0.00");
+
+                    if (X_line < 0.1) s1 += " X=" + X_line.ToString("#0.000");
+                    else s1 += " X=" + X_line.ToString("#0.00");
 
                     //s1 += " X=" + lines[i1, lines_PROP_X1] + " ";
                 }
                 if (extend_x == 1)
                 {
-                    if (lines[i1, lines_PROP_ConnectionType] != "Separator") g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 32);
+                    if (lines[i1, lines_PROP_ConnectionType] != "Separator")
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 32);
                 }
                 if ((extend_x == 3) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 1, object_y0 + 38);
 
 
                 s1 = "Cod=" + lines[i1, lines_PROP_linecode];
                 //s1 = "R=" + lines[i1, lines_PROP_R1] + " X=" + lines[i1, lines_PROP_X1] +" ";
-                if (extend_x == 1) g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 42);
+                if (extend_x == 1)
+                    if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                        g.DrawString(s1, Font1, b0Black, object_x0 + 2 + indent, object_y0 + 42);
                 if ((extend_x == 3) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 42, object_y0 + 25);
 
                 s1 = "Imax=" + lines[i1, lines_PROP_Imax];
@@ -640,12 +672,14 @@ namespace GridMonC
                 s1 = "Umax=" + lines[i1, lines_PROP_Umax];
                 if ((extend_x == 3) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 185, object_y0 + 25);
 
-                s1 = "R=" + lines[i1, lines_PROP_R1];
+                //s1 = "R=" + lines[i1, lines_PROP_R1];
+                s1 = "R=" + R_line.ToString("#0.00");
                 if ((extend_x == 2) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 75, object_y0 + 28);
                 if ((extend_x == 2) && (gph_direction == "W")) g.DrawString(s1, Font1, b0Black, object_x0 + 12, object_y0 + 95);
                 if ((extend_x == 3) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 65, object_y0 + 38);
 
-                s1 = "X=" + lines[i1, lines_PROP_X1];
+                //s1 = "X=" + lines[i1, lines_PROP_X1];
+                s1 = "X=" + X_line.ToString("#0.00");
                 if ((extend_x == 2) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 75, object_y0 + 40);
                 if ((extend_x == 2) && (gph_direction == "W")) g.DrawString(s1, Font1, b0Black, object_x0 + 12, object_y0 + 107);
                 if ((extend_x == 3) && (gph_direction == "N")) g.DrawString(s1, Font1, b0Black, object_x0 + 120, object_y0 + 38);
@@ -662,8 +696,11 @@ namespace GridMonC
                     if (lines[i1, lines_PROP_P_t2] != "") P3f_t2 = double.Parse(lines[i1, lines_PROP_P_t2]); P3f_t2_kilo = P3f_t2 / 1000;
                     delta_P3f = P3f + P3f_t2; delta_P3f_kilo = delta_P3f / 1000;
                     // Draw arrow showing the active power direction. If powers are under 0.01 kW or 0.01 kvar, arrows are not shown
-                    if ((P3f > 0.01) && (lines[i1, lines_PROP_P] != "") && (gph_direction == "N")) { 
-                        if (extend_x == 1) g.DrawLine(p1Black4arrow, object_x0 + 33 + object_dx / 2 * (extend_x - 1), object_y0 + 3, object_x0 + 57 + object_dx / 2 * (extend_x - 1), object_y0 + 3);
+                    if ((P3f > 0.01) && (lines[i1, lines_PROP_P] != "") && (gph_direction == "N")) {
+                        if (extend_x == 1)
+                        {
+                                g.DrawLine(p1Black4arrow, object_x0 + 33 + object_dx / 2 * (extend_x - 1), object_y0 + 3, object_x0 + 57 + object_dx / 2 * (extend_x - 1), object_y0 + 3);
+                        }
                         if (extend_x == 2) g.DrawLine(p1Black4arrow, object_x0 + 85, object_y0 + 3, object_x0 + 100, object_y0 + 3);
                         if (extend_x == 3) g.DrawLine(p1Black4arrow, object_x0 + 150, object_y0 + 3, object_x0 + 182, object_y0 + 3);
                     }
@@ -693,7 +730,15 @@ namespace GridMonC
                     if (Math.Abs(delta_P3f) >= 10000) s3 = "ΔP=" + delta_P3f_kilo.ToString("##0.0") + "M";
                         else s3 = "ΔP=" + delta_P3f.ToString("####0.00") + "k";
                     //s1 = "P=" + lines[i1, lines_PROP_P];
-                    if (extend_x == 1) g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 52);
+                    if (extend_x == 1)
+                    {
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 52);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 22);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 22);
+                    }
                     if ((extend_x == 2) && (gph_direction == "N"))
                     {
                         int dx1 = 0;
@@ -730,6 +775,7 @@ namespace GridMonC
                     }
                 }
 
+                // Calculation and display of Q
                 double Q3f = 0, Q3f_kilo=0, Q3f_t2 = 0, Q3f_t2_kilo = 0, delta_Q3f = 0, delta_Q3f_kilo = 0;
                 if (lines[i1, lines_PROP_Q] != "")
                 {
@@ -749,7 +795,15 @@ namespace GridMonC
                     if (Math.Abs(Q3f_t2) >= 10000) s2 = "Q=" + Q3f_t2_kilo.ToString("##0.0") + "M"; else s2 = "Q=" + Q3f_t2.ToString("####0.0") + "k";
                     if (Math.Abs(delta_Q3f) >= 10000) s3 = "ΔQ=" + delta_Q3f_kilo.ToString("##0.0") + "M"; else s3 = "ΔQ=" + delta_Q3f.ToString("####0.00") + "k";
                     //s1 = "Q=" + lines[i1, lines_PROP_Q];
-                    if (extend_x == 1) g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 52);
+                    if (extend_x == 1)
+                    {
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 52);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0") && (gph_direction == "N"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 22);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1") && (gph_direction == "W"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 32);
+                    }
                     if ((extend_x == 2) && (gph_direction == "N"))
                     {
                         Font_crt = new System.Drawing.Font("Arial", 10, FontStyle.Bold);
@@ -797,7 +851,15 @@ namespace GridMonC
                     if (Math.Abs(S3f) >= 10000) s1 = "S=" + S3f_kilo.ToString("##0.0") + "M"; else s1 = "S=" + S3f.ToString("####0") + "k";
                     if (Math.Abs(S3f_t2) >= 10000) s2 = "S=" + S3f_t2_kilo.ToString("##0.0") + "M"; else s2 = "S=" + S3f_t2.ToString("####0.0") + "k";
                     // s1 = "S=" + double.Parse(lines[i1, lines_PROP_S]).ToString("#0.0");
-                    if (extend_x == 1) g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 62);
+                    if (extend_x == 1)
+                    {
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 62);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 32);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 42);
+                    }
                     if ((extend_x == 2) && (gph_direction == "N"))
                     {
                         // Afisare S [kVA] in ambele capete ale liniei
@@ -810,12 +872,19 @@ namespace GridMonC
                         if (lines[i1, lines_PROP_S_t2] != "") g.DrawString(s2, Font1, b2Blue, object_x0 + 188, object_y0 - 25);
                     }
                 }
+
+                /* Display line current I */
                 if (lines[i1, lines_PROP_I1] != "")
                 {
                     if (extend_x == 1)
                     {
                         s1 = "I1=" + double.Parse(lines[i1, lines_PROP_I1]).ToString("#0.0");
-                        g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 62);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 62);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0") && (gph_direction == "N"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 32);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1") && (gph_direction == "W"))
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 52);
                     }
                     if ((extend_x == 2) && (gph_direction == "W"))
                     {
@@ -846,24 +915,38 @@ namespace GridMonC
                 {
                     U = double.Parse(lines[i1, lines_PROP_U1]);
                     if (lines[i1, lines_PROP_U1_t2] != "") U_t2 = double.Parse(lines[i1, lines_PROP_U1_t2]);
-                    if (U < 1000) { s1 = "U1 =" + U.ToString("#00.0"); s2 = "U1 =" + U_t2.ToString("#00.0"); }
+                    if (U < 1000) { s1 = U.ToString("#00.0"); s2 = U_t2.ToString("#00.0"); }
                     else
                     {
                         U = U / 1000; // se va afisa in kV
                         U_t2 = U_t2 / 1000; // se va afisa in kV
-                        if(U<100) s1 = "U1 =" + U.ToString("#00.00") + "k";
-                        else s1 = "U1 =" + U.ToString("#00.0") + "k";
-                        s2 = "U1 =" + U_t2.ToString("#00.00") + "k";
+                        if(U<100) s1 = U.ToString("#00.00") + "k";
+                        else s1 = U.ToString("#00.0") + "k";
+                        s2 = U_t2.ToString("#00.00") + "k";
                     }
                     if (extend_x == 1)
                     {
-                        if(gph_direction == "N") g.DrawString(s1+s1a, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 72);
-                        if(gph_direction == "W") {
-                            g.DrawString(s1, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 0);
-                            g.DrawString("1", Font0s, b2Blue, object_x0 + 12 + indent, object_y0 + 5);
-                            //g.DrawString(s1a, Font1, b2Blue, object_x0 + 15 + indent, object_y0 + 0);
-                            g.DrawString(s2, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 72);
-                            g.DrawString("2", Font0s, b2Blue, object_x0 + 12 + indent, object_y0 + 77);
+                        if (gph_direction == "N")
+                        {
+                            if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                                g.DrawString("U1 =" + s1 + s1a, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 72);
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0"))
+                                g.DrawString("U=" + s1 + s1a, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 42);
+                        }
+                        if (gph_direction == "W") {
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "")) { 
+                                g.DrawString("U1 =" + s1, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 0);
+                                g.DrawString("1", Font0s, b2Blue, object_x0 + 12 + indent, object_y0 + 5);
+                                g.DrawString("U1 =" + s2, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 72);
+                                g.DrawString("2", Font0s, b2Blue, object_x0 + 12 + indent, object_y0 + 77);
+                            }
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1"))
+                            {
+                                g.DrawString("U=" + s1, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 0);
+                                //g.DrawString("1", Font0s, b2Blue, object_x0 + 9 + indent, object_y0 + 5);
+                                g.DrawString("U=" + s2, Font1, b2Blue, object_x0 - 2 + indent, object_y0 + 72);
+                                //g.DrawString("2", Font0s, b2Blue, object_x0 + 9 + indent, object_y0 + 77);
+                            }
                         }
                     }
                     if ((extend_x == 2) && (gph_direction == "N"))
@@ -876,7 +959,7 @@ namespace GridMonC
                             if (F1 == "10") Font_crt = new System.Drawing.Font("Arial", 10, FontStyle.Bold);
                             if (F1 == "12") Font_crt = new System.Drawing.Font("Arial", 12, FontStyle.Bold);
                         }
-                        g.DrawString(s1 + s1a, Font_crt, b2Blue, object_x0 + 4, object_y0 + 28);
+                        g.DrawString("U1 =" + s1 + s1a, Font_crt, b2Blue, object_x0 + 4, object_y0 + 28);
                         if (lines[i1, lines_PROP_U1_t2] != "") g.DrawString(s2, Font_crt, b2Blue, object_x0 + 118, object_y0 + 28);
                     }
                     if ((extend_x == 2) && (gph_direction == "W"))
@@ -889,15 +972,17 @@ namespace GridMonC
                             if (F1 == "10") Font_crt = new System.Drawing.Font("Arial", 10, FontStyle.Bold);
                             if (F1 == "12") Font_crt = new System.Drawing.Font("Arial", 12, FontStyle.Bold);
                         }
-                        g.DrawString(s1 + s1a, Font_crt, b2Blue, object_x0 + 12, object_y0 + 48);
+                        g.DrawString("U1 =" + s1 + s1a, Font_crt, b2Blue, object_x0 + 12, object_y0 + 48);
                         if (lines[i1, lines_PROP_U1_t2] != "") g.DrawString(s2, Font_crt, b2Blue, object_x0 + 12, object_y0 + object_dx * 2 - 61);
                     }
                     if ((extend_x == 3) && (gph_direction == "N"))
                     {
-                        g.DrawString(s1+s1a, Font1, b2Blue, object_x0 + 4, object_y0 + 50);
+                        g.DrawString("U1 =" + s1 +s1a, Font1, b2Blue, object_x0 + 4, object_y0 + 50);
                         if (lines[i1, lines_PROP_U1_t2] != "") g.DrawString(s2, Font1, b2Blue, object_x0 + 215, object_y0 + 50); //145
                     }
                 }
+
+                // Angle of U
                 if (lines[i1, lines_PROP_U1fi] != "")
                 {
                     s1 = "" + double.Parse(lines[i1, lines_PROP_U1fi]).ToString("#0.0");
@@ -906,11 +991,17 @@ namespace GridMonC
                     if (extend_x == 1)
                     {
                         s1 = "" + double.Parse(lines[i1, lines_PROP_U1fi]).ToString("#0.0");
-                        if (gph_direction == "N") g.DrawString(s1, Font1, b2Blue, object_x0 + 60 + indent, object_y0 + 72);
+                        if (gph_direction == "N")
+                        {
+                            if ((lines[i1, lines_PROP_gph_DrawType] == ""))
+                                g.DrawString(s1, Font1, b2Blue, object_x0 + 60 + indent, object_y0 + 72);
+                        }
                         if (gph_direction == "W")
                         {
-                            g.DrawString(s1, Font1, b2Blue, object_x0 + 57 + indent, object_y0 + 0);
-                            g.DrawString(s2, Font1, b2Blue, object_x0 + 57 + indent, object_y0 + 72);
+                            if ((lines[i1, lines_PROP_gph_DrawType] == "")) { 
+                                g.DrawString(s1, Font1, b2Blue, object_x0 + 57 + indent, object_y0 + 0);
+                                g.DrawString(s2, Font1, b2Blue, object_x0 + 57 + indent, object_y0 + 72);
+                            }
                         }
                     }
                     if ((extend_x == 2) && (gph_direction == "N"))
@@ -968,12 +1059,21 @@ namespace GridMonC
                     }
                     lines[i1, lines_PROP_delta_U1] = dU1.ToString("##0.000");
                     lines[i1, lines_PROP_delta_U1fi] = dUfi1.ToString("##0.000");
-                    if (Math.Abs(dU1) >= 1000) s1 = "ΔU1= " + dU1_kilo.ToString("##0.000") + "k";
-                    else s1 = "ΔU1= " + dU1.ToString("##0.00");
+                    if (Math.Abs(dU1) >= 1000) s1 = dU1_kilo.ToString("##0.000") + "k";
+                    else s1 = dU1.ToString("##0.00");
                     //g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 82);
-                    if ((gph_direction == "N") && (extend_x == 3)) g.DrawString(s1, Font1, b2Blue, object_x0 + 101, object_y0 - 25);
-                    if ((gph_direction == "W")&& (extend_x == 1)) g.DrawString(s1, Font1, b2Blue, object_x0 - 2 + indent, object_y0 +83);
-                    if ((gph_direction == "N") && (extend_x == 1)) g.DrawString(s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 82);
+                    if ((gph_direction == "N") && (extend_x == 3)) g.DrawString("ΔU1= " + s1, Font1, b2Blue, object_x0 + 101, object_y0 - 25);
+                    if ((gph_direction == "W") && (extend_x == 1) && (lines[i1, lines_PROP_gph_DrawType] == ""))
+                        g.DrawString("ΔU1= " + s1, Font1, b2Blue, object_x0 - 2 + indent, object_y0 +83);
+                    if (((gph_direction == "N") || (gph_direction == "W")) && (extend_x == 1))
+                    {
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "") && (gph_direction == "N"))
+                            g.DrawString("ΔU1= " + s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 82);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L1S0") && (gph_direction == "N"))
+                            g.DrawString("ΔU=" + s1, Font1, b2Blue, object_x0 + 50 + indent, object_y0 + 42);
+                        if ((lines[i1, lines_PROP_gph_DrawType] == "L0S1") && (gph_direction == "W"))
+                            g.DrawString("ΔU=" + s1, Font1, b2Blue, object_x0 + 2 + indent, object_y0 + 62);
+                    }
                 }
 
                 if (default_xy == 1) obj_number++;
@@ -1263,12 +1363,23 @@ namespace GridMonC
                         }
                         if (loads[nr_load, loads_PROP_gph_direction] == "N")
                         {
-                            pin1_x0 = x0 + 2 + object_dx / 2;
-                            pin1_y0 = y0 + 4;
-                            pin1_x = x0 + object_dx / 2 + 2 + poly_x_final1;
-                            pin1_y = y0 + 4 + poly_y_final1;
-                            pin2_x = x0 + object_dx - 4;
-                            pin2_y = y0 + 4 - 0;
+                            if (loads[nr_load, loads_PROP_gph_DrawType] != "Ld0S1") { 
+                                pin1_x0 = x0 + 2 + object_dx / 2;
+                                pin1_y0 = y0 + 4;
+                                pin1_x = x0 + object_dx / 2 + 2 + poly_x_final1;
+                                pin1_y = y0 + 4 + poly_y_final1;
+                                pin2_x = x0 + object_dx - 4;
+                                pin2_y = y0 + 4 - 0;
+                            }
+                            else // "Ld0S1"
+                            {
+                                pin1_x0 = x0 + 23;
+                                pin1_y0 = y0 + 4;
+                                pin1_x = x0 + 23 + 2 + poly_x_final1;
+                                pin1_y = y0 + 4 + poly_y_final1;
+                                pin2_x = x0 + 55;
+                                pin2_y = y0 + 4 - 0;
+                            }
                         }
                         if (loads[nr_load, loads_PROP_gph_direction] == "E")
                         {
@@ -1285,7 +1396,14 @@ namespace GridMonC
                         loads[nr_load, loads_PROP_pin1_y0] = pin1_y0.ToString();
                     } else
                     {
-                        pin1_x = x0 + object_dx / 2; pin1_y = y0 + 2;
+                        if (loads[nr_load, loads_PROP_gph_DrawType] != "Ld0S1")
+                        {
+                            pin1_x = x0 + object_dx / 2; pin1_y = y0 + 2;
+                        }
+                        else // "Ld0S1"
+                        {
+                            pin1_x = x0 + 27; pin1_y = y0 + 2;
+                        }
                         loads[nr_load, loads_PROP_pin1_x] = pin1_x.ToString();
                         loads[nr_load, loads_PROP_pin1_y] = pin1_y.ToString();
                         loads[nr_load, loads_PROP_pin1_x0] = pin1_x0.ToString();
@@ -1377,7 +1495,9 @@ namespace GridMonC
                         if (undervoltage==true) SolidBrush_crt = b10LightSalmon;
                     }
                     // if there is undervoltage on load, the entire rectangle becomes "b10LightSalmon"; if not, it is standard color
-                    g.FillRectangle(SolidBrush_crt, object_x0, object_y0, object_dx_zoom, line_dy);
+                    if (loads[i1, loads_PROP_gph_DrawType] != "Ld0S1")
+                        g.FillRectangle(SolidBrush_crt, object_x0, object_y0, object_dx_zoom, line_dy);
+                    else g.FillRectangle(SolidBrush_crt, object_x0, object_y0, object_dx_zoom-40, line_dy-30);
                 }
                 if (loads[i1, loads_PROP_sim_storage] == "stor")
                 { // avem storage
@@ -1464,6 +1584,7 @@ namespace GridMonC
                     // draw the line symbol
                     if (gph_direction == "N")
                     {
+                        if (loads[i1, loads_PROP_gph_DrawType] != "Ld0S1") { 
                             g.DrawLine(p1Black3, object_x0 + 20, object_y0 + 3 + 16, object_x0 + object_dx - 20, object_y0 + 3 + 16); // Bus of the load
                             g.DrawLine(p1Black, object_x0 + object_dx / 2, object_y0 + 6, object_x0 + object_dx / 2, object_y0 + 20); // Bus of the load
 
@@ -1472,6 +1593,18 @@ namespace GridMonC
 
                             g.DrawEllipse(p5DarkBlue, object_x0 + object_dx / 2 - 3, object_y0, 6, 6); // Pin_Bus1
                             y0res = 20;
+                        }
+                        else // "Ld0S1"
+                        {
+                            g.DrawLine(p1Black3, object_x0 + 2, object_y0 + 3 + 16, object_x0 + 55, object_y0 + 3 + 16); // Bus of the load
+                            g.DrawLine(p1Black, object_x0 + object_dx / 2 -20, object_y0 + 6, object_x0 + object_dx / 2 -20, object_y0 + 20); // Bus of the load
+
+                            if (loads[i1, loads_PROP_brk] == "on") SolidBrush_crt = b2Blue; else SolidBrush_crt = b3DarkGray;
+                            g.FillRectangle(SolidBrush_crt, object_x0 + object_dx / 2 - 24, object_y0 + 8, 9, 8); // Brk1
+
+                            g.DrawEllipse(p5DarkBlue, object_x0 + 24, object_y0, 6, 6); // Pin_Bus1
+                            y0res = 20;
+                        }
                     }
                     if (gph_direction == "S")
                     {
@@ -1507,7 +1640,7 @@ namespace GridMonC
                         g.DrawEllipse(p5DarkBlue, object_x0 + object_dx - 7, object_y0 + line_dy / 2 - 3 - 5, 6, 6); // Pin_Bus1
                         y0res = 1;
                     }
-                    if (loads[i1, loads_PROP_sim_type] == "") s1 = "Ld=";
+                    if (loads[i1, loads_PROP_sim_type] == "") if (loads[i1, loads_PROP_gph_DrawType] != "Ld0S1") s1 = "Ld="; else s1 = "";
                     else s1 = loads[i1, loads_PROP_sim_type] + "=";
                     s1 += loads[i1, loads_PROP_name];
                     if (loads[i1, loads_PROP_gph_selected] == "1") g.DrawString(s1, Font1bold, b6Red, object_x0 + 1, object_y0 + y0res);
@@ -1565,7 +1698,9 @@ namespace GridMonC
                     else if (loads[i1, loads_PROP_PF] != "")
                     {
                         s1 = "PF=" + loads[i1, loads_PROP_PF];
-                        if (loads[i1, loads_PROP_PF] != "") g.DrawString(s1, Font1, b0Black, object_x0 + 55, object_y0 + y0res + 20);
+                        if (loads[i1, loads_PROP_PF] != "")
+                            if (loads[i1, loads_PROP_gph_DrawType] != "Ld0S1")
+                                g.DrawString(s1, Font1, b0Black, object_x0 + 55, object_y0 + y0res + 20);
                     }
 
                     if (loads[i1, loads_PROP_P] != "")
@@ -1585,6 +1720,8 @@ namespace GridMonC
                         {
                             if (loads[i1, loads_PROP_gph_DrawType] == "") g.DrawString(s1, Font1, solidBrush, object_x0 + 1, object_y0 + 52);
                             if (loads[i1, loads_PROP_gph_DrawType] == "Ld1S1") g.DrawString(s1, Font3, solidBrush, object_x0 + 1, object_y0 + y0res + 36);
+                            if (loads[i1, loads_PROP_gph_DrawType] == "Ld0S1")
+                                g.DrawString(s1, Font1, solidBrush, object_x0 + 1, object_y0 + y0res + 12);
                         }
                         if (gph_direction == "S")
                         {
@@ -1607,6 +1744,8 @@ namespace GridMonC
                         {
                             if (loads[i1, loads_PROP_gph_DrawType] == "") g.DrawString(s1, Font1, b2Blue, object_x0 + 50, object_y0 + 52);
                             if (loads[i1, loads_PROP_gph_DrawType] == "Ld1S1") g.DrawString(s1, Font3, b2Blue, object_x0 + 1, object_y0 + y0res + 49);
+                            if (loads[i1, loads_PROP_gph_DrawType] == "Ld0S1")
+                                g.DrawString(s1, Font1, b2Blue, object_x0 + 1, object_y0 + y0res + 22);
                         }
                         if (gph_direction == "S")
                         {
@@ -1640,6 +1779,11 @@ namespace GridMonC
                         {
                             g.DrawString(s1, Font3, b2Blue, object_x0 + 0, object_y0 + y0res + 62);
                             g.DrawString(s2, Font1, b2Blue, object_x0 + 64, object_y0 + y0res + 64);
+                        }
+                        if (loads[i1, loads_PROP_gph_DrawType] == "Ld0S1") // desenerae in format special "Ld1S1"
+                        {
+                            g.DrawString(s1, Font1, b2Blue, object_x0 + 0, object_y0 + y0res + 32);
+                            //g.DrawString(s2, Font1, b2Blue, object_x0 + 64, object_y0 + y0res + 64);
                         }
                         //g.DrawString(s1, Font1, b2Blue, object_x0 + 55, object_y0 + 72);
 
@@ -2919,8 +3063,10 @@ namespace GridMonC
                                 y1 = int.Parse(trafos[l1, trafos_PROP_pin1_y]) - Y0_shift;
                                 if (nodes_Draw_busbar[n1].Enable == "0")
                                 { // nu este valid busbar-ul
-                                    x2 = int.Parse(trafos[n1, trafos_PROP_pin1_x0]) - X0_shift; // default node position is position 0
-                                    y2 = int.Parse(trafos[n1, trafos_PROP_pin1_y0]) - Y0_shift; // default node position is position 0
+                                    //x2 = int.Parse(trafos[n1, trafos_PROP_pin1_x0]) - X0_shift; // default node position is position 0
+                                    //y2 = int.Parse(trafos[n1, trafos_PROP_pin1_y0]) - Y0_shift; // default node position is position 0
+                                    x2 = int.Parse(trafos[l1, trafos_PROP_pin1_x0]) - X0_shift; // default node position is position 0
+                                    y2 = int.Parse(trafos[l1, trafos_PROP_pin1_y0]) - Y0_shift; // default node position is position 0
                                 }
                                 else
                                 {

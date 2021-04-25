@@ -115,6 +115,10 @@
             this.comboBox_Custom_Panel = new System.Windows.Forms.ComboBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.button_Custom1 = new System.Windows.Forms.Button();
+            this.button_Obj_prop_F1 = new System.Windows.Forms.Button();
+            this.button_Obj_prop_F2 = new System.Windows.Forms.Button();
+            this.button_Obj_prop_F3 = new System.Windows.Forms.Button();
+            this.button_Obj_prop_F4 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox_Custom_Panel.SuspendLayout();
             this.SuspendLayout();
@@ -164,10 +168,10 @@
             // 
             // richTextBox_console2
             // 
-            this.richTextBox_console2.Location = new System.Drawing.Point(5, 276);
+            this.richTextBox_console2.Location = new System.Drawing.Point(5, 303);
             this.richTextBox_console2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox_console2.Name = "richTextBox_console2";
-            this.richTextBox_console2.Size = new System.Drawing.Size(231, 243);
+            this.richTextBox_console2.Size = new System.Drawing.Size(231, 216);
             this.richTextBox_console2.TabIndex = 8;
             this.richTextBox_console2.Text = "";
             this.richTextBox_console2.WordWrap = false;
@@ -865,11 +869,55 @@
             this.button_Custom1.UseVisualStyleBackColor = true;
             this.button_Custom1.Click += new System.EventHandler(this.button_Custom1_Click);
             // 
+            // button_Obj_prop_F1
+            // 
+            this.button_Obj_prop_F1.Location = new System.Drawing.Point(8, 275);
+            this.button_Obj_prop_F1.Name = "button_Obj_prop_F1";
+            this.button_Obj_prop_F1.Size = new System.Drawing.Size(49, 23);
+            this.button_Obj_prop_F1.TabIndex = 45;
+            this.button_Obj_prop_F1.Text = "Std";
+            this.button_Obj_prop_F1.UseVisualStyleBackColor = true;
+            this.button_Obj_prop_F1.Click += new System.EventHandler(this.button_Obj_prop_F1_Click);
+            // 
+            // button_Obj_prop_F2
+            // 
+            this.button_Obj_prop_F2.Location = new System.Drawing.Point(63, 275);
+            this.button_Obj_prop_F2.Name = "button_Obj_prop_F2";
+            this.button_Obj_prop_F2.Size = new System.Drawing.Size(49, 23);
+            this.button_Obj_prop_F2.TabIndex = 46;
+            this.button_Obj_prop_F2.Text = "Hist";
+            this.button_Obj_prop_F2.UseVisualStyleBackColor = true;
+            this.button_Obj_prop_F2.Click += new System.EventHandler(this.button_Obj_prop_F2_Click);
+            // 
+            // button_Obj_prop_F3
+            // 
+            this.button_Obj_prop_F3.Location = new System.Drawing.Point(118, 275);
+            this.button_Obj_prop_F3.Name = "button_Obj_prop_F3";
+            this.button_Obj_prop_F3.Size = new System.Drawing.Size(49, 23);
+            this.button_Obj_prop_F3.TabIndex = 47;
+            this.button_Obj_prop_F3.Text = "Gph";
+            this.button_Obj_prop_F3.UseVisualStyleBackColor = true;
+            this.button_Obj_prop_F3.Click += new System.EventHandler(this.button_Obj_prop_F3_Click);
+            // 
+            // button_Obj_prop_F4
+            // 
+            this.button_Obj_prop_F4.Location = new System.Drawing.Point(173, 275);
+            this.button_Obj_prop_F4.Name = "button_Obj_prop_F4";
+            this.button_Obj_prop_F4.Size = new System.Drawing.Size(49, 23);
+            this.button_Obj_prop_F4.TabIndex = 48;
+            this.button_Obj_prop_F4.Text = "Oth";
+            this.button_Obj_prop_F4.UseVisualStyleBackColor = true;
+            this.button_Obj_prop_F4.Click += new System.EventHandler(this.button_Obj_prop_F4_Click);
+            // 
             // GridMonk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 1054);
+            this.Controls.Add(this.button_Obj_prop_F4);
+            this.Controls.Add(this.button_Obj_prop_F3);
+            this.Controls.Add(this.button_Obj_prop_F2);
+            this.Controls.Add(this.button_Obj_prop_F1);
             this.Controls.Add(this.button_Custom1);
             this.Controls.Add(this.groupBox_Custom_Panel);
             this.Controls.Add(this.button_RunScript);
@@ -1012,6 +1060,10 @@
         private System.Windows.Forms.ComboBox comboBox_Custom_Panel;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button button_Custom1;
+        private System.Windows.Forms.Button button_Obj_prop_F1;
+        private System.Windows.Forms.Button button_Obj_prop_F2;
+        private System.Windows.Forms.Button button_Obj_prop_F3;
+        private System.Windows.Forms.Button button_Obj_prop_F4;
     }
 }
 
